@@ -75,7 +75,50 @@ export const dashboardMenu = {
 		subMenu: null,
 	},
 };
-
+export const stockManagementHome = {
+	heading: {
+		id: 'heading',
+		text: 'Form Management',
+		icon: 'Extension',
+	},
+	stockManagement: {
+		id: 'stockManagement',
+		text: 'Form Management',
+		path: `${subDir}stockManagement`,
+		icon: 'Dashboard',
+		subMenu: {
+			
+			expiredStock: {
+				id: 'stockManagementList',
+				text: 'Form',
+				path: `${subDir}stockManagement/expiredStock`,
+				icon: 'ViewArray',
+			},
+		},
+	},
+};
+export const itemHome = {
+	heading: {
+		id: 'heading',
+		text: 'item home',
+		icon: 'Extension',
+	},
+itemManagement: {
+		id: 'itemManagement',
+		text: 'Add item',
+		path: `${subDir}addItem`,
+		icon: 'Dashboard',
+		subMenu: {
+			
+			itemStock: {
+				id: 'itemManagementList',
+				text: 'item',
+				path: `${subDir}addItem/Item`,
+				icon: 'ViewArray',
+			},
+		},
+	},
+};
 export const demoPages = {
 	pages: {
 		id: 'pages',

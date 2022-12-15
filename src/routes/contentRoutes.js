@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { componentsMenu, dashboardMenu, demoPages, layoutMenu, dashboardHome } from '../menu';
+import { componentsMenu, dashboardMenu, demoPages, layoutMenu, dashboardHome,stockManagementHome,itemHome } from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
 const LANDING = {
@@ -15,9 +15,18 @@ const LIST = {
 	BOXED: lazy(() => import('../pages/presentation/demo-pages/ListBoxedPage')),
 	FLUID: lazy(() => import('../pages/presentation/demo-pages/ListFluidPage')),
 };
+
 const GRID = {
 	BOXED: lazy(() => import('../pages/presentation/demo-pages/GridBoxedPage')),
 	FLUID: lazy(() => import('../pages/presentation/demo-pages/GridFluidPage')),
+};
+const STOCKMANAGEMENT = {
+	
+	EXPIREDSTOCK: lazy(() => import('../pages/allModules/stockManagement/expiredStock')),
+};
+const ITEMMANAGEMENT = {
+	
+	ITEM: lazy(() => import('../pages/allModules/addItem/Item')),
 };
 const EDIT = {
 	MODERN: lazy(() => import('../pages/presentation/demo-pages/EditModernPage')),
@@ -191,6 +200,23 @@ const dashboardRoutes = [
 	{
 		path: demoPages.login.path,
 		element: <Login />,
+		exact: true,
+	},
+];
+
+const stockManagementRoutes = [
+	
+	{
+		path: stockManagementHome.stockManagement.subMenu.expiredStock.path,
+		element: <STOCKMANAGEMENT.EXPIREDSTOCK />,
+		exact: true,
+	},
+];
+const itemManagementRoutes = [
+	
+	{
+		path: itemHome.itemManagement.subMenu.itemStock.path,
+		element: < ITEMMANAGEMENT.ITEM />,
 		exact: true,
 	},
 ];
@@ -914,5 +940,8 @@ const documentation = [
 ];
 const contents = [...presentation, ...documentation];
 const dashbord = [...dashboardRoutes];
+const stockManagement = [...stockManagementRoutes];
+const itemManagement=[...itemManagementRoutes];
 
-export { dashbord, contents };
+
+export { dashbord, contents,stockManagement,itemManagement};
