@@ -214,43 +214,6 @@ const dashboardRoutes = [
 		exact: true,
 	},
 ];
-const accountRoutes = [
-	/**
-	 * Accounts
-	 */
-	{
-		path: accountsModule.accounts.subMenu.individualAccounts.path,
-		element: <ADMINPORTALLANDING.INDIVIDUALACCOUNTS />,
-		exact: true,
-	},
-	{
-		path: accountsModule.viewTransactions.path,
-		element: <ADMINPORTALLANDING.VIEWTRANSACTIONS />,
-		exact: true,
-	},
-	
-	{
-		path: accountsModule.accounts.subMenu.dailyClosing.path,
-		element: <ADMINPORTALLANDING.DAILYCLOSING />,
-		exact: true,
-	},
-
-	{
-		path: accountsModule.accounts.subMenu.manageAccountsSubgroups.path,
-		element: <ADMINPORTALLANDING.ACCOUNTHEADSSUBGROUPS />,
-		exact: true,
-	},
-	{
-		path: accountsModule.vouchers.subMenu.newTransaction.path,
-		element: <ADMINPORTALLANDING.NEWTRANSACTION />,
-		exact: true,
-	},
-	{
-		path: accountsModule.vouchers.subMenu.simpleVouchers.path,
-		element: <ADMINPORTALLANDING.VOUCHERS />,
-		exact: true,
-	},
-];
 const presentation = [
 	/**
 	 * Landing

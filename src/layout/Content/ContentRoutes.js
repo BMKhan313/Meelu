@@ -7,6 +7,7 @@ const ContentRoutes = () => {
 	return (
 		<Routes>
 			{dashbord.map((page) => (
+				// eslint-disable-next-line react/jsx-props-no-spreading
 				<Route key={page.path} {...page} />
 			))}
 			{contents.map((page) => (

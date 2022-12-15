@@ -1,5 +1,21 @@
 import subDir from './baseDirectory/subDir';
 
+// Dashboard
+export const dashboardHome = {
+	heading: {
+		id: 'heading',
+		text: 'Dashboard',
+		icon: 'dashboard',
+	},
+	dashboard: {
+		id: 'dashboard',
+		text: 'Dashboard',
+		path: `${subDir}`,
+		icon: 'Dashboard',
+		subMenu: null,
+	},
+};
+
 export const homeMenu = {
 	intro: { id: 'intro', text: 'Intro', path: '#intro', icon: 'Vrpano', subMenu: null },
 
@@ -32,20 +48,7 @@ export const homeMenu = {
 		subMenu: null,
 	},
 };
-export const dashboardHome = {
-	heading: {
-		id: 'heading',
-		text: 'Dashboard',
-		icon: 'dashboard',
-	},
-	dashboard: {
-		id: 'dashboard',
-		text: 'Dashboard',
-		path: `${subDir}`,
-		icon: 'Dashboard',
-		subMenu: null,
-	},
-};
+
 export const dashboardMenu = {
 	dashboard: {
 		id: 'dashboard',

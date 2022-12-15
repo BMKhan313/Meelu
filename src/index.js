@@ -3,6 +3,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client'; // For React 18
 import { BrowserRouter as Router } from 'react-router-dom';
 import './styles/styles.scss';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 import App from './App/App';
 import reportWebVitals from './reportWebVitals';
 import { ThemeContextProvider } from './contexts/themeContext';
@@ -11,9 +13,11 @@ import './i18n';
 const children = (
 	<Router>
 		<React.StrictMode>
-			<ThemeContextProvider>
-				<App />
-			</ThemeContextProvider>
+			<Provider store={store}>
+				<ThemeContextProvider>
+					<App />
+				</ThemeContextProvider>
+			</Provider>
 		</React.StrictMode>
 	</Router>
 );
