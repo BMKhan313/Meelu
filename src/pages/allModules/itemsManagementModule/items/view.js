@@ -54,7 +54,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
-	const [perPage, setPerPage] = useState(store.data.inventory.categories.perPage);
+	const [perPage, setPerPage] = useState(store.data.itemsManagementModule.items.perPage);
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
 	const { selectTable, SelectAllCheck } = useSelectTable(tableData);
 
@@ -152,84 +152,88 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.inventory.categories.tableData.data?.map((item, index) => (
-								<tr key={item.id}>
-									<td>
-										<Checks
-											id={item.id.toString()}
-											name='selectedList'
-											value={item.id}
-											onChange={selectTable.handleChange}
-											checked={selectTable.values.selectedList.includes(
-												item.id.toString(),
-											)}
-										/>
-									</td>
-									<td>{index + 1}</td>
-									<td>{item.name}</td>
+							{store.data.itemsManagementModule.items.tableData.data?.map(
+								(item, index) => (
+									<tr key={item.id}>
+										<td>
+											<Checks
+												id={item.id.toString()}
+												name='selectedList'
+												value={item.id}
+												onChange={selectTable.handleChange}
+												checked={selectTable.values.selectedList.includes(
+													item.id.toString(),
+												)}
+											/>
+										</td>
+										<td>{index + 1}</td>
+										<td>{item.name}</td>
 
-									<td>
-										<ButtonGroup>
-											<Button
-												// isDisable={item.isApproved === 1}
-												onClick={() => {
-													getEditingItem(item.id);
-													initialStatusEdit();
-													setStateEdit(true);
-													setStaticBackdropStatusEdit(true);
-												}}
-												isOutline
-												color='primary'
-												className={classNames('text-nowrap', {
-													'border-light': true,
-												})}
-												icon='Edit'>
-												Edit
-											</Button>
-											<Button
-												isOutline
-												color='primary'
-												className={classNames('text-nowrap', {
-													'border-light': true,
-												})}
-												icon='Delete'
-												onClick={() => {
-													setDeletingItemId(item.id);
+										<td>
+											<ButtonGroup>
+												<Button
+													// isDisable={item.isApproved === 1}
+													onClick={() => {
+														getEditingItem(item.id);
+														initialStatusEdit();
+														setStateEdit(true);
+														setStaticBackdropStatusEdit(true);
+													}}
+													isOutline
+													color='primary'
+													className={classNames('text-nowrap', {
+														'border-light': true,
+													})}
+													icon='Edit'>
+													Edit
+												</Button>
+												<Button
+													isOutline
+													color='primary'
+													className={classNames('text-nowrap', {
+														'border-light': true,
+													})}
+													icon='Delete'
+													onClick={() => {
+														setDeletingItemId(item.id);
 
-													initialStatusDelete();
+														initialStatusDelete();
 
-													setStateDelete(true);
-													setStaticBackdropStatusDelete(false);
-												}}>
-												Delete
-											</Button>
+														setStateDelete(true);
+														setStaticBackdropStatusDelete(false);
+													}}>
+													Delete
+												</Button>
 
-											<Dropdown>
-												<DropdownToggle hasIcon={false}>
-													<Button
-														color='primary'
-														isLight
-														hoverShadow='default'
-														icon='MoreVert'
-													/>
-												</DropdownToggle>
-												<DropdownMenu isAlignmentEnd>
-													<DropdownItem isHeader>Actions</DropdownItem>
-												</DropdownMenu>
-											</Dropdown>
-										</ButtonGroup>
-									</td>
-								</tr>
-							))}
+												<Dropdown>
+													<DropdownToggle hasIcon={false}>
+														<Button
+															color='primary'
+															isLight
+															hoverShadow='default'
+															icon='MoreVert'
+														/>
+													</DropdownToggle>
+													<DropdownMenu isAlignmentEnd>
+														<DropdownItem isHeader>
+															Actions
+														</DropdownItem>
+													</DropdownMenu>
+												</Dropdown>
+											</ButtonGroup>
+										</td>
+									</tr>
+								),
+							)}
 						</tbody>
 					)}
 				</table>
 
 				<PaginationButtons
 					label='categories'
-					from={store.data.inventory.categories.others?.from}
-					to={store.data.inventory.categories.others?.to}
-					total={store.data.inventory.categories.others?.total}
+					from={store.data.itemsManagementModule.items.others?.from}
+					to={store.data.itemsManagementModule.items.others?.to}
+					total={store.data.itemsManagementModule.items.others?.total}
 					perPage={perPage}
 					setPerPage={setPerPage}
 				/>
@@ -237,9 +241,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<div className='row d-flex justify-content-end'>
 					<div className='col-3'>
 						<Pagination
-							activePage={store.data.inventory.categories.pageNo}
-							totalItemsCount={store.data.inventory.categories.others?.total}
-							itemsCountPerPage={store.data.inventory.categories.perPage}
+							activePage={store.data.itemsManagementModule.items.pageNo}
+							totalItemsCount={store.data.itemsManagementModule.items.others?.total}
+							itemsCountPerPage={store.data.itemsManagementModule.items.perPage}
 							onChange={(e) => handlePageChange(e)}
 							itemClass='page-item'
 							linkClass='page-link'

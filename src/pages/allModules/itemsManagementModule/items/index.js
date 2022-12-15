@@ -67,7 +67,7 @@ const Categories = () => {
 	useEffect(() => {
 		refreshTableData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [store.data.inventory.categories.perPage, store.data.inventory.categories.pageNo]);
+	}, []);
 
 	return (
 		<PageWrapper>
