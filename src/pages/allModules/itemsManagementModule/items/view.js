@@ -116,16 +116,16 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		console.log('get deletitem', id);
 	};
 
-	useEffect(
-		() => {
-			dispatch(updateSingleState([perPage, 'inventory', 'categories', 'perPage']));
-		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[perPage],
-	);
+	// useEffect(
+	// 	() => {
+	// 		dispatch(updateSingleState([perPage, 'inventory', 'categories', 'perPage']));
+	// 	},
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// 	[perPage],
+	// );
 
 	const handlePageChange = (e) => {
-		dispatch(updateSingleState([e, 'inventory', 'categories', 'pageNo']));
+		// dispatch(updateSingleState([e, 'inventory', 'categories', 'pageNo']));
 	};
 
 	return (
@@ -229,18 +229,18 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 					)}
 				</table>
 
-				<PaginationButtons
+				{/* <PaginationButtons
 					label='categories'
 					from={store.data.itemsManagementModule.items.others?.from}
 					to={store.data.itemsManagementModule.items.others?.to}
 					total={store.data.itemsManagementModule.items.others?.total}
 					perPage={perPage}
 					setPerPage={setPerPage}
-				/>
+				/> */}
 
 				<div className='row d-flex justify-content-end'>
 					<div className='col-3'>
-						<Pagination
+						{/* <Pagination
 							activePage={store.data.itemsManagementModule.items.pageNo}
 							totalItemsCount={store.data.itemsManagementModule.items.others?.total}
 							itemsCountPerPage={store.data.itemsManagementModule.items.perPage}
@@ -251,7 +251,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							lastPageText='Last'
 							nextPageText='Next'
 							prevPageText='Prev'
-						/>
+						/> */}
 					</div>
 				</div>
 			</CardBody>

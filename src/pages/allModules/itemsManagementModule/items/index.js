@@ -42,28 +42,6 @@ const Categories = () => {
 		setTableDataLoading(true);
 	};
 
-	// const searchFilterTrigger = () => {
-	// 	setTableDataLoading(true);
-
-	// 	apiClient
-	// 		.get(`api/getSubCategories?${searchBy === '1' && `id=${searchNo}`}`)
-	// 		.then((response) => {
-	// 			setTableData(response.data.subCategories);
-	// 			// setRecords(1);
-	// 			setTableDataLoading(false);
-	// 		})
-	// 		// eslint-disable-next-line no-console
-	// 		.catch((err) => {
-	// 			showNotification(_titleError, err.message, 'Danger');
-	// 			if (err.response.status === 401) {
-	// 				showNotification(_titleError, err.response.data.message, 'Danger');
-
-	// 				Cookies.remove('userToken');
-	// 				navigate(`/${demoPages.login.path}`, { replace: true });
-	// 			}
-	// 		});
-	// };
-
 	useEffect(() => {
 		refreshTableData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
