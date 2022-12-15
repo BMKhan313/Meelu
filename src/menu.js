@@ -15,7 +15,92 @@ export const dashboardHome = {
 		subMenu: null,
 	},
 };
+export const accountsModule = {
+	accountsHeading: {
+		id: 'accountsHeading',
+		text: 'Accounts',
+		icon: 'Extension',
+	},
+	accounts: {
+		id: 'accounts',
+		text: 'Accounts',
+		path: `${subDir}accounts`,
+		icon: 'Dashboard',
+		subMenu: {
+			manageAccountsSubgroups: {
+				id: 'accountsManageAccountsSubgroups',
+				text: 'Manage Accounts',
+				path: `${subDir}accounts/Subgroups`,
+				icon: 'Window',
+			},
 
+			postDated: {
+				id: 'accountsPostDated',
+				text: 'Bank Reconciliation',
+				path: `${subDir}accounts/postDatedCheques`,
+				icon: 'Dashboard',
+			},
+			individualAccounts: {
+				id: 'individualAccounts',
+				text: 'Individual Accounts',
+				path: `${subDir}accounts/individualAccounts`,
+				icon: 'Dashboard',
+			},
+			dailyClosing: {
+				id: 'dailyClosing',
+				text: 'Daily Closing',
+				path: `${subDir}accounts/dailyClosing`,
+				icon: 'Dashboard',
+			},
+			depreciation: {
+				id: 'depreciation',
+				text: 'Depreciation',
+				path: `${subDir}accounts/Depreciation`,
+				icon: 'Dashboard',
+			},
+		},
+	},
+	vouchers: {
+		id: 'vouchers',
+		text: 'Vouchers',
+		path: `${subDir}vouchers`,
+		icon: 'Dashboard',
+		subMenu: {
+			newTransaction: {
+				id: 'accountsNewTransaction',
+				text: 'View Vouchers',
+				path: `${subDir}vouchers/ViewAll`,
+				icon: 'Dashboard',
+			},
+			simpleVouchers: {
+				id: 'simpleVouchers',
+				text: 'New Voucher',
+				path: `${subDir}vouchers/newVoucher`,
+				icon: 'Dashboard',
+			},
+			fileVouchers: {
+				id: 'fileVouchers',
+				text: 'Land Vouchers',
+				path: `${subDir}vouchers/fileVouchers`,
+				icon: 'Dashboard',
+			},
+			otherVouchers: {
+				id: 'otherVouchers',
+				text: 'Other Vouchers',
+				path: `${subDir}vouchers/otherVouchers`,
+				icon: 'Dashboard',
+			},
+		},
+	},
+
+	viewTransactions: {
+		id: 'accountsViewTransactions',
+		text: 'Financial Statements',
+		path: `${subDir}accounts/transactions/view`,
+		icon: 'Window',
+		subMenu: null,
+	},
+};
 export const homeMenu = {
 	intro: { id: 'intro', text: 'Intro', path: '#intro', icon: 'Vrpano', subMenu: null },
 

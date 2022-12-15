@@ -1,5 +1,12 @@
 import React, { lazy } from 'react';
-import { componentsMenu, dashboardMenu, demoPages, layoutMenu, dashboardHome } from '../menu';
+import {
+	componentsMenu,
+	dashboardMenu,
+	demoPages,
+	layoutMenu,
+	dashboardHome,
+	accountsModule,
+} from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
 const LANDING = {
@@ -31,14 +38,7 @@ const GRID = {
 	BOXED: lazy(() => import('../pages/presentation/demo-pages/GridBoxedPage')),
 	FLUID: lazy(() => import('../pages/presentation/demo-pages/GridFluidPage')),
 };
-const STOCKMANAGEMENT = {
-	
-	EXPIREDSTOCK: lazy(() => import('../pages/allModules/stockManagement/expiredStock')),
-};
-const ITEMMANAGEMENT = {
-	
-	ITEM: lazy(() => import('../pages/allModules/addItem/Item')),
-};
+
 const EDIT = {
 	MODERN: lazy(() => import('../pages/presentation/demo-pages/EditModernPage')),
 	BOXED: lazy(() => import('../pages/presentation/demo-pages/EditBoxedPage')),
@@ -211,6 +211,60 @@ const dashboardRoutes = [
 	{
 		path: demoPages.login.path,
 		element: <Login />,
+		exact: true,
+	},
+];
+const accountRoutes = [
+	{
+		path: accountsModule.accounts.subMenu.postDated.path,
+		element: <ADMINPORTALLANDING.POSTDATED />,
+		exact: true,
+	},
+	{
+		path: accountsModule.accounts.subMenu.individualAccounts.path,
+		element: <ADMINPORTALLANDING.INDIVIDUALACCOUNTS />,
+		exact: true,
+	},
+	{
+		path: accountsModule.viewTransactions.path,
+		element: <ADMINPORTALLANDING.VIEWTRANSACTIONS />,
+		exact: true,
+	},
+	{
+		path: accountsModule.accounts.subMenu.depreciation.path,
+		element: <ADMINPORTALLANDING.DEPRECIATION />,
+		exact: true,
+	},
+	{
+		path: accountsModule.accounts.subMenu.dailyClosing.path,
+		element: <ADMINPORTALLANDING.DAILYCLOSING />,
+		exact: true,
+	},
+
+	{
+		path: accountsModule.accounts.subMenu.manageAccountsSubgroups.path,
+		element: <ADMINPORTALLANDING.ACCOUNTHEADSSUBGROUPS />,
+		exact: true,
+	},
+	{
+		path: accountsModule.vouchers.subMenu.newTransaction.path,
+		element: <ADMINPORTALLANDING.NEWTRANSACTION />,
+		exact: true,
+	},
+	{
+		path: accountsModule.vouchers.subMenu.simpleVouchers.path,
+		element: <ADMINPORTALLANDING.VOUCHERS />,
+		exact: true,
+	},
+
+	{
+		path: accountsModule.vouchers.subMenu.fileVouchers.path,
+		element: <ADMINPORTALLANDING.FILESVOUCHERS />,
+		exact: true,
+	},
+	{
+		path: accountsModule.vouchers.subMenu.otherVouchers.path,
+		element: <ADMINPORTALLANDING.OTHERVOUCHERS />,
 		exact: true,
 	},
 ];
@@ -934,5 +988,6 @@ const documentation = [
 ];
 const contents = [...presentation, ...documentation];
 const dashbord = [...dashboardRoutes];
+const accounts = [...accountRoutes];
 
-export { dashbord, contents };
+export { dashbord, contents, accounts };
