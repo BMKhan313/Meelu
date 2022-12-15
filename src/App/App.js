@@ -7,6 +7,7 @@ import { useFullscreen } from 'react-use';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { ToastProvider } from 'react-toast-notifications';
 import { TourProvider } from '@reactour/tour';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Cookies from 'js-cookie';
 import ThemeContext from '../contexts/themeContext';
 

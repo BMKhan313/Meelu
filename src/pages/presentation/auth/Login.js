@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import moment from 'moment';
