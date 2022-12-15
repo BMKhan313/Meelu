@@ -8,6 +8,50 @@ export const addProjectSlice = createSlice({
 			items: {
 				unit: 10,
 			},
+			// itemsManagementModule
+			itemsManagementModule: {
+				itemParts: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
+				items: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
+				models: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
+				machines: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
+				make: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
+			},
+			// itemsManagementModule End
 		},
 		cookies: {
 			userRights: [],
@@ -33,40 +77,43 @@ export const addProjectSlice = createSlice({
 				},
 			};
 		},
-		// updateCookies: (state, action) => {
-		// 	return {
-		// 		...state,
-		// 		cookies: {
-		// 			...state.cookies,
-		// 			[action.payload[1]]: action.payload[0],
-		// 		},
-		// 	};
-		// },
-		// // eslint-disable-next-line no-unused-vars
-		// resetStore: (state, action) => {
-		// 	return {
-		// 		data: {
-		// 			inventory: {
-		// 				items: {
-		// 					tableData: null,
-		// 					tableDataLoading: false,
-		// 					pageNo: 1,
-		// 					perPage: 10,
-		// 				},
-		// 			},
-		// 		},
-		// 		cookies: {
-		// 			userRights: [],
-		// 			branchName: 'null',
-		// 		},
-		// 	};
-		// },
+		updateCookies: (state, action) => {
+			return {
+				...state,
+				cookies: {
+					...state.cookies,
+					[action.payload[1]]: action.payload[0],
+				},
+			};
+		},
+		// eslint-disable-next-line no-unused-vars
+		resetStore: (state, action) => {
+			return {
+				data: {
+					inventory: {
+						items: {
+							tableData: null,
+							tableDataLoading: false,
+							pageNo: 1,
+							perPage: 10,
+						},
+					},
+				},
+				cookies: {
+					userRights: [],
+					branchName: 'null',
+				},
+			};
+		},
 	},
 });
 
 export const {
-	// updateWholeObject, updateSingleState, resetStore, updateCookies,
-	// updateSingleState,
+	updateWholeObject,
+	updateSingleState,
+	resetStore,
+	updateCookies,
+
 	increment,
 } = addProjectSlice.actions;
 export default addProjectSlice.reducer;

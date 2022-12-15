@@ -6,6 +6,7 @@ import {
 	layoutMenu,
 	dashboardHome,
 	accountsModule,
+	itemsManagementModule,
 } from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
@@ -197,6 +198,13 @@ const EXTRA = {
 const DASHBOARD = {
 	HOME: lazy(() => import('../pages/dashboardHome/dashboard')),
 };
+const itemsManagementComponents = {
+	ITEMPARTS: lazy(() => import('../pages/allModules/itemsManagementModule/itemParts/index')),
+	ITEMS: lazy(() => import('../pages/allModules/itemsManagementModule/items/index')),
+	MODELS: lazy(() => import('../pages/allModules/itemsManagementModule/models/index')),
+	MACHINES: lazy(() => import('../pages/allModules/itemsManagementModule/machines/index')),
+	MAKE: lazy(() => import('../pages/allModules/itemsManagementModule/make/index')),
+};
 
 const dashboardRoutes = [
 	/**
@@ -211,6 +219,37 @@ const dashboardRoutes = [
 	{
 		path: demoPages.login.path,
 		element: <Login />,
+		exact: true,
+	},
+];
+const itemsManagementRoutes = [
+	/**
+	 * Dashboard Home
+	 */
+
+	{
+		path: itemsManagementModule.subMenu.itemParts.path,
+		element: <itemsManagementComponents.ITEMPARTS />,
+		exact: true,
+	},
+	{
+		path: itemsManagementModule.subMenu.itemParts.path,
+		element: <itemsManagementComponents.ITEMS />,
+		exact: true,
+	},
+	{
+		path: itemsManagementModule.subMenu.itemParts.path,
+		element: <itemsManagementComponents.MODELS />,
+		exact: true,
+	},
+	{
+		path: itemsManagementModule.subMenu.itemParts.path,
+		element: <itemsManagementComponents.MACHINES />,
+		exact: true,
+	},
+	{
+		path: itemsManagementModule.subMenu.itemParts.path,
+		element: <itemsManagementComponents.MAKE />,
 		exact: true,
 	},
 ];
@@ -989,5 +1028,6 @@ const documentation = [
 const contents = [...presentation, ...documentation];
 const dashbord = [...dashboardRoutes];
 const accounts = [...accountRoutes];
+const itemsManagementR = [...itemsManagementRoutes];
 
-export { dashbord, contents, accounts };
+export { dashbord, contents, accounts, itemsManagementR };

@@ -15,6 +15,51 @@ export const dashboardHome = {
 		subMenu: null,
 	},
 };
+export const itemsManagementModule = {
+	heading: {
+		id: 'itemsManagementHeading',
+		text: 'Items Management',
+		icon: 'DirectionsCar',
+	},
+	itemsManagement: {
+		id: 'itemsManagement',
+		text: 'Items Management',
+		path: `${subDir}itemsManagement`,
+		icon: 'DirectionsCar',
+		subMenu: {
+			itemParts: {
+				id: 'itemParts',
+				text: 'itemParts',
+				path: `${subDir}itemsManagement/itemParts`,
+				icon: 'ArrowBarUp',
+			},
+			items: {
+				id: 'items',
+				text: 'Items',
+				path: `${subDir}itemsManagement/Items`,
+				icon: 'ArrowBarUp',
+			},
+			models: {
+				id: 'models',
+				text: 'models',
+				path: `${subDir}itemsManagement/models`,
+				icon: 'ArrowBarUp',
+			},
+			machines: {
+				id: 'machines',
+				text: 'machines',
+				path: `${subDir}itemsManagement/machines`,
+				icon: 'ArrowBarUp',
+			},
+			make: {
+				id: 'make',
+				text: 'make',
+				path: `${subDir}itemsManagement/make`,
+				icon: 'ArrowBarUp',
+			},
+		},
+	},
+};
 export const accountsModule = {
 	accountsHeading: {
 		id: 'accountsHeading',
