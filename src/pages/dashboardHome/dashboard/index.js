@@ -10,15 +10,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ReactRoundedImage from 'react-rounded-image';
 import Logo from '../../../assets/logos/logo.png';
-import { increment } from '../../allModules/redux/tableCrud';
+import { increment, updateSingleState } from '../../allModules/redux/tableCrud';
 // import Card from './Items/Card';
 
 const Dashboard = () => {
 	const store = useSelector((state) => state.tableCrud);
 	const dispatch = useDispatch();
-	// useEffect(() => {
-	// 	dispatch(increment());
-	// }, []);
 
 	return (
 		<div className='w-100'>

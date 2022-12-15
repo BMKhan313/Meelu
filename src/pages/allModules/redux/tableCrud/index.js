@@ -62,6 +62,7 @@ export const addProjectSlice = createSlice({
 		increment: (state) => {
 			state.data.items.unit += 5;
 		},
+
 		updateSingleState: (state, action) => {
 			return {
 				...state,
