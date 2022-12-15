@@ -233,22 +233,22 @@ const itemsManagementRoutes = [
 		exact: true,
 	},
 	{
-		path: itemsManagementModule.itemsManagement.subMenu.itemParts.path,
+		path: itemsManagementModule.itemsManagement.subMenu.items.path,
 		element: <itemsManagementComponents.ITEMS />,
 		exact: true,
 	},
 	{
-		path: itemsManagementModule.itemsManagement.subMenu.itemParts.path,
+		path: itemsManagementModule.itemsManagement.subMenu.models.path,
 		element: <itemsManagementComponents.MODELS />,
 		exact: true,
 	},
 	{
-		path: itemsManagementModule.itemsManagement.subMenu.itemParts.path,
+		path: itemsManagementModule.itemsManagement.subMenu.machines.path,
 		element: <itemsManagementComponents.MACHINES />,
 		exact: true,
 	},
 	{
-		path: itemsManagementModule.itemsManagement.subMenu.itemParts.path,
+		path: itemsManagementModule.itemsManagement.subMenu.make.path,
 		element: <itemsManagementComponents.MAKE />,
 		exact: true,
 	},
