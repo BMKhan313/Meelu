@@ -78,7 +78,68 @@ export const dashboardMenu = {
 		subMenu: null,
 	},
 };
+export const accountsModule = {
+	accountsHeading: {
+		id: 'accountsHeading',
+		text: 'Accounts',
+		icon: 'Extension',
+	},
+	accounts: {
+		id: 'accounts',
+		text: 'Accounts',
+		path: `${subDir}accounts`,
+		icon: 'Dashboard',
+		subMenu: {
+			manageAccountsSubgroups: {
+				id: 'accountsManageAccountsSubgroups',
+				text: 'Manage Accounts',
+				path: `${subDir}accounts/Subgroups`,
+				icon: 'Window',
+			},
 
+			individualAccounts: {
+				id: 'individualAccounts',
+				text: 'Individual Accounts',
+				path: `${subDir}accounts/individualAccounts`,
+				icon: 'Dashboard',
+			},
+			dailyClosing: {
+				id: 'dailyClosing',
+				text: 'Daily Closing',
+				path: `${subDir}accounts/dailyClosing`,
+				icon: 'Dashboard',
+			},
+		},
+	},
+	vouchers: {
+		id: 'vouchers',
+		text: 'Vouchers',
+		path: `${subDir}vouchers`,
+		icon: 'Dashboard',
+		subMenu: {
+			newTransaction: {
+				id: 'accountsNewTransaction',
+				text: 'View Vouchers',
+				path: `${subDir}vouchers/ViewAll`,
+				icon: 'Dashboard',
+			},
+			simpleVouchers: {
+				id: 'simpleVouchers',
+				text: 'New Voucher',
+				path: `${subDir}vouchers/newVoucher`,
+				icon: 'Dashboard',
+			},
+		},
+	},
+
+	viewTransactions: {
+		id: 'accountsViewTransactions',
+		text: 'Financial Statements',
+		path: `${subDir}accounts/transactions/view`,
+		icon: 'Window',
+		subMenu: null,
+	},
+};
 export const demoPages = {
 	pages: {
 		id: 'pages',

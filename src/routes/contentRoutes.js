@@ -1,11 +1,31 @@
 import React, { lazy } from 'react';
-import { componentsMenu, dashboardMenu, demoPages, layoutMenu, dashboardHome } from '../menu';
+import {
+	componentsMenu,
+	dashboardMenu,
+	demoPages,
+	layoutMenu,
+	dashboardHome,
+	accountsModule,
+} from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
 const LANDING = {
 	DASHBOARD: lazy(() => import('../pages/dashboard/DashboardPage')),
 	DASHBOARD_BOOKING: lazy(() => import('../pages/dashboard/DashboardBookingPage')),
 	SUMMARY: lazy(() => import('../pages/SummaryPage')),
+};
+const ADMINPORTALLANDING = {
+	// Accounts
+	NEWTRANSACTION: lazy(() => import('../pages/allModules/accounts/allVouchersList/index')),
+	VIEWTRANSACTIONS: lazy(() => import('../pages/allModules/accounts/viewAccounts/index')),
+	DAILYCLOSING: lazy(() => import('../pages/allModules/accounts/dailyClosing/index')),
+	INDIVIDUALACCOUNTS: lazy(() =>
+		import('../pages/allModules/accounts/individualAccounts/index'),
+	),
+	ACCOUNTHEADSSUBGROUPS: lazy(() =>
+		import('../pages/allModules/accounts/accountsHeadsSubgroups/index'),
+	),
+	VOUCHERS: lazy(() => import('../pages/allModules/accounts/vouchers/index')),
 };
 const SINGLE = {
 	BOXED: lazy(() => import('../pages/presentation/single-pages/SingleBoxedPage')),
@@ -194,7 +214,6 @@ const dashboardRoutes = [
 		exact: true,
 	},
 ];
-
 const presentation = [
 	/**
 	 * Landing
@@ -915,5 +934,6 @@ const documentation = [
 ];
 const contents = [...presentation, ...documentation];
 const dashbord = [...dashboardRoutes];
+const meeluAccountant = [...accountRoutes];
 
-export { dashbord, contents };
+export { dashbord, contents, meeluAccountant };
