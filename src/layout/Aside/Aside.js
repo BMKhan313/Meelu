@@ -6,7 +6,13 @@ import Brand from '../Brand/Brand';
 import Navigation, { NavigationLine } from '../Navigation/Navigation';
 import User from '../User/User';
 // eslint-disable-next-line no-unused-vars
-import { componentsMenu, dashboardMenu, demoPages, layoutMenu, dashboardHome } from '../../menu';
+import {
+	componentsMenu,
+	demoPages,
+	layoutMenu,
+	dashboardHome,
+	itemsManagementModule,
+} from '../../menu';
 import ThemeContext from '../../contexts/themeContext';
 import Card, { CardBody } from '../../components/bootstrap/Card';
 
@@ -51,10 +57,12 @@ const Aside = () => {
 				</div>
 				<div className='aside-body'>
 					<Navigation menu={dashboardHome} id='aside-dashboard' />
+					<NavigationLine />
+					<Navigation menu={itemsManagementModule} id='aside-dashboard' />
+					<NavigationLine />
 					{/* <Navigation menu={dashboardMenu} id='aside-dashboard' /> */}
 					{doc && (
 						<>
-						
 							<NavigationLine />
 							<Navigation menu={demoPages} id='aside-demo-pages' />
 							<NavigationLine />

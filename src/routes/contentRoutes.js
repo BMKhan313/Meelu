@@ -228,27 +228,27 @@ const itemsManagementRoutes = [
 	 */
 
 	{
-		path: itemsManagementModule.subMenu.itemParts.path,
+		path: itemsManagementModule.itemsManagement.subMenu.itemParts.path,
 		element: <itemsManagementComponents.ITEMPARTS />,
 		exact: true,
 	},
 	{
-		path: itemsManagementModule.subMenu.itemParts.path,
+		path: itemsManagementModule.itemsManagement.subMenu.itemParts.path,
 		element: <itemsManagementComponents.ITEMS />,
 		exact: true,
 	},
 	{
-		path: itemsManagementModule.subMenu.itemParts.path,
+		path: itemsManagementModule.itemsManagement.subMenu.itemParts.path,
 		element: <itemsManagementComponents.MODELS />,
 		exact: true,
 	},
 	{
-		path: itemsManagementModule.subMenu.itemParts.path,
+		path: itemsManagementModule.itemsManagement.subMenu.itemParts.path,
 		element: <itemsManagementComponents.MACHINES />,
 		exact: true,
 	},
 	{
-		path: itemsManagementModule.subMenu.itemParts.path,
+		path: itemsManagementModule.itemsManagement.subMenu.itemParts.path,
 		element: <itemsManagementComponents.MAKE />,
 		exact: true,
 	},
