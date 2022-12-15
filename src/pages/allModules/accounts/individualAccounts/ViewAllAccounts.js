@@ -1,4 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable react/prop-types */
+// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
 import Axios from 'axios';

@@ -19,9 +19,7 @@ const ADMINPORTALLANDING = {
 	NEWTRANSACTION: lazy(() => import('../pages/allModules/accounts/allVouchersList/index')),
 	VIEWTRANSACTIONS: lazy(() => import('../pages/allModules/accounts/viewAccounts/index')),
 	DAILYCLOSING: lazy(() => import('../pages/allModules/accounts/dailyClosing/index')),
-	INDIVIDUALACCOUNTS: lazy(() =>
-		import('../pages/allModules/accounts/individualAccounts/index'),
-	),
+	INDIVIDUALACCOUNTS: lazy(() => import('../pages/allModules/accounts/individualAccounts/index')),
 	ACCOUNTHEADSSUBGROUPS: lazy(() =>
 		import('../pages/allModules/accounts/accountsHeadsSubgroups/index'),
 	),
@@ -211,6 +209,60 @@ const dashboardRoutes = [
 	{
 		path: demoPages.login.path,
 		element: <Login />,
+		exact: true,
+	},
+];
+const accountRoutes = [
+	{
+		path: accountsModule.accounts.subMenu.postDated.path,
+		element: <ADMINPORTALLANDING.POSTDATED />,
+		exact: true,
+	},
+	{
+		path: accountsModule.accounts.subMenu.individualAccounts.path,
+		element: <ADMINPORTALLANDING.INDIVIDUALACCOUNTS />,
+		exact: true,
+	},
+	{
+		path: accountsModule.viewTransactions.path,
+		element: <ADMINPORTALLANDING.VIEWTRANSACTIONS />,
+		exact: true,
+	},
+	{
+		path: accountsModule.accounts.subMenu.depreciation.path,
+		element: <ADMINPORTALLANDING.DEPRECIATION />,
+		exact: true,
+	},
+	{
+		path: accountsModule.accounts.subMenu.dailyClosing.path,
+		element: <ADMINPORTALLANDING.DAILYCLOSING />,
+		exact: true,
+	},
+
+	{
+		path: accountsModule.accounts.subMenu.manageAccountsSubgroups.path,
+		element: <ADMINPORTALLANDING.ACCOUNTHEADSSUBGROUPS />,
+		exact: true,
+	},
+	{
+		path: accountsModule.vouchers.subMenu.newTransaction.path,
+		element: <ADMINPORTALLANDING.NEWTRANSACTION />,
+		exact: true,
+	},
+	{
+		path: accountsModule.vouchers.subMenu.simpleVouchers.path,
+		element: <ADMINPORTALLANDING.VOUCHERS />,
+		exact: true,
+	},
+
+	{
+		path: accountsModule.vouchers.subMenu.fileVouchers.path,
+		element: <ADMINPORTALLANDING.FILESVOUCHERS />,
+		exact: true,
+	},
+	{
+		path: accountsModule.vouchers.subMenu.otherVouchers.path,
+		element: <ADMINPORTALLANDING.OTHERVOUCHERS />,
 		exact: true,
 	},
 ];
