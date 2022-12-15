@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ReactRoundedImage from 'react-rounded-image';
 import Logo from '../../../assets/logos/logo.png';
-import { increment, updateSingleState } from '../../allModules/redux/tableCrud';
+import { updateSingleState } from '../../allModules/redux/tableCrud';
 // import Card from './Items/Card';
 
 const Dashboard = () => {
@@ -25,14 +25,21 @@ const Dashboard = () => {
 					<div className='h5 d-flex justify-content-center'>ADDRESS</div>
 					<div>
 						<div>
-							<h2>{store.data.items.unit}</h2>
+							<h2>{store.data.level1.level2.parameter}</h2>
 						</div>
 						<button
 							type='button'
 							onClick={() => {
-								dispatch(increment());
+								dispatch(
+									updateSingleState([
+										store.data.level1.level2.parameter + 1,
+										'level1',
+										'level2',
+										'parameter',
+									]),
+								);
 							}}>
-							Increment By 5
+							Increment By 1
 						</button>
 					</div>
 				</div>

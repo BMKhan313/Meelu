@@ -5,8 +5,10 @@ export const addProjectSlice = createSlice({
 	name: 'tableCrud',
 	initialState: {
 		data: {
-			items: {
-				unit: 10,
+			level1: {
+				level2: {
+					parameter: 10,
+				},
 			},
 			// itemsManagementModule
 			itemsManagementModule: {
@@ -59,10 +61,6 @@ export const addProjectSlice = createSlice({
 		},
 	},
 	reducers: {
-		increment: (state) => {
-			state.data.items.unit += 5;
-		},
-
 		updateSingleState: (state, action) => {
 			return {
 				...state,
@@ -109,12 +107,6 @@ export const addProjectSlice = createSlice({
 	},
 });
 
-export const {
-	updateWholeObject,
-	updateSingleState,
-	resetStore,
-	updateCookies,
-
-	increment,
-} = addProjectSlice.actions;
+export const { updateWholeObject, updateSingleState, resetStore, updateCookies } =
+	addProjectSlice.actions;
 export default addProjectSlice.reducer;
