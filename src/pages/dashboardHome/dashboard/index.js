@@ -1,9 +1,22 @@
-import React from 'react';
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable eslint-comments/no-duplicate-disable */
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-unused-vars */
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { Button } from 'bootstrap';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ReactRoundedImage from 'react-rounded-image';
 import Logo from '../../../assets/logos/logo.png';
+import { updateSingleState } from '../../allModules/redux/tableCrud/index';
 // import Card from './Items/Card';
 
 const Dashboard = () => {
+	const store = useSelector((state) => state.tableCrud);
+	const dispatch = useDispatch();
+
 	return (
 		<div className='w-100'>
 			<div className='d-flex justify-content-around' style={{ height: 'max-content' }}>
