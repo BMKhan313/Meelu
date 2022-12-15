@@ -18,6 +18,7 @@ export const addProjectSlice = createSlice({
 		increment: (state) => {
 			state.data.items.unit += 5;
 		},
+
 		updateSingleState: (state, action) => {
 			return {
 				...state,
@@ -66,7 +67,7 @@ export const addProjectSlice = createSlice({
 
 export const {
 	// updateWholeObject, updateSingleState, resetStore, updateCookies,
-	// updateSingleState,
+	updateSingleState,
 	increment,
 } = addProjectSlice.actions;
 export default addProjectSlice.reducer;
