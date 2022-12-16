@@ -317,7 +317,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</div>
 					</div>
 				</ModalBody>
-				<ModalFooter />
+				{/* <ModalFooter /> */}
 			</Modal>
 			<Modal
 				isOpen={stateEdit}
@@ -364,7 +364,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</div>
 					</div>
 				</ModalBody>
-				<ModalFooter />
+				{/* <ModalFooter /> */}
 			</Modal>
 		</>
 	);
