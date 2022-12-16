@@ -129,7 +129,7 @@ const Add = ({ refreshTableData }) => {
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
 					<CardLabel icon='Add'>
-						<ModalTitle id='exampleModalLabel'>Add Make</ModalTitle>
+						<ModalTitle id='exampleModalLabel'>Add Item</ModalTitle>
 					</CardLabel>
 				</ModalHeader>
 				<ModalBody>

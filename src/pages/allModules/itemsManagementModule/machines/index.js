@@ -43,18 +43,18 @@ const Categories = () => {
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getMakes?records=${store.data.itemsManagementModule.make.perPage}&pageNo=${store.data.itemsManagementModule.make.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getMachines?records=${store.data.itemsManagementModule.machines.perPage}&pageNo=${store.data.itemsManagementModule.machines.pageNo}&colName=id&sort=asc`,
 			{},
 		)
 			.then((response) => {
-				setTableData(response.data.makes.data);
-				setTableData2(response.data.makes);
+				setTableData(response.data.machines.data);
+				setTableData2(response.data.machines);
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.makes,
+						response.data.machines,
 						'itemsManagementModule',
-						'make',
+						'machines',
 						'tableData',
 					]),
 				);
@@ -69,8 +69,8 @@ const Categories = () => {
 		refreshTableData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
-		store.data.itemsManagementModule.make.perPage,
-		store.data.itemsManagementModule.make.pageNo,
+		store.data.itemsManagementModule.machines.perPage,
+		store.data.itemsManagementModule.machines.pageNo,
 	]);
 
 	return (
@@ -81,7 +81,7 @@ const Categories = () => {
 						<Card>
 							<CardHeader>
 								<CardLabel icon='Assignment'>
-									<CardTitle> Make List</CardTitle>
+									<CardTitle> Machines List</CardTitle>
 								</CardLabel>
 								<CardActions>
 									<Add refreshTableData={refreshTableData} />

@@ -77,7 +77,7 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	const submitForm = (myFormik) => {
-		Axios.post(`${baseURL}/addMake`, myFormik.values, {
+		Axios.post(`${baseURL}/addMachine`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})
 			.then((res) => {
@@ -129,7 +129,7 @@ const Add = ({ refreshTableData }) => {
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
 					<CardLabel icon='Add'>
-						<ModalTitle id='exampleModalLabel'>Add Make</ModalTitle>
+						<ModalTitle id='exampleModalLabel'>Add Machine</ModalTitle>
 					</CardLabel>
 				</ModalHeader>
 				<ModalBody>

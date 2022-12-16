@@ -39,6 +39,11 @@ const Categories = () => {
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
+	const [lastRecord, setLastRecord] = useState(0);
+	const [from, setFrom] = useState(0);
+	const [to, setTo] = useState(0);
+	const [pageNo, setPageNo] = useState(1);
+	const [total, setTotal] = useState(0);
 
 	const refreshTableData = () => {
 		setTableDataLoading(true);
@@ -49,6 +54,11 @@ const Categories = () => {
 			.then((response) => {
 				setTableData(response.data.makes.data);
 				setTableData2(response.data.makes);
+				setLastRecord(response.data.makes.last_page);
+				setFrom(response.data.makes.from);
+				setTo(response.data.makes.to);
+				setPageNo(response.data.makes.current_page);
+				setTotal(response.data.makes.total);
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
@@ -71,6 +81,7 @@ const Categories = () => {
 	}, [
 		store.data.itemsManagementModule.make.perPage,
 		store.data.itemsManagementModule.make.pageNo,
+		pageNo,
 	]);
 
 	return (
@@ -110,6 +121,12 @@ const Categories = () => {
 							<View
 								tableData={tableData}
 								tableData2={tableData2}
+								lastRecord={lastRecord}
+								to={to}
+								from={from}
+								pageNo={pageNo}
+								total={total}
+								setPageNo={setPageNo}
 								refreshTableData={refreshTableData}
 								tableDataLoading={tableDataLoading}
 							/>

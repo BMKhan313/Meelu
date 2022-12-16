@@ -304,7 +304,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<Card>
 								<CardBody>
 									<h5>
-										Are you sure, you want to delete the selected Make? <br />
+										Are you sure, you want to delete the selected Item? <br />
 										This cannot be undone!
 									</h5>
 								</CardBody>
@@ -353,7 +353,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						{' '}
 						<CardHeader>
 							<CardLabel icon='Edit' iconColor='info'>
-								<CardTitle>Editing Make</CardTitle>
+								<CardTitle>Editing Item</CardTitle>
 								<small> Item Id: {itemId}</small>
 							</CardLabel>
 						</CardHeader>
