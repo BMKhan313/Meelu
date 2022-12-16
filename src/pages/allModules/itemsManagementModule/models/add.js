@@ -1,11 +1,11 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
 
 import moment from 'moment';
-
+import ReactSelect, { createFilter } from 'react-select';
 import PropTypes from 'prop-types';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
 import Spinner from '../../../../components/bootstrap/Spinner';
@@ -29,7 +29,6 @@ import Card, {
 
 import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
 import Input from '../../../../components/bootstrap/forms/Input';
-
 import Button from '../../../../components/bootstrap/Button';
 
 const validate = (values) => {
@@ -50,7 +49,10 @@ const Add = ({ refreshTableData }) => {
 	const [centeredStatus, setCenteredStatus] = useState(false);
 	const [fullScreenStatus, setFullScreenStatus] = useState(null);
 	const [animationStatus, setAnimationStatus] = useState(true);
-
+	const [machineOptions, setMachineOptions] = useState();
+	const [machineOptionsLoading, setMachineOptionsLoading] = useState(false);
+	const [makeOptions, setMakeOptions] = useState();
+	const [makeOptionsLoading, setMakeOptionsLoading] = useState(false);
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
 
 	const initialStatus = () => {
@@ -66,6 +68,8 @@ const Add = ({ refreshTableData }) => {
 	const formik = useFormik({
 		initialValues: {
 			name: '',
+			machine_id: '',
+			make_id: '',
 		},
 		validate,
 		onSubmit: () => {
@@ -77,7 +81,7 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	const submitForm = (myFormik) => {
-		Axios.post(`${baseURL}/addMake`, myFormik.values, {
+		Axios.post(`${baseURL}/addMachineModel`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})
 			.then((res) => {
@@ -99,6 +103,34 @@ const Add = ({ refreshTableData }) => {
 				setIsLoading(false);
 			});
 	};
+	useEffect(() => {
+		Axios.get(`${baseURL}/getMachinesDropDown`)
+			.then((response) => {
+				const rec = response.data.machines.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setMachineOptions(rec);
+				setMachineOptionsLoading(false);
+			})
+			// eslint-disable-next-line no-console
+			.catch((err) => {});
+
+		Axios.get(`${baseURL}/getMakesDropDown`)
+			.then((response) => {
+				const rec = response.data.makes.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setMakeOptions(rec);
+				setMakeOptionsLoading(false);
+			})
+			// eslint-disable-next-line no-console
+			.catch((err) => {});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<div className='col-auto'>
@@ -138,6 +170,64 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
+										<FormGroup label='Machines' id='machine_id'>
+											<ReactSelect
+												className='col-md-12'
+												classNamePrefix='select'
+												options={machineOptions}
+												isLoading={machineOptionsLoading}
+												isClearable
+												value={
+													formik.values.machine_id
+														? machineOptions.find(
+																(c) =>
+																	c.value ===
+																	formik.values.machine_id,
+														  )
+														: null
+												}
+												onChange={(val) => {
+													formik.setFieldValue(
+														'machine_id',
+														val !== null && val.id,
+													);
+												}}
+												isValid={formik.isValid}
+												isTouched={formik.touched.machine_id}
+												invalidFeedback={formik.errors.machine_id}
+												validFeedback='Looks good!'
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
+										<FormGroup label='Makes' id='make_id'>
+											<ReactSelect
+												className='col-md-12'
+												classNamePrefix='select'
+												options={makeOptions}
+												isLoading={makeOptionsLoading}
+												isClearable
+												value={
+													formik.values.make_id
+														? makeOptions.find(
+																(c) =>
+																	c.value ===
+																	formik.values.make_id,
+														  )
+														: null
+												}
+												onChange={(val) => {
+													formik.setFieldValue(
+														'make_id',
+														val !== null && val.id,
+													);
+												}}
+												isValid={formik.isValid}
+												isTouched={formik.touched.make_id}
+												invalidFeedback={formik.errors.make_id}
+												validFeedback='Looks good!'
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
 										<FormGroup id='name' label='Name' className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}

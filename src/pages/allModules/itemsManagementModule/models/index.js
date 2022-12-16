@@ -43,18 +43,20 @@ const Categories = () => {
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getMakes?records=${store.data.itemsManagementModule.make.perPage}&pageNo=${store.data.itemsManagementModule.make.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getMachineModels?records=${store.data.itemsManagementModule.models.perPage}&pageNo=${store.data.itemsManagementModule.models.pageNo}&colName=id&sort=asc`,
 			{},
 		)
 			.then((response) => {
-				setTableData(response.data.makes.data);
-				setTableData2(response.data.makes);
+				setTableData(response.data.machineModels.data);
+				setTableData2(response.data.machineModels);
+				// console.log('bmk::tbdata::', response.data.machineModels.data);
+				// console.log('bmk::tbdata2::', response.data.machineModels);
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.makes,
+						response.data.machineModels,
 						'itemsManagementModule',
-						'make',
+						'models',
 						'tableData',
 					]),
 				);
@@ -69,8 +71,8 @@ const Categories = () => {
 		refreshTableData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
-		store.data.itemsManagementModule.make.perPage,
-		store.data.itemsManagementModule.make.pageNo,
+		store.data.itemsManagementModule.models.perPage,
+		store.data.itemsManagementModule.models.pageNo,
 	]);
 
 	return (
@@ -81,7 +83,7 @@ const Categories = () => {
 						<Card>
 							<CardHeader>
 								<CardLabel icon='Assignment'>
-									<CardTitle> Make List</CardTitle>
+									<CardTitle> Make Model</CardTitle>
 								</CardLabel>
 								<CardActions>
 									<Add refreshTableData={refreshTableData} />
