@@ -1,6 +1,12 @@
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { contents, dashbord, accounts, itemsManagementR } from '../../routes/contentRoutes';
+import {
+	contents,
+	dashbord,
+	accounts,
+	itemsManagementR,
+	kitManagementR,
+} from '../../routes/contentRoutes';
 
 const PAGE_404 = lazy(() => import('../../pages/presentation/auth/Page404'));
 const ContentRoutes = () => {
@@ -20,6 +26,10 @@ const ContentRoutes = () => {
 				<Route key={page.path} {...page} />
 			))}
 			{itemsManagementR.map((page) => (
+				// eslint-disable-next-line react/jsx-props-no-spreading
+				<Route key={page.path} {...page} />
+			))}
+			{kitManagementR.map((page) => (
 				// eslint-disable-next-line react/jsx-props-no-spreading
 				<Route key={page.path} {...page} />
 			))}

@@ -7,6 +7,7 @@ import {
 	dashboardHome,
 	accountsModule,
 	itemsManagementModule,
+	kitModule,
 } from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
@@ -205,6 +206,11 @@ const itemsManagementComponents = {
 	MACHINES: lazy(() => import('../pages/allModules/itemsManagementModule/machines/index')),
 	MAKE: lazy(() => import('../pages/allModules/itemsManagementModule/make/index')),
 };
+const KITMANAGEMENTCOMPONENTS = {
+	DEFINEKIT: lazy(() => import('../pages/allModules/kitManagement/defineKit/index')),
+	KITMAKING: lazy(() => import('../pages/allModules/kitManagement/kitMaking/index')),
+	KITBREAKING: lazy(() => import('../pages/allModules/kitManagement/kitBreaking/index')),
+};
 
 const dashboardRoutes = [
 	/**
@@ -250,6 +256,27 @@ const itemsManagementRoutes = [
 	{
 		path: itemsManagementModule.itemsManagement.subMenu.make.path,
 		element: <itemsManagementComponents.MAKE />,
+		exact: true,
+	},
+];
+const kitManagementRoutes = [
+	/**
+	 * Dashboard Home
+	 */
+
+	{
+		path: kitModule.kitManagementModule.subMenu.defineKit.path,
+		element: <KITMANAGEMENTCOMPONENTS.DEFINEKIT />,
+		exact: true,
+	},
+	{
+		path: kitModule.kitManagementModule.subMenu.kitMaking.path,
+		element: <KITMANAGEMENTCOMPONENTS.KITMAKING />,
+		exact: true,
+	},
+	{
+		path: kitModule.kitManagementModule.subMenu.kitBreaking.path,
+		element: <KITMANAGEMENTCOMPONENTS.KITBREAKING />,
 		exact: true,
 	},
 ];
@@ -1009,5 +1036,6 @@ const contents = [...presentation, ...documentation];
 const dashbord = [...dashboardRoutes];
 const accounts = [...accountRoutes];
 const itemsManagementR = [...itemsManagementRoutes];
+const kitManagementR = [...kitManagementRoutes];
 
-export { dashbord, contents, accounts, itemsManagementR };
+export { dashbord, contents, accounts, itemsManagementR, kitManagementR };
