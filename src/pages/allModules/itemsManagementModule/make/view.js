@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Pagination from 'react-js-pagination';
 
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import Pagination, { PaginationItem } from '../../../../components/bootstrap/Pagination';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
 
 // eslint-disable-next-line import/no-unresolved
@@ -37,14 +37,25 @@ import Card, {
 } from '../../../../components/bootstrap/Card';
 import Edit from './edit';
 
-const View = ({ tableDataLoading, tableData, refreshTableData }) => {
+const View = ({
+	tableDataLoading,
+	tableData,
+	refreshTableData,
+	lastRecord,
+	from,
+	total,
+	to,
+	pageNo,
+	setPageNo,
+}) => {
 	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
-	const [perPage, setPerPage] = useState(Number(store.data.itemsManagementModule.make.perPage));
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
 	const { selectTable, SelectAllCheck } = useSelectTable(tableData);
-
+	const [perPage, setPerPage] = useState(
+		Number(store.data.itemsManagementModule.machines.perPage),
+	);
 	const [editingItem, setEditingItem] = useState({});
 	const [itemId, setItemId] = useState('');
 	const [deleteLoading, setDeleteLoading] = useState(false);
@@ -135,9 +146,44 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[perPage],
 	);
-
 	const handlePageChange = (e) => {
-		dispatch(updateSingleState([e, 'itemsManagementModule', 'make', 'pageNo']));
+		setPageNo(e.target.value);
+	};
+
+	const pagination = () => {
+		let items = [];
+
+		let i = pageNo - 1;
+		while (i >= pageNo - 1 && i > 0) {
+			items.push(
+				<PaginationItem key={i} onClick={() => setPageNo(pageNo - 1)}>
+					{i}
+				</PaginationItem>,
+			);
+
+			i -= 1;
+		}
+
+		items = items.reverse();
+
+		items.push(
+			<PaginationItem key={pageNo} isActive onClick={() => setPageNo(pageNo)}>
+				{pageNo}
+			</PaginationItem>,
+		);
+
+		i = pageNo + 1;
+		while (i <= pageNo + 1 && i <= lastRecord) {
+			items.push(
+				<PaginationItem key={i} onClick={() => setPageNo(pageNo + 1)}>
+					{i}
+				</PaginationItem>,
+			);
+
+			i += 1;
+		}
+
+		return items;
 	};
 
 	return (
@@ -242,34 +288,52 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					)}
 				</table>
-
 				<PaginationButtons
 					label='make'
-					from={store.data.itemsManagementModule.make.tableData?.from ?? 1}
-					to={store.data.itemsManagementModule.make.tableData?.to ?? 1}
-					total={store.data.itemsManagementModule.make.tableData?.total ?? 0}
-					perPage={Number(perPage ?? 10)}
+					from={from}
+					to={to}
+					total={total}
+					perPage={perPage}
 					setPerPage={setPerPage}
 				/>
 
 				<div className='row d-flex justify-content-end'>
 					<div className='col-3'>
-						<Pagination
-							activePage={store.data.itemsManagementModule.make?.pageNo ?? 1}
-							totalItemsCount={
-								store.data.itemsManagementModule.make?.tableData?.total ?? 0
-							}
-							itemsCountPerPage={Number(
-								store.data.itemsManagementModule.make?.perPage ?? 10,
-							)}
-							onChange={(e) => handlePageChange(e)}
-							itemClass='page-item'
-							linkClass='page-link'
-							firstPageText='First'
-							lastPageText='Last'
-							nextPageText='Next'
-							prevPageText='Prev'
-						/>
+						{lastRecord > 1 && (
+							<Pagination onChange={(e) => handlePageChange(e)} ariaLabel='items'>
+								<PaginationItem
+									isFirst
+									isDisabled={!(pageNo - 1 > 0)}
+									onClick={() => setPageNo(1)}
+								/>
+								<PaginationItem
+									isPrev
+									isDisabled={!(pageNo - 1 > 0)}
+									onClick={() => setPageNo(pageNo - 1)}
+								/>
+								{pageNo - 1 > 1 && (
+									<PaginationItem onClick={() => setPageNo(pageNo - 2)}>
+										...
+									</PaginationItem>
+								)}
+								{pagination()}
+								{pageNo + 1 < lastRecord && (
+									<PaginationItem onClick={() => setPageNo(pageNo + 2)}>
+										...
+									</PaginationItem>
+								)}
+								<PaginationItem
+									isNext
+									isDisabled={!(pageNo + 1 <= lastRecord)}
+									onClick={() => setPageNo(pageNo + 1)}
+								/>
+								<PaginationItem
+									isLast
+									isDisabled={!(pageNo + 1 <= lastRecord)}
+									onClick={() => setPageNo(lastRecord)}
+								/>
+							</Pagination>
+						)}
 					</div>
 				</div>
 			</CardBody>
@@ -389,6 +453,11 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 };
 View.propTypes = {
 	tableDataLoading: PropTypes.bool.isRequired,
+	lastRecord: PropTypes.number.isRequired,
+	from: PropTypes.number.isRequired,
+	to: PropTypes.number.isRequired,
+	pageNo: PropTypes.number.isRequired,
+	total: PropTypes.number.isRequired,
 	// eslint-disable-next-line react/forbid-prop-types
 	tableData: PropTypes.array.isRequired,
 	refreshTableData: PropTypes.func.isRequired,

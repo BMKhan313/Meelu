@@ -54,7 +54,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 	});
 
 	const submitForm = (data) => {
-		Axios.post(`${baseURL}/updateMake`, data)
+		Axios.post(`${baseURL}/updateMachine`, data)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					formik.resetForm();
@@ -64,7 +64,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 					setLastSave(moment());
 				} else {
 					setIsLoading(false);
-					showNotification(_titleError, res.message, 'Danger');
+					showNotification(_titleError, res.data.message, 'Danger');
 				}
 			})
 			.catch((err) => {
