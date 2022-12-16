@@ -353,7 +353,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						{' '}
 						<CardHeader>
 							<CardLabel icon='Edit' iconColor='info'>
-								<CardTitle>Editing Make</CardTitle>
+								<CardTitle>Editing Machine</CardTitle>
 								<small> Item Id: {itemId}</small>
 							</CardLabel>
 						</CardHeader>
