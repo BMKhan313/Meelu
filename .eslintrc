@@ -22,6 +22,7 @@
 	},
 	"plugins": ["import", "prettier", "eslint-comments", "react", "jsx-a11y", "react-hooks"],
 	"rules": {
+		"react/prop-types": 0,
 		"prettier/prettier": ["warn"],
 		"no-use-before-define": "off",
 		"no-case-declarations": "off",

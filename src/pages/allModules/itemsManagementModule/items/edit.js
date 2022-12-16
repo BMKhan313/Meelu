@@ -106,7 +106,8 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 	);
 };
 Edit.propTypes = {
-	editingItem: PropTypes.string.isRequired,
+	// eslint-disable-next-line react/forbid-prop-types
+	editingItem: PropTypes.object.isRequired,
 	// handleStateEdit: PropTypes.function.isRequired,
 };
 

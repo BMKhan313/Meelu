@@ -326,7 +326,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				isStaticBackdrop={staticBackdropStatusEdit}
 				isScrollable={scrollableStatusEdit}
 				isCentered={centeredStatusEdit}
-				size='md'
+				size='xl'
 				fullScreen={fullScreenStatusEdit}
 				isAnimation={animationStatusEdit}>
 				<ModalHeader setIsOpen={headerCloseStatusEdit ? setStateEdit : null}>
@@ -370,9 +370,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	);
 };
 View.propTypes = {
-	tableDataLoading: PropTypes.string.isRequired,
-	tableData: PropTypes.string.isRequired,
-	refreshTableData: PropTypes.string.isRequired,
+	tableDataLoading: PropTypes.bool.isRequired,
+	// eslint-disable-next-line react/forbid-prop-types
+	tableData: PropTypes.array.isRequired,
+	refreshTableData: PropTypes.func.isRequired,
 };
 
 export default View;

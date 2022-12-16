@@ -110,7 +110,7 @@ const Add = ({ refreshTableData }) => {
 				isStaticBackdrop={staticBackdropStatus}
 				isScrollable={scrollableStatus}
 				isCentered={centeredStatus}
-				size='md'
+				size='lg'
 				fullScreen={fullScreenStatus}
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
@@ -178,7 +178,7 @@ const Add = ({ refreshTableData }) => {
 	);
 };
 Add.propTypes = {
-	refreshTableData: PropTypes.string.isRequired,
+	refreshTableData: PropTypes.func.isRequired,
 };
 
 export default Add;
