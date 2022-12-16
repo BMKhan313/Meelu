@@ -255,11 +255,6 @@ const itemsManagementRoutes = [
 ];
 const accountRoutes = [
 	{
-		path: accountsModule.accounts.subMenu.postDated.path,
-		element: <ADMINPORTALLANDING.POSTDATED />,
-		exact: true,
-	},
-	{
 		path: accountsModule.accounts.subMenu.individualAccounts.path,
 		element: <ADMINPORTALLANDING.INDIVIDUALACCOUNTS />,
 		exact: true,
@@ -269,11 +264,7 @@ const accountRoutes = [
 		element: <ADMINPORTALLANDING.VIEWTRANSACTIONS />,
 		exact: true,
 	},
-	{
-		path: accountsModule.accounts.subMenu.depreciation.path,
-		element: <ADMINPORTALLANDING.DEPRECIATION />,
-		exact: true,
-	},
+
 	{
 		path: accountsModule.accounts.subMenu.dailyClosing.path,
 		element: <ADMINPORTALLANDING.DAILYCLOSING />,
@@ -293,17 +284,6 @@ const accountRoutes = [
 	{
 		path: accountsModule.vouchers.subMenu.simpleVouchers.path,
 		element: <ADMINPORTALLANDING.VOUCHERS />,
-		exact: true,
-	},
-
-	{
-		path: accountsModule.vouchers.subMenu.fileVouchers.path,
-		element: <ADMINPORTALLANDING.FILESVOUCHERS />,
-		exact: true,
-	},
-	{
-		path: accountsModule.vouchers.subMenu.otherVouchers.path,
-		element: <ADMINPORTALLANDING.OTHERVOUCHERS />,
 		exact: true,
 	},
 ];
