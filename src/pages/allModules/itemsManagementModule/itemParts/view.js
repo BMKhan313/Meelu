@@ -1,13 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable react/destructuring-assignment */
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable no-console */
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable camelcase */
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-
 import React, { useEffect, useState } from 'react';
 import Pagination from 'react-js-pagination';
 
@@ -35,12 +25,7 @@ import PaginationButtons from '../../../../components/PaginationButtons';
 import useSelectTable from '../../../../hooks/useSelectTable';
 
 import Spinner from '../../../../components/bootstrap/Spinner';
-import Modal, {
-	ModalBody,
-	ModalFooter,
-	ModalHeader,
-	ModalTitle,
-} from '../../../../components/bootstrap/Modal';
+import Modal, { ModalBody, ModalHeader, ModalTitle } from '../../../../components/bootstrap/Modal';
 import Card, {
 	CardBody,
 	CardHeader,
