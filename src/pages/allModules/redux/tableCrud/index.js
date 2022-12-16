@@ -96,7 +96,6 @@ export const addProjectSlice = createSlice({
 							pageNo: 1,
 							perPage: 10,
 						},
-					
 					},
 				},
 				cookies: {
