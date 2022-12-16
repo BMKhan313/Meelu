@@ -245,20 +245,22 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 				<PaginationButtons
 					label='make'
-					from={store.data.itemsManagementModule.make.tableData?.from}
-					to={store.data.itemsManagementModule.make.tableData?.to}
-					total={store.data.itemsManagementModule.make.tableData?.total}
-					perPage={Number(perPage)}
+					from={store.data.itemsManagementModule.make.tableData?.from ?? 1}
+					to={store.data.itemsManagementModule.make.tableData?.to ?? 1}
+					total={store.data.itemsManagementModule.make.tableData?.total ?? 0}
+					perPage={Number(perPage ?? 10)}
 					setPerPage={setPerPage}
 				/>
 
 				<div className='row d-flex justify-content-end'>
 					<div className='col-3'>
 						<Pagination
-							activePage={store.data.itemsManagementModule.make.pageNo}
-							totalItemsCount={store.data.itemsManagementModule.make.tableData?.total}
+							activePage={store.data.itemsManagementModule.make?.pageNo ?? 1}
+							totalItemsCount={
+								store.data.itemsManagementModule.make?.tableData?.total ?? 0
+							}
 							itemsCountPerPage={Number(
-								store.data.itemsManagementModule.make.perPage,
+								store.data.itemsManagementModule.make?.perPage ?? 10,
 							)}
 							onChange={(e) => handlePageChange(e)}
 							itemClass='page-item'
