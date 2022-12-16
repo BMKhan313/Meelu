@@ -6,10 +6,8 @@ import { useFormik } from 'formik';
 
 import moment from 'moment';
 
-// eslint-disable-next-line import/no-unresolved
-
-// eslint-disable-next-line import/no-unresolved
 import PropTypes from 'prop-types';
+import { baseURL } from '../../../../baseURL/authMultiExport';
 import Spinner from '../../../../components/bootstrap/Spinner';
 import Modal, {
 	ModalBody,
@@ -39,8 +37,6 @@ const validate = (values) => {
 	if (!values.name) {
 		errors.name = 'Required';
 	}
-	// eslint-disable-next-line no-console
-	console.log('**', values);
 	return errors;
 };
 
@@ -58,9 +54,6 @@ const Add = ({ refreshTableData }) => {
 
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
 
-	const submitForm = (data) => {
-		console.log('SUbmit');
-	};
 	const initialStatus = () => {
 		setStaticBackdropStatus(false);
 		setScrollableStatus(false);
@@ -70,6 +63,34 @@ const Add = ({ refreshTableData }) => {
 
 		setHeaderCloseStatus(true);
 	};
+	const submitForm = (myFormik) => {
+		const url = `${baseURL}/addItem`;
+
+		const options = {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json;charset=UTF-8',
+			},
+			body: JSON.stringify(myFormik.values),
+		};
+		fetch(url, options)
+			.then((response) => response.json())
+			.then((res) => {
+				setIsLoading(false);
+
+				if (res.status === 'ok') {
+					refreshTableData();
+					showNotification(_titleSuccess, res.message, 'success');
+					setState(false);
+					myFormik.resetForm();
+					setLastSave(moment());
+				} else {
+					showNotification(_titleError, res.message, 'danger');
+				}
+			});
+	};
+
 	const formik = useFormik({
 		initialValues: {
 			name: '',
@@ -83,9 +104,10 @@ const Add = ({ refreshTableData }) => {
 	const handleSave = () => {
 		// eslint-disable-next-line no-console
 
-		submitForm(formik.values);
+		submitForm(formik);
 		setLastSave(moment());
 	};
+
 	return (
 		<div className='col-auto'>
 			<div className='col-auto'>
@@ -114,7 +136,7 @@ const Add = ({ refreshTableData }) => {
 				fullScreen={fullScreenStatus}
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
-					<ModalTitle id='exampleModalLabel'>Add Category</ModalTitle>
+					<ModalTitle id='exampleModalLabel'>Add Part Name</ModalTitle>
 				</ModalHeader>
 				<ModalBody>
 					<div className='col-12'>
