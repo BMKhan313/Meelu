@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 
 // ** Axios Imports
 import { useDispatch, useSelector } from 'react-redux';
+import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
+
 // eslint-disable-next-line import/no-unresolved
 import { updateSingleState } from '../../redux/tableCrud/index';
 
@@ -40,12 +42,36 @@ const Categories = () => {
 
 	const refreshTableData = () => {
 		setTableDataLoading(true);
+		Axios.get(
+			`${baseURL}/getMakes?records=${store.data.itemsManagementModule.make.perPage}&pageNo=${store.data.itemsManagementModule.make.pageNo}&colName=id&sort=asc`,
+			{},
+		)
+			.then((response) => {
+				setTableData(response.data.makes.data);
+				setTableData2(response.data.makes);
+				setTableDataLoading(false);
+				dispatch(
+					updateSingleState([
+						response.data.makes,
+						'itemsManagementModule',
+						'make',
+						'tableData',
+					]),
+				);
+			})
+
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+			});
 	};
 
 	useEffect(() => {
 		refreshTableData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [
+		store.data.itemsManagementModule.make.perPage,
+		store.data.itemsManagementModule.make.pageNo,
+	]);
 
 	return (
 		<PageWrapper>
@@ -55,14 +81,13 @@ const Categories = () => {
 						<Card>
 							<CardHeader>
 								<CardLabel icon='Assignment'>
-									<CardTitle> Categories</CardTitle>
+									<CardTitle> Make List</CardTitle>
 								</CardLabel>
 								<CardActions>
 									<Add refreshTableData={refreshTableData} />
 								</CardActions>
 							</CardHeader>
 							<CardBody>
-								<br />
 								{/* <div className='row g-4'>
 									<FormGroup className='col-md-2' label='Category'>
 										<Select
@@ -79,40 +104,7 @@ const Categories = () => {
 									</FormGroup>
 								</div> */}
 								<br />
-								{/* <div className='row g-4'>
-									<div className='col-md-2'>
-										<Select
-											ariaLabel='Default select example'
-											placeholder='Open this select menu'
-											onChange={(e) => {
-												setSearchBy(e.target.value);
-											}}
-											value={searchBy}
-											list={searchByOptions}
-										/>
-									</div>
-									<div className='col-md-2'>
-										<Input
-											id='searchFileNo'
-											type='text'
-											onChange={(e) => {
-												setSearchNo(e.target.value);
-											}}
-											value={searchNo}
-											validFeedback='Looks good!'
-										/>
-									</div>
-									<div className='col-md-2'>
-										<Button
-											color='primary'
-											onClick={() => searchFilterTrigger()}
-											isOutline
-											// isDisable={landsViewLoading}
-											isActive>
-											Search
-										</Button>
-									</div>
-								</div> */}
+
 								<br />
 							</CardBody>
 							<View
