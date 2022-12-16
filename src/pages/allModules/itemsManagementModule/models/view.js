@@ -41,7 +41,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
-	const [perPage, setPerPage] = useState(Number(store.data.itemsManagementModule.make.perPage));
+	const [perPage, setPerPage] = useState(Number(store.data.itemsManagementModule.models.perPage));
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
 	const { selectTable, SelectAllCheck } = useSelectTable(tableData);
 
@@ -70,9 +70,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
-		Axios.get(`${baseURL}/editMake?id=${idd}`)
+		Axios.get(`${baseURL}/editMachineModel?id=${idd}`)
 			.then((res) => {
-				setEditingItem(res.data.make);
+				setEditingItem(res.data.machine);
 				setEditingItemLoading(false);
 			})
 			.catch((err) => {
@@ -106,7 +106,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 
 	const deleteItem = (id) => {
-		Axios.delete(`${baseURL}/deleteMake?id=${id}`)
+		Axios.delete(`${baseURL}/deleteMachineModel?id=${id}`)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					showNotification('Deleted', res.data.message, 'success');
@@ -130,14 +130,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 	useEffect(
 		() => {
-			dispatch(updateSingleState([perPage, 'itemsManagementModule', 'make', 'perPage']));
+			dispatch(updateSingleState([perPage, 'itemsManagementModule', 'model', 'perPage']));
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[perPage],
 	);
 
 	const handlePageChange = (e) => {
-		dispatch(updateSingleState([e, 'itemsManagementModule', 'make', 'pageNo']));
+		dispatch(updateSingleState([e, 'itemsManagementModule', 'model', 'pageNo']));
 	};
 
 	return (
@@ -164,7 +164,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.itemsManagementModule.make.tableData.data.map(
+							{store.data.itemsManagementModule.models.tableData.data.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
@@ -245,9 +245,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 				<PaginationButtons
 					label='make'
-					from={store.data.itemsManagementModule.make.tableData?.from ?? 1}
-					to={store.data.itemsManagementModule.make.tableData?.to ?? 1}
-					total={store.data.itemsManagementModule.make.tableData?.total ?? 0}
+					from={store.data.itemsManagementModule.models.tableData?.from ?? 1}
+					to={store.data.itemsManagementModule.models.tableData?.to ?? 1}
+					total={store.data.itemsManagementModule.models.tableData?.total ?? 0}
 					perPage={Number(perPage ?? 10)}
 					setPerPage={setPerPage}
 				/>
@@ -255,12 +255,12 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<div className='row d-flex justify-content-end'>
 					<div className='col-3'>
 						<Pagination
-							activePage={store.data.itemsManagementModule.make?.pageNo ?? 1}
+							activePage={store.data.itemsManagementModule.models?.pageNo ?? 1}
 							totalItemsCount={
-								store.data.itemsManagementModule.make?.tableData?.total ?? 0
+								store.data.itemsManagementModule.models?.tableData?.total ?? 0
 							}
 							itemsCountPerPage={Number(
-								store.data.itemsManagementModule.make?.perPage ?? 10,
+								store.data.itemsManagementModule.models?.perPage ?? 10,
 							)}
 							onChange={(e) => handlePageChange(e)}
 							itemClass='page-item'
@@ -302,7 +302,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<Card>
 								<CardBody>
 									<h5>
-										Are you sure, you want to delete the selected Make? <br />
+										Are you sure, you want to delete the selected Machine Model?{' '}
+										<br />
 										This cannot be undone!
 									</h5>
 								</CardBody>
@@ -351,7 +352,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						{' '}
 						<CardHeader>
 							<CardLabel icon='Edit' iconColor='info'>
-								<CardTitle>Editing Make</CardTitle>
+								<CardTitle>Editing Model</CardTitle>
 								<small> Item Id: {itemId}</small>
 							</CardLabel>
 						</CardHeader>
