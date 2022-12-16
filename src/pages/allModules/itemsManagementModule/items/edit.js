@@ -54,7 +54,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 	});
 
 	const submitForm = (data) => {
-		Axios.post(`${baseURL}/updateMake`, data)
+		Axios.post(`${baseURL}/updateMachinePart`, data)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					formik.resetForm();

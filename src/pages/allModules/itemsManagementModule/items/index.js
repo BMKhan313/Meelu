@@ -43,18 +43,18 @@ const Categories = () => {
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getMakes?records=${store.data.itemsManagementModule.make.perPage}&pageNo=${store.data.itemsManagementModule.make.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getMachineParts?records=${store.data.itemsManagementModule.items.perPage}&pageNo=${store.data.itemsManagementModule.items.pageNo}&colName=id&sort=asc`,
 			{},
 		)
 			.then((response) => {
-				setTableData(response.data.makes.data);
-				setTableData2(response.data.makes);
+				setTableData(response.data.machine_Parts.data);
+				setTableData2(response.data.machine_Parts);
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.makes,
+						response.data.machine_Parts,
 						'itemsManagementModule',
-						'make',
+						'items',
 						'tableData',
 					]),
 				);
@@ -69,8 +69,8 @@ const Categories = () => {
 		refreshTableData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
-		store.data.itemsManagementModule.make.perPage,
-		store.data.itemsManagementModule.make.pageNo,
+		store.data.itemsManagementModule.items.perPage,
+		store.data.itemsManagementModule.items.pageNo,
 	]);
 
 	return (

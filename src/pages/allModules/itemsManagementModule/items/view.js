@@ -41,7 +41,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
-	const [perPage, setPerPage] = useState(Number(store.data.itemsManagementModule.make.perPage));
+	const [perPage, setPerPage] = useState(Number(store.data.itemsManagementModule.items.perPage));
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
 	const { selectTable, SelectAllCheck } = useSelectTable(tableData);
 
@@ -70,11 +70,13 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
-		Axios.get(`${baseURL}/editMake?id=${idd}`)
+		Axios.get(`${baseURL}/editMachinePart?id=${idd}`)
 			.then((res) => {
-				setEditingItem(res.data.make);
+				setEditingItem(res.data.Machine_Part);
+				console.log('res',res);
 				setEditingItemLoading(false);
 			})
+
 			.catch((err) => {
 				showNotification(_titleError, err.message, 'Danger');
 			});
@@ -106,7 +108,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 
 	const deleteItem = (id) => {
-		Axios.delete(`${baseURL}/deleteMake?id=${id}`)
+		Axios.delete(`${baseURL}/deleteMachinePart?id=${id}`)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					showNotification('Deleted', res.data.message, 'success');
@@ -130,14 +132,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 	useEffect(
 		() => {
-			dispatch(updateSingleState([perPage, 'itemsManagementModule', 'make', 'perPage']));
+			dispatch(updateSingleState([perPage, 'itemsManagementModule', 'items', 'perPage']));
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[perPage],
 	);
 
 	const handlePageChange = (e) => {
-		dispatch(updateSingleState([e, 'itemsManagementModule', 'make', 'pageNo']));
+		dispatch(updateSingleState([e, 'itemsManagementModule', 'items', 'pageNo']));
 	};
 
 	return (
@@ -164,7 +166,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.itemsManagementModule.make.tableData.data.map(
+							{store.data.itemsManagementModule.items.tableData?.data.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
@@ -245,9 +247,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 				<PaginationButtons
 					label='make'
-					from={store.data.itemsManagementModule.make.tableData?.from ?? 1}
-					to={store.data.itemsManagementModule.make.tableData?.to ?? 1}
-					total={store.data.itemsManagementModule.make.tableData?.total ?? 0}
+					from={store.data.itemsManagementModule.items.tableData?.from ?? 1}
+					to={store.data.itemsManagementModule.items.tableData?.to ?? 1}
+					total={store.data.itemsManagementModule.items.tableData?.total ?? 0}
 					perPage={Number(perPage ?? 10)}
 					setPerPage={setPerPage}
 				/>
@@ -255,12 +257,12 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<div className='row d-flex justify-content-end'>
 					<div className='col-3'>
 						<Pagination
-							activePage={store.data.itemsManagementModule.make?.pageNo ?? 1}
+							activePage={store.data.itemsManagementModule.items?.pageNo ?? 1}
 							totalItemsCount={
-								store.data.itemsManagementModule.make?.tableData?.total ?? 0
+								store.data.itemsManagementModule.items?.tableData?.total ?? 0
 							}
 							itemsCountPerPage={Number(
-								store.data.itemsManagementModule.make?.perPage ?? 10,
+								store.data.itemsManagementModule.items?.perPage ?? 10,
 							)}
 							onChange={(e) => handlePageChange(e)}
 							itemClass='page-item'
