@@ -60,6 +60,39 @@ export const itemsManagementModule = {
 		},
 	},
 };
+export const kitModule = {
+	heading: {
+		id: 'kitModule',
+		text: 'kit Management',
+		icon: 'DirectionsCar',
+	},
+	kitManagementModule: {
+		id: 'kitManagementModule',
+		text: 'Items Management',
+		path: `${subDir}kitManagement`,
+		icon: 'DirectionsCar',
+		subMenu: {
+			defineKit: {
+				id: 'defineKit',
+				text: 'Define Kit',
+				path: `${subDir}kitManagement/defineKit`,
+				icon: 'ArrowBarUp',
+			},
+			kitMaking: {
+				id: 'kitMaking',
+				text: 'Kit Making',
+				path: `${subDir}kitManagement/kitMaking`,
+				icon: 'ArrowBarUp',
+			},
+			kitBreaking: {
+				id: 'items',
+				text: 'Kit Breaking',
+				path: `${subDir}kitManagement/kitBreaking`,
+				icon: 'ArrowBarUp',
+			},
+		},
+	},
+};
 export const accountsModule = {
 	accountsHeading: {
 		id: 'accountsHeading',
