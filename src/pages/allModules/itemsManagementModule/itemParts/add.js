@@ -85,6 +85,7 @@ const Add = ({ refreshTableData }) => {
 	const [makeOptions, setMakeOptions] = useState();
 	const [makeOptionsLoading, setMakeOptionsLoading] = useState(false);
 	const [modelOptions, setModelOptions] = useState();
+	
 	const [modelOptionsLoading, setModelOptionsLoading] = useState(false);
 	const [itemOptions, setItemOptions] = useState();
 	const [itemOptionsLoading, setItemOptionsLoading] = useState(false);
