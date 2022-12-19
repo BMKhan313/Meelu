@@ -70,6 +70,7 @@ const Add = ({ refreshTableData }) => {
 			name: '',
 			machine_id: '',
 			make_id: '',
+			list: [{ name: '', requiredQuantity: '' }],
 		},
 		validate,
 		onSubmit: () => {
@@ -79,6 +80,12 @@ const Add = ({ refreshTableData }) => {
 	});
 	const handleSave = () => {
 		submitForm(formik);
+	};
+	const removeRow = (i) => {
+		formik.setFieldValue('list', [
+			...formik.values.list.slice(0, i),
+			...formik.values.list.slice(i + 1),
+		]);
 	};
 	const submitForm = (myFormik) => {
 		Axios.post(`${baseURL}/addMachineModel`, myFormik.values, {
@@ -161,7 +168,7 @@ const Add = ({ refreshTableData }) => {
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
 					<CardLabel icon='Add'>
-						<ModalTitle id='exampleModalLabel'>Add Make</ModalTitle>
+						<ModalTitle id='exampleModalLabel'>Add New Kit</ModalTitle>
 					</CardLabel>
 				</ModalHeader>
 				<ModalBody>
@@ -170,65 +177,7 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
-										<FormGroup label='Machines' id='machine_id'>
-											<ReactSelect
-												className='col-md-12'
-												classNamePrefix='select'
-												options={machineOptions}
-												isLoading={machineOptionsLoading}
-												isClearable
-												value={
-													formik.values.machine_id
-														? machineOptions.find(
-																(c) =>
-																	c.value ===
-																	formik.values.machine_id,
-														  )
-														: null
-												}
-												onChange={(val) => {
-													formik.setFieldValue(
-														'machine_id',
-														val !== null && val.id,
-													);
-												}}
-												isValid={formik.isValid}
-												isTouched={formik.touched.machine_id}
-												invalidFeedback={formik.errors.machine_id}
-												validFeedback='Looks good!'
-												filterOption={createFilter({ matchFrom: 'start' })}
-											/>
-										</FormGroup>
-										<FormGroup label='Makes' id='make_id'>
-											<ReactSelect
-												className='col-md-12'
-												classNamePrefix='select'
-												options={makeOptions}
-												isLoading={makeOptionsLoading}
-												isClearable
-												value={
-													formik.values.make_id
-														? makeOptions.find(
-																(c) =>
-																	c.value ===
-																	formik.values.make_id,
-														  )
-														: null
-												}
-												onChange={(val) => {
-													formik.setFieldValue(
-														'make_id',
-														val !== null && val.id,
-													);
-												}}
-												isValid={formik.isValid}
-												isTouched={formik.touched.make_id}
-												invalidFeedback={formik.errors.make_id}
-												validFeedback='Looks good!'
-												filterOption={createFilter({ matchFrom: 'start' })}
-											/>
-										</FormGroup>
-										<FormGroup id='name' label='Name' className='col-md-12'>
+										<FormGroup id='name' label='Kit Name' className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
@@ -239,6 +188,96 @@ const Add = ({ refreshTableData }) => {
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
+										{formik.values.list.length > 0 &&
+											formik.values.list.map((drListComponents, index) => (
+												<div className='d-flex flex-row align-items-center'>
+													<div className='col-md-5'>
+														<FormGroup
+															label='Item Name'
+															id='machine_id'>
+															<ReactSelect
+																className='col-md-12'
+																classNamePrefix='select'
+																options={machineOptions}
+																isLoading={machineOptionsLoading}
+																isClearable
+																value={
+																	formik.values.machine_id
+																		? machineOptions.find(
+																				(c) =>
+																					c.value ===
+																					formik.values
+																						.machine_id,
+																		  )
+																		: null
+																}
+																onChange={(val) => {
+																	formik.setFieldValue(
+																		'machine_id',
+																		val !== null && val.id,
+																	);
+																}}
+																isValid={formik.isValid}
+																isTouched={
+																	formik.touched.machine_id
+																}
+																invalidFeedback={
+																	formik.errors.machine_id
+																}
+																validFeedback='Looks good!'
+																filterOption={createFilter({
+																	matchFrom: 'start',
+																})}
+															/>
+														</FormGroup>
+													</div>
+													<div
+														className='col-md-5'
+														style={{ marginLeft: 10 }}>
+														<FormGroup
+															id='name'
+															label='Required Quantitiy'
+															className='col-md-12'>
+															<Input
+																onChange={formik.handleChange}
+																onBlur={formik.handleBlur}
+																value={formik.values.name}
+																isValid={formik.isValid}
+																isTouched={formik.touched.name}
+																invalidFeedback={formik.errors.name}
+																validFeedback='Looks good!'
+															/>
+														</FormGroup>
+													</div>
+													<div
+														className='col-md-1 mt-5'
+														style={{ marginLeft: 4 }}>
+														<Button
+															icon='cancel'
+															color='danger'
+															onClick={() => removeRow(index)}
+														/>
+													</div>
+												</div>
+											))}
+										<div className='row g-4' style={{ marginTop: 3 }}>
+											<div className='col-md-4'>
+												<Button
+													color='primary'
+													icon='add'
+													onClick={() => {
+														formik.setFieldValue('list', [
+															...formik.values.list,
+															{
+																name: '',
+																requiredQuantity: '',
+															},
+														]);
+													}}>
+													Add
+												</Button>
+											</div>
+										</div>
 									</div>
 								</div>
 							</CardBody>
