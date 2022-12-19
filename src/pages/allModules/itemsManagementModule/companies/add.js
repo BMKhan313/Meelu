@@ -1,11 +1,11 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
 
 import moment from 'moment';
-import ReactSelect, { createFilter } from 'react-select';
+
 import PropTypes from 'prop-types';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
 import Spinner from '../../../../components/bootstrap/Spinner';
@@ -29,6 +29,7 @@ import Card, {
 
 import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
 import Input from '../../../../components/bootstrap/forms/Input';
+
 import Button from '../../../../components/bootstrap/Button';
 
 const validate = (values) => {
@@ -49,10 +50,7 @@ const Add = ({ refreshTableData }) => {
 	const [centeredStatus, setCenteredStatus] = useState(false);
 	const [fullScreenStatus, setFullScreenStatus] = useState(null);
 	const [animationStatus, setAnimationStatus] = useState(true);
-	const [machineOptions, setMachineOptions] = useState();
-	const [machineOptionsLoading, setMachineOptionsLoading] = useState(false);
-	const [makeOptions, setMakeOptions] = useState();
-	const [makeOptionsLoading, setMakeOptionsLoading] = useState(false);
+
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
 
 	const initialStatus = () => {
@@ -68,8 +66,6 @@ const Add = ({ refreshTableData }) => {
 	const formik = useFormik({
 		initialValues: {
 			name: '',
-			machine_id: '',
-			make_id: '',
 		},
 		validate,
 		onSubmit: () => {
@@ -81,7 +77,7 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	const submitForm = (myFormik) => {
-		Axios.post(`${baseURL}/addMachineModel`, myFormik.values, {
+		Axios.post(`${baseURL}/addCompany`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})
 			.then((res) => {
@@ -103,21 +99,6 @@ const Add = ({ refreshTableData }) => {
 				setIsLoading(false);
 			});
 	};
-	useEffect(() => {
-		Axios.get(`${baseURL}/getMachinesDropDown`)
-			.then((response) => {
-				const rec = response.data.machines.map(({ id, name }) => ({
-					id,
-					value: id,
-					label: name,
-				}));
-				setMachineOptions(rec);
-				setMachineOptionsLoading(false);
-			})
-			// eslint-disable-next-line no-console
-			.catch((err) => {});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 
 	return (
 		<div className='col-auto'>
@@ -148,7 +129,7 @@ const Add = ({ refreshTableData }) => {
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
 					<CardLabel icon='Add'>
-						<ModalTitle id='exampleModalLabel'>Make New Kit</ModalTitle>
+						<ModalTitle id='exampleModalLabel'>Add Company</ModalTitle>
 					</CardLabel>
 				</ModalHeader>
 				<ModalBody>
@@ -157,86 +138,7 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
-										<FormGroup label='Kit Name' id='machine_id'>
-											<ReactSelect
-												className='col-md-12'
-												classNamePrefix='select'
-												options={machineOptions}
-												isLoading={machineOptionsLoading}
-												isClearable
-												value={
-													formik.values.machine_id
-														? machineOptions.find(
-																(c) =>
-																	c.value ===
-																	formik.values.machine_id,
-														  )
-														: null
-												}
-												onChange={(val) => {
-													formik.setFieldValue(
-														'machine_id',
-														val !== null && val.id,
-													);
-												}}
-												isValid={formik.isValid}
-												isTouched={formik.touched.machine_id}
-												invalidFeedback={formik.errors.machine_id}
-												validFeedback='Looks good!'
-												filterOption={createFilter({ matchFrom: 'start' })}
-											/>
-										</FormGroup>
-										<table className='table table-modern my-3'>
-											<thead>
-												<tr>
-													<th>Items</th>
-													<th>Required Quantity</th>
-													<th>Existing Quantity</th>
-												</tr>
-											</thead>
-											{/* {tableDataLoading ? (
-												<tbody>
-													<tr>
-														<td colSpan='12'>
-															<div className='d-flex justify-content-center'>
-																<Spinner
-																	color='primary'
-																	size='3rem'
-																/>
-															</div>
-														</td>
-													</tr>
-												</tbody>
-											) : (
-												<tbody>
-													{store.data.itemsManagementModule.models.tableData.data.map(
-														(item, index) => (
-															<tr key={item.id}>
-																<td>
-																	<Checks
-																		id={item.id.toString()}
-																		name='selectedList'
-																		value={item.id}
-																		onChange={
-																			selectTable.handleChange
-																		}
-																		checked={selectTable.values.selectedList.includes(
-																			item.id.toString(),
-																		)}
-																	/>
-																</td>
-																<td>{index + 1}</td>
-																<td>{item.name}</td>
-															</tr>
-														),
-													)}
-												</tbody>
-											)} */}
-										</table>
-										<FormGroup
-											id='name'
-											label='Kit Quantity'
-											className='col-md-12'>
+										<FormGroup id='name' label='Name' className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
@@ -263,13 +165,13 @@ const Add = ({ refreshTableData }) => {
 								<CardFooterRight>
 									<Button
 										className='me-3'
-										icon={isLoading ? null : 'Submit'}
+										icon={isLoading ? null : 'Save'}
 										isLight
 										color='success'
 										isDisable={isLoading}
 										onClick={formik.handleSubmit}>
 										{isLoading && <Spinner isSmall inButton />}
-										{isLoading ? 'Submiting' : 'Submit'}
+										{isLoading ? 'Saving' : 'Save'}
 									</Button>
 								</CardFooterRight>
 							</CardFooter>

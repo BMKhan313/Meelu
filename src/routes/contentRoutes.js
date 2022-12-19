@@ -205,6 +205,7 @@ const itemsManagementComponents = {
 	MODELS: lazy(() => import('../pages/allModules/itemsManagementModule/models/index')),
 	MACHINES: lazy(() => import('../pages/allModules/itemsManagementModule/machines/index')),
 	MAKE: lazy(() => import('../pages/allModules/itemsManagementModule/make/index')),
+	COMPANIES: lazy(() => import('../pages/allModules/itemsManagementModule/companies/index')),
 };
 const KITMANAGEMENTCOMPONENTS = {
 	DEFINEKIT: lazy(() => import('../pages/allModules/kitManagement/defineKit/index')),
@@ -256,6 +257,11 @@ const itemsManagementRoutes = [
 	{
 		path: itemsManagementModule.itemsManagement.subMenu.make.path,
 		element: <itemsManagementComponents.MAKE />,
+		exact: true,
+	},
+	{
+		path: itemsManagementModule.itemsManagement.subMenu.companies.path,
+		element: <itemsManagementComponents.COMPANIES />,
 		exact: true,
 	},
 ];
