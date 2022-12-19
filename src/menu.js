@@ -51,6 +51,12 @@ export const itemsManagementModule = {
 				path: `${subDir}itemsManagement/machines`,
 				icon: 'ArrowBarUp',
 			},
+			companies: {
+				id: 'companies',
+				text: 'Companies',
+				path: `${subDir}itemsManagement/companies`,
+				icon: 'ArrowBarUp',
+			},
 			make: {
 				id: 'make',
 				text: 'make',

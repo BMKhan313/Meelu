@@ -44,6 +44,14 @@ export const addProjectSlice = createSlice({
 					searchNo: null,
 					others: null,
 				},
+				companies: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
 				make: {
 					tableData: null,
 					tableDataLoading: false,
