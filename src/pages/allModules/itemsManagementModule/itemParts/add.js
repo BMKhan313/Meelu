@@ -42,6 +42,9 @@ const validate = (values) => {
 	if (!values.secondary) {
 		errors.secondary = 'Required';
 	}
+	if (!values.primary) {
+		errors.primary = 'Required';
+	}
 	if (!values.machine) {
 		errors.machine = 'Required';
 	}
@@ -49,13 +52,11 @@ const validate = (values) => {
 		errors.make = 'Required';
 	}
 	if (!values.machine_model_id) {
-		errors.model = 'Required';
+		errors.machine_model_id = 'Required';
 	}
-	if (!values.brand) {
-		errors.brand = 'Required';
-	}
+
 	if (!values.machine_part_id) {
-		errors.item = 'Required';
+		errors.machine_part_id = 'Required';
 	}
 	return errors;
 };
@@ -108,8 +109,9 @@ const Add = ({ refreshTableData }) => {
 
 	const formik = useFormik({
 		initialValues: {
-			name: '',
+	
 			secondary: '',
+			primary: '',
 			machine: '',
 			make: '',
 			machine_model_id: '',
@@ -193,6 +195,25 @@ const Add = ({ refreshTableData }) => {
 
 				}
 			});
+			Axios.get(`${baseURL}/getMachineModelsDropDown`)
+			.then((response) => {
+				const rec = response.data.machineModels.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setModelOptions(rec);
+				setModelOptionsLoading(false);
+			})
+			// eslint-disable-next-line no-console
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+				if (err.response.status === 401) {
+					showNotification(_titleError, err.response.data.message, 'Danger');
+
+
+				}
+			});
 
 
 
@@ -261,7 +282,7 @@ const Add = ({ refreshTableData }) => {
 					<div className='col-12'>
 						<Card stretch tag='form' onSubmit={formik.handleSubmit}>
 							<CardBody>
-								<div className='row g-4 d-flex align-items-end'>
+								<div className='row g-4 '>
 									<div className='col-md-4'>
 										<FormGroup label='Machine' id='machine'>
 											<Select
@@ -371,8 +392,8 @@ const Add = ({ refreshTableData }) => {
 												}}
 												onBlur={formik.handleBlur}
 												isValid={formik.isValid}
-												isTouched={formik.touched.model}
-												invalidFeedback={formik.errors.model}
+												isTouched={formik.touched.machine_model_id}
+												invalidFeedback={formik.errors.machine_model_id}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
@@ -386,7 +407,7 @@ const Add = ({ refreshTableData }) => {
 											</p>
 										)}
 									</div></div><br />
-								<div className='row g-4 d-flex align-items-end'>
+								<div className='row g-4'>
 									<div className='col-md-3'>
 										<FormGroup label='Brand' id='brand'>
 											<Select
@@ -451,8 +472,8 @@ const Add = ({ refreshTableData }) => {
 												}}
 												onBlur={formik.handleBlur}
 												isValid={formik.isValid}
-												isTouched={formik.touched.item}
-												invalidFeedback={formik.errors.item}
+												isTouched={formik.touched.machine_part_id}
+												invalidFeedback={formik.errors.machine_part_id}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
@@ -473,8 +494,8 @@ const Add = ({ refreshTableData }) => {
 												onBlur={formik.handleBlur}
 												value={formik.values.name}
 												isValid={formik.isValid}
-												isTouched={formik.touched.name}
-												invalidFeedback={formik.errors.name}
+												isTouched={formik.touched.primary}
+												invalidFeedback={formik.errors.primary}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
@@ -514,7 +535,7 @@ const Add = ({ refreshTableData }) => {
 														<td><FormGroup id='oem_primary' className='col-md-12'>
 															<Input
 																type="text"
-																onChange={(e) => {
+																onChange={(val) => {
 																	formik.setFieldValue(`list[${index}].oem_primary`, val);
 																}}
 																invalidFeedback={formik.errors[`list[${index}]oem_primary`]}
@@ -526,7 +547,7 @@ const Add = ({ refreshTableData }) => {
 														<td><FormGroup id='oem_secondary' className='col-md-12'>
 															<Input
 																type="text"
-																onChange={(e) => {
+																onChange={(val) => {
 																	formik.setFieldValue(`list[${index}].oem_secondary`, val);
 																}}
 																invalidFeedback={formik.errors[`list[${index}]oem_secondary`]}
