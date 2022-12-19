@@ -37,25 +37,14 @@ import Card, {
 } from '../../../../components/bootstrap/Card';
 import Edit from './edit';
 
-const View = ({
-	tableDataLoading,
-	tableData,
-	refreshTableData,
-	lastRecord,
-	from,
-	total,
-	to,
-	pageNo,
-	setPageNo,
-}) => {
+const View = ({ tableDataLoading, tableData, refreshTableData, lastRecord }) => {
 	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
 	const { selectTable, SelectAllCheck } = useSelectTable(tableData);
-	const [perPage, setPerPage] = useState(
-		Number(store.data.itemsManagementModule.machines.perPage),
-	);
+	const [perPage, setPerPage] = useState(Number(store.data.itemsManagementModule.make.perPage));
+	const [pageNo, setPageNo] = useState(Number(store.data.itemsManagementModule.make.pageNo));
 	const [editingItem, setEditingItem] = useState({});
 	const [itemId, setItemId] = useState('');
 	const [deleteLoading, setDeleteLoading] = useState(false);
@@ -147,7 +136,7 @@ const View = ({
 		[perPage],
 	);
 	const handlePageChange = (e) => {
-		setPageNo(e.target.value);
+		dispatch(updateSingleState([e, 'itemsManagementModule', 'make', 'pageNo']));
 	};
 
 	const pagination = () => {
@@ -290,9 +279,9 @@ const View = ({
 				</table>
 				<PaginationButtons
 					label='make'
-					from={from}
-					to={to}
-					total={total}
+					from={store.data.itemsManagementModule.make.tableData?.from}
+					to={store.data.itemsManagementModule.make.tableData?.to}
+					total={store.data.itemsManagementModule.make.tableData?.total}
 					perPage={perPage}
 					setPerPage={setPerPage}
 				/>
@@ -454,10 +443,6 @@ const View = ({
 View.propTypes = {
 	tableDataLoading: PropTypes.bool.isRequired,
 	lastRecord: PropTypes.number.isRequired,
-	from: PropTypes.number.isRequired,
-	to: PropTypes.number.isRequired,
-	pageNo: PropTypes.number.isRequired,
-	total: PropTypes.number.isRequired,
 	// eslint-disable-next-line react/forbid-prop-types
 	tableData: PropTypes.array.isRequired,
 	refreshTableData: PropTypes.func.isRequired,
