@@ -68,7 +68,7 @@ export const kitModule = {
 	},
 	kitManagementModule: {
 		id: 'kitManagementModule',
-		text: 'Items Management',
+		text: 'Kit Management',
 		path: `${subDir}kitManagement`,
 		icon: 'DirectionsCar',
 		subMenu: {
