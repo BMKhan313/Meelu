@@ -43,20 +43,21 @@ const Categories = () => {
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getMachineModels?records=${store.data.itemsManagementModule.models.perPage}&pageNo=${store.data.itemsManagementModule.models.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getKits?records=${store.data.kitManagement.defineKit.perPage}&pageNo=${store.data.kitManagement.defineKit.pageNo}&colName=id&sort=asc`,
 			{},
 		)
 			.then((response) => {
-				setTableData(response.data.machineModels.data);
-				setTableData2(response.data.machineModels);
-				// console.log('bmk::tbdata::', response.data.machineModels.data);
-				// console.log('bmk::tbdata2::', response.data.machineModels);
+				console.log('myres::', response.data.data.data);
+				setTableData(response.data.data.data);
+				setTableData2(response.data.data);
+				// console.log('bmk::tbdata::', response.data.data.data);
+				// console.log('bmk::tbdata2::', response.data.data);
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.machineModels,
-						'itemsManagementModule',
-						'models',
+						response.data.data,
+						'kitManagement',
+						'defineKit',
 						'tableData',
 					]),
 				);
@@ -70,10 +71,7 @@ const Categories = () => {
 	useEffect(() => {
 		refreshTableData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [
-		store.data.itemsManagementModule.models.perPage,
-		store.data.itemsManagementModule.models.pageNo,
-	]);
+	}, [store.data.kitManagement.defineKit.perPage, store.data.kitManagement.defineKit.pageNo]);
 
 	return (
 		<PageWrapper>

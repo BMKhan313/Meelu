@@ -1,3 +1,7 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable eslint-comments/no-duplicate-disable */
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable camelcase */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
@@ -32,10 +36,25 @@ import Input from '../../../../components/bootstrap/forms/Input';
 import Button from '../../../../components/bootstrap/Button';
 
 const validate = (values) => {
-	const errors = {};
+	let errors = {};
 	if (!values.name) {
 		errors.name = 'Required';
 	}
+
+	values.rows.forEach((data, index) => {
+		if (!data.item_id) {
+			errors = {
+				...errors,
+				[`rows[${index}]item_id`]: 'Please Select Drop Down Item',
+			};
+		}
+		if (!data.quantity) {
+			errors = {
+				...errors,
+				[`rows[${index}]quantity`]: 'Please provide Quantity',
+			};
+		}
+	});
 	return errors;
 };
 
@@ -68,8 +87,7 @@ const Add = ({ refreshTableData }) => {
 	const formik = useFormik({
 		initialValues: {
 			name: '',
-			make_id: '',
-			list: [{ kit_id: '', requiredQuantity: '' }],
+			rows: [{ item_id: '', quantity: '' }],
 		},
 		validate,
 		onSubmit: () => {
@@ -81,13 +99,13 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	const removeRow = (i) => {
-		formik.setFieldValue('list', [
-			...formik.values.list.slice(0, i),
-			...formik.values.list.slice(i + 1),
+		formik.setFieldValue('rows', [
+			...formik.values.rows.slice(0, i),
+			...formik.values.rows.slice(i + 1),
 		]);
 	};
 	const submitForm = (myFormik) => {
-		Axios.post(`${baseURL}/addMachineModel`, myFormik.values, {
+		Axios.post(`${baseURL}/addKit`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})
 			.then((res) => {
@@ -110,12 +128,13 @@ const Add = ({ refreshTableData }) => {
 			});
 	};
 	useEffect(() => {
-		Axios.get(`${baseURL}/getMachinesDropDown`)
+		Axios.get(`${baseURL}/kitItemDropdown`)
 			.then((response) => {
-				const rec = response.data.machines.map(({ id, name }) => ({
+				// console.log('bmmmmkkkk::', response.data);
+				const rec = response.data.data.map(({ id, machine_part_oem_part }) => ({
 					id,
 					value: id,
-					label: name,
+					label: `${machine_part_oem_part.oem_part_number.number1}-${machine_part_oem_part.machine_part.name}`,
 				}));
 				setKitOptions(rec);
 				setKitOptionsLoading(false);
@@ -123,19 +142,19 @@ const Add = ({ refreshTableData }) => {
 			// eslint-disable-next-line no-console
 			.catch((err) => {});
 
-		Axios.get(`${baseURL}/getMakesDropDown`)
-			.then((response) => {
-				const rec = response.data.makes.map(({ id, name }) => ({
-					id,
-					value: id,
-					label: name,
-				}));
-				setMakeOptions(rec);
-				setMakeOptionsLoading(false);
-			})
-			// eslint-disable-next-line no-console
-			.catch((err) => {});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// Axios.get(`${baseURL}/getMakesDropDown`)
+		// 	.then((response) => {
+		// 		const rec = response.data.makes.map(({ id, name }) => ({
+		// 			id,
+		// 			value: id,
+		// 			label: name,
+		// 		}));
+		// 		setMakeOptions(rec);
+		// 		setMakeOptionsLoading(false);
+		// 	})
+		// 	// eslint-disable-next-line no-console
+		// 	.catch((err) => {});
+		// // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
@@ -193,24 +212,24 @@ const Add = ({ refreshTableData }) => {
 											style={{ overflow: 'scrollY' }}>
 											<thead>
 												<tr className='row mt-2' style={{ marginLeft: 2 }}>
-													<th className='col-5 col-sm-5 col-md-6'>
+													<th className='col-6 col-sm-5 col-md-6'>
 														Items Name
 													</th>
-													<th className='col-5 col-sm-5 col-md-5'>
+													<th className='col-4 col-sm-5 col-md-5'>
 														Required Quantity
 													</th>
 												</tr>
 											</thead>
 											<tbody>
-												{formik.values.list.length > 0 &&
-													formik.values.list.map((items, index) => (
+												{formik.values.rows.length > 0 &&
+													formik.values.rows.map((items, index) => (
 														<tr
 															className='d-flex align-items-center'
-															key={formik.values.list[index].kit_id}>
-															<td className='col-5 col-sm-5 col-md-7'>
+															key={formik.values.rows[index].item_id}>
+															<td className='col-6 col-sm-6 col-md-7'>
 																<FormGroup
 																	label=''
-																	id={`list[${index}].kit_id`}>
+																	id={`rows[${index}].item_id`}>
 																	<ReactSelect
 																		className='col-md-12'
 																		classNamePrefix='select'
@@ -220,35 +239,35 @@ const Add = ({ refreshTableData }) => {
 																		}
 																		isClearable
 																		value={
-																			formik.values.list[
+																			formik.values.rows[
 																				index
-																			].kit_id
+																			].item_id
 																				? kitOptions.find(
 																						(c) =>
 																							c.value ===
 																							formik
 																								.values
-																								.list[
+																								.rows[
 																								index
 																							]
-																								.kit_id,
+																								.item_id,
 																				  )
 																				: null
 																		}
 																		onChange={(val) => {
 																			formik.setFieldValue(
-																				`list[${index}].kit_id`,
+																				`rows[${index}].item_id`,
 																				val !== null &&
 																					val.id,
 																			);
 																		}}
 																		isValid={formik.isValid}
 																		isTouched={
-																			formik.touched.kit_id
+																			formik.touched.item_id
 																		}
 																		invalidFeedback={
 																			formik.errors[
-																				`list[${index}].kit_id`
+																				`rows[${index}].item_id`
 																			]
 																		}
 																		validFeedback='Looks good!'
@@ -257,12 +276,27 @@ const Add = ({ refreshTableData }) => {
 																		})}
 																	/>
 																</FormGroup>
+																{formik.errors[
+																	`rows[${index}]item_id`
+																] && (
+																	// <div className='invalid-feedback'>
+																	<p
+																		style={{
+																			color: 'red',
+																		}}>
+																		{
+																			formik.errors[
+																				`rows[${index}]item_id`
+																			]
+																		}
+																	</p>
+																)}
 															</td>
 															<td
-																className='col-5 col-sm-5 col-md-4'
-																style={{ marginLeft: 10 }}>
+																className='col-4 col-sm-4 col-md-4'
+																style={{ marginLeft: 3 }}>
 																<FormGroup
-																	id={`list[${index}].requiredQuantity`}
+																	id={`rows[${index}].quantity`}
 																	label=''
 																	className='col-md-12'>
 																	<Input
@@ -270,21 +304,32 @@ const Add = ({ refreshTableData }) => {
 																			formik.handleChange
 																		}
 																		onBlur={formik.handleBlur}
-																		value={
-																			items.requiredQuantity
-																		}
+																		value={items.quantity}
 																		isValid={formik.isValid}
 																		isTouched={
-																			formik.touched
-																				.requiredQuantity
+																			formik.touched.quantity
 																		}
 																		invalidFeedback={
-																			formik.errors
-																				.requiredQuantity
+																			formik.errors.quantity
 																		}
 																		validFeedback='Looks good!'
 																	/>
 																</FormGroup>
+																{formik.errors[
+																	`rows[${index}]quantity`
+																] && (
+																	// <div className='invalid-feedback'>
+																	<p
+																		style={{
+																			color: 'red',
+																		}}>
+																		{
+																			formik.errors[
+																				`rows[${index}]quantity`
+																			]
+																		}
+																	</p>
+																)}
 															</td>
 															<td className='col-md-1 mt-1'>
 																<Button
@@ -304,11 +349,11 @@ const Add = ({ refreshTableData }) => {
 													color='primary'
 													icon='add'
 													onClick={() => {
-														formik.setFieldValue('list', [
-															...formik.values.list,
+														formik.setFieldValue('rows', [
+															...formik.values.rows,
 															{
 																name: '',
-																requiredQuantity: '',
+																quantity: '',
 															},
 														]);
 													}}>

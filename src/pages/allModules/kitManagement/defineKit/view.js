@@ -41,7 +41,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
-	const [perPage, setPerPage] = useState(Number(store.data.itemsManagementModule.models.perPage));
+	const [perPage, setPerPage] = useState(Number(store.data.kitManagement.defineKit.perPage));
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
 	const { selectTable, SelectAllCheck } = useSelectTable(tableData);
 
@@ -130,14 +130,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 	useEffect(
 		() => {
-			dispatch(updateSingleState([perPage, 'itemsManagementModule', 'model', 'perPage']));
+			dispatch(updateSingleState([perPage, 'kitManagement', 'defineKit', 'perPage']));
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[perPage],
 	);
 
 	const handlePageChange = (e) => {
-		dispatch(updateSingleState([e, 'itemsManagementModule', 'model', 'pageNo']));
+		dispatch(updateSingleState([e, 'kitManagement', 'defineKit', 'pageNo']));
 	};
 
 	return (
@@ -164,7 +164,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.itemsManagementModule.models.tableData.data.map(
+							{store.data.kitManagement.defineKit.tableData.data.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
@@ -245,9 +245,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 				<PaginationButtons
 					label='make'
-					from={store.data.itemsManagementModule.models.tableData?.from ?? 1}
-					to={store.data.itemsManagementModule.models.tableData?.to ?? 1}
-					total={store.data.itemsManagementModule.models.tableData?.total ?? 0}
+					from={store.data.kitManagement.defineKit.tableData?.from ?? 1}
+					to={store.data.kitManagement.defineKit.tableData?.to ?? 1}
+					total={store.data.kitManagement.defineKit.tableData?.total ?? 0}
 					perPage={Number(perPage ?? 10)}
 					setPerPage={setPerPage}
 				/>
@@ -255,12 +255,12 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<div className='row d-flex justify-content-end'>
 					<div className='col-3'>
 						<Pagination
-							activePage={store.data.itemsManagementModule.models?.pageNo ?? 1}
+							activePage={store.data.kitManagement.defineKit?.pageNo ?? 1}
 							totalItemsCount={
-								store.data.itemsManagementModule.models?.tableData?.total ?? 0
+								store.data.kitManagement.defineKit?.tableData?.total ?? 0
 							}
 							itemsCountPerPage={Number(
-								store.data.itemsManagementModule.models?.perPage ?? 10,
+								store.data.kitManagement.defineKit?.perPage ?? 10,
 							)}
 							onChange={(e) => handlePageChange(e)}
 							itemClass='page-item'
