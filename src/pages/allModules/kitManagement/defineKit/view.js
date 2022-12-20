@@ -106,7 +106,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 
 	const deleteItem = (id) => {
-		Axios.delete(`${baseURL}/deleteMachineModel?id=${id}`)
+		Axios.delete(`${baseURL}/deleteKits?id=${id}`)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					showNotification('Deleted', res.data.message, 'success');
@@ -302,8 +302,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<Card>
 								<CardBody>
 									<h5>
-										Are you sure, you want to delete the selected Machine Model?{' '}
-										<br />
+										Are you sure, you want to delete the selected Kit? <br />
 										This cannot be undone!
 									</h5>
 								</CardBody>
