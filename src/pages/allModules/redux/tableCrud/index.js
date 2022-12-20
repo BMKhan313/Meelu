@@ -10,6 +10,16 @@ export const addProjectSlice = createSlice({
 					parameter: 10,
 				},
 			},
+			kitManagement: {
+				defineKit: {
+					tableData: [],
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
+			},
 			// itemsManagementModule
 			itemsManagementModule: {
 				itemParts: {
