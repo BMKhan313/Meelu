@@ -106,7 +106,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 
 	const deleteItem = (id) => {
-		Axios.delete(`${baseURL}/deleteKits?id=${id}`)
+		Axios.delete(`${baseURL}/deletKits?id=${id}`)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					showNotification('Deleted', res.data.message, 'success');
@@ -231,6 +231,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 													<DropdownMenu isAlignmentEnd>
 														<DropdownItem isHeader>
 															Actions
+														</DropdownItem>
+														<DropdownItem
+														// onClick={() => {
+														// 	setChildModal(true);
+														// 	getChildData(item.id);
+														// }}
+														>
+															View
 														</DropdownItem>
 													</DropdownMenu>
 												</Dropdown>

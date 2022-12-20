@@ -47,7 +47,7 @@ const Categories = () => {
 			{},
 		)
 			.then((response) => {
-				console.log('myres::', response.data.data.data);
+				// console.log('myres::', response.data.data.data);
 				setTableData(response.data.data.data);
 				setTableData2(response.data.data);
 				// console.log('bmk::tbdata::', response.data.data.data);
