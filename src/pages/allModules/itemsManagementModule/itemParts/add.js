@@ -40,11 +40,11 @@ import Button from '../../../../components/bootstrap/Button';
 const validate = (values) => {
 	const errors = {};
 
-	if (!values.secondary) {
-		errors.secondary = 'Required';
+	if (!values.number2) {
+		errors.number2 = 'Required';
 	}
-	if (!values.primary) {
-		errors.primary = 'Required';
+	if (!values.number1) {
+		errors.number1 = 'Required';
 	}
 	if (!values.machine) {
 		errors.machine = 'Required';
@@ -109,15 +109,15 @@ const Add = ({ refreshTableData }) => {
 
 	const formik = useFormik({
 		initialValues: {
-			secondary: '',
-			primary: '',
+			number2: '',
+			number1: '',
 			machine: '',
 			make: '',
 			machine_model_id: '',
 			brand: '',
 			machine_part_id: '',
 
-			list: [],
+			rows: [],
 		},
 		validate,
 		onSubmit: () => {
@@ -133,12 +133,13 @@ const Add = ({ refreshTableData }) => {
 			.then((response) => {
 				const rec = response.data.companies.map(({ id, name }) => ({
 					id,
+					company_id: id,
 					value: id,
 					label: name,
-					oem_primary: '',
-					oem_secondary: '',
+					number1: '',
+					number2: '',
 				}));
-				formik.setFieldValue('list', rec);
+				formik.setFieldValue('rows', rec);
 			})
 
 			// eslint-disable-next-line no-console
@@ -221,7 +222,7 @@ const Add = ({ refreshTableData }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	const submitForm = (myFormik) => {
-		Axios.post(`${baseURL}/addMake`, myFormik.values, {
+		Axios.post(`${baseURL}/addModelItemOem`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})
 			.then((res) => {
@@ -485,7 +486,7 @@ const Add = ({ refreshTableData }) => {
 									</div>
 									<div className='col-md-3'>
 										<FormGroup
-											id='primary'
+											id='number1'
 											label='Primary'
 											className='col-md-12'>
 											<Input
@@ -493,24 +494,24 @@ const Add = ({ refreshTableData }) => {
 												onBlur={formik.handleBlur}
 												value={formik.values.name}
 												isValid={formik.isValid}
-												isTouched={formik.touched.primary}
-												invalidFeedback={formik.errors.primary}
+												isTouched={formik.touched.number1}
+												invalidFeedback={formik.errors.number1}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
 									</div>
 									<div className='col-md-3'>
 										<FormGroup
-											id='secondary'
+											id='number2'
 											label='Secondary'
 											className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
-												value={formik.values.secondary}
+												value={formik.values.number2}
 												isValid={formik.isValid}
-												isTouched={formik.touched.secondary}
-												invalidFeedback={formik.errors.secondary}
+												isTouched={formik.touched.number2}
+												invalidFeedback={formik.errors.number2}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
@@ -528,48 +529,48 @@ const Add = ({ refreshTableData }) => {
 										</thead>
 
 										<tbody>
-											{formik.values.list?.map((item, index) => (
+											{formik.values.rows?.map((item, index) => (
 												<tr key={item.id}>
 													<td>{item.label}</td>
 													<td>
 														<FormGroup
-															id='oem_primary'
+															id='number1'
 															className='col-md-12'>
 															<Input
 																type='text'
 																onChange={(val) => {
 																	formik.setFieldValue(
-																		`list[${index}].oem_primary`,
+																		`rows[${index}].number1`,
 																		val.target.value,
 																	);
 																}}
 																invalidFeedback={
 																	formik.errors[
-																		`list[${index}]oem_primary`
+																		`rows[${index}]number1`
 																	]
 																}
-																value={item.oem_primary}
+																value={item.number1}
 															/>
 														</FormGroup>
 													</td>
 													<td>
 														<FormGroup
-															id='oem_secondary'
+															id='number2'
 															className='col-md-12'>
 															<Input
 																type='text'
 																onChange={(val) => {
 																	formik.setFieldValue(
-																		`list[${index}].oem_secondary`,
+																		`rows[${index}].number2`,
 																		val.target.value,
 																	);
 																}}
 																invalidFeedback={
 																	formik.errors[
-																		`list[${index}]oem_secondary`
+																		`rows[${index}]number2`
 																	]
 																}
-																value={item.oem_secondary}
+																value={item.number2}
 															/>
 														</FormGroup>
 													</td>
