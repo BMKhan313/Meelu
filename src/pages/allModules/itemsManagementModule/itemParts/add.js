@@ -35,7 +35,6 @@ import Card, {
 import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
 import Input from '../../../../components/bootstrap/forms/Input';
 
-
 import Button from '../../../../components/bootstrap/Button';
 
 const validate = (values) => {
@@ -70,7 +69,6 @@ const Add = ({ refreshTableData }) => {
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
-
 
 	const [state, setState] = useState(false);
 
@@ -111,7 +109,6 @@ const Add = ({ refreshTableData }) => {
 
 	const formik = useFormik({
 		initialValues: {
-
 			secondary: '',
 			primary: '',
 			machine: '',
@@ -120,7 +117,7 @@ const Add = ({ refreshTableData }) => {
 			brand: '',
 			machine_part_id: '',
 
-			list: []
+			list: [],
 		},
 		validate,
 		onSubmit: () => {
@@ -132,7 +129,6 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	useEffect(() => {
-
 		Axios.get(`${baseURL}/getCompaniesDropDown`)
 			.then((response) => {
 				const rec = response.data.companies.map(({ id, name }) => ({
@@ -141,13 +137,8 @@ const Add = ({ refreshTableData }) => {
 					label: name,
 					oem_primary: '',
 					oem_secondary: '',
-
 				}));
-				formik.setFieldValue(
-					'list',
-					rec,
-				);
-
+				formik.setFieldValue('list', rec);
 			})
 
 			// eslint-disable-next-line no-console
@@ -155,12 +146,9 @@ const Add = ({ refreshTableData }) => {
 				showNotification(_titleError, err.message, 'Danger');
 				if (err.response.status === 401) {
 					showNotification(_titleError, err.response.data.message, 'Danger');
-
-
 				}
 			});
-			
-			
+
 		Axios.get(`${baseURL}/getMachinesDropDown`)
 			.then((response) => {
 				const rec = response.data.machines.map(({ id, name }) => ({
@@ -176,16 +164,14 @@ const Add = ({ refreshTableData }) => {
 				showNotification(_titleError, err.message, 'Danger');
 				if (err.response.status === 401) {
 					showNotification(_titleError, err.response.data.message, 'Danger');
-
-
 				}
 			});
-			Axios.get(`${baseURL}/kitItemDropdown`)
+		Axios.get(`${baseURL}/getMachinePartsDropDown`)
 			.then((response) => {
-				const rec = response.data.data.map(({ id, machine_part_oem_part }) => ({
+				const rec = response.data.machine_Parts.map(({ id, name }) => ({
 					id,
 					value: id,
-					label: `${machine_part_oem_part.oem_part_number.number1}: ${machine_part_oem_part.machine_part.name}`,
+					label: name,
 				}));
 				setItemOptions(rec);
 				setItemOptionsLoading(false);
@@ -195,8 +181,6 @@ const Add = ({ refreshTableData }) => {
 				showNotification(_titleError, err.message, 'Danger');
 				if (err.response.status === 401) {
 					showNotification(_titleError, err.response.data.message, 'Danger');
-
-
 				}
 			});
 		Axios.get(`${baseURL}/getMakesDropDown`)
@@ -214,8 +198,6 @@ const Add = ({ refreshTableData }) => {
 				showNotification(_titleError, err.message, 'Danger');
 				if (err.response.status === 401) {
 					showNotification(_titleError, err.response.data.message, 'Danger');
-
-
 				}
 			});
 		Axios.get(`${baseURL}/getMachineModelsDropDown`)
@@ -233,12 +215,8 @@ const Add = ({ refreshTableData }) => {
 				showNotification(_titleError, err.message, 'Danger');
 				if (err.response.status === 401) {
 					showNotification(_titleError, err.response.data.message, 'Danger');
-
-
 				}
 			});
-
-
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -264,7 +242,6 @@ const Add = ({ refreshTableData }) => {
 
 				setIsLoading(false);
 			});
-
 	};
 
 	return (
@@ -298,8 +275,6 @@ const Add = ({ refreshTableData }) => {
 					<CardLabel icon='Add'>
 						<ModalTitle id='exampleModalLabel'>Add Make</ModalTitle>
 					</CardLabel>
-
-
 				</ModalHeader>
 				<ModalBody>
 					<div className='col-12'>
@@ -313,15 +288,14 @@ const Add = ({ refreshTableData }) => {
 												classNamePrefix='select'
 												options={machineOptions}
 												isLoading={machineOptionsLoading}
-
 												isClearable
 												value={
 													formik.values.machine
 														? machineOptions?.find(
-															(c) =>
-																c.value ===
-																formik.values.machine,
-														)
+																(c) =>
+																	c.value ===
+																	formik.values.machine,
+														  )
 														: null
 												}
 												onChange={(val) => {
@@ -346,7 +320,6 @@ const Add = ({ refreshTableData }) => {
 												{formik.errors.machine}
 											</p>
 										)}
-
 									</div>
 
 									<div className='col-md-4'>
@@ -360,10 +333,9 @@ const Add = ({ refreshTableData }) => {
 												value={
 													formik.values.machine
 														? machineOptions?.find(
-															(c) =>
-																c.value ===
-																formik.values.make,
-														)
+																(c) =>
+																	c.value === formik.values.make,
+														  )
 														: null
 												}
 												onChange={(val) => {
@@ -388,7 +360,6 @@ const Add = ({ refreshTableData }) => {
 												{formik.errors.make}
 											</p>
 										)}
-
 									</div>
 									<div className='col-md-4'>
 										<FormGroup label='Model' id='machine_model_id'>
@@ -401,10 +372,10 @@ const Add = ({ refreshTableData }) => {
 												value={
 													formik.values.machine_model_id
 														? modelOptions?.find(
-															(c) =>
-																c.value ===
-																formik.values.machine_model_id,
-														)
+																(c) =>
+																	c.value ===
+																	formik.values.machine_model_id,
+														  )
 														: null
 												}
 												onChange={(val) => {
@@ -429,7 +400,9 @@ const Add = ({ refreshTableData }) => {
 												{formik.errors.machine_model_id}
 											</p>
 										)}
-									</div></div><br />
+									</div>
+								</div>
+								<br />
 								<div className='row g-4'>
 									<div className='col-md-3'>
 										<FormGroup label='Brand' id='brand'>
@@ -442,10 +415,9 @@ const Add = ({ refreshTableData }) => {
 												value={
 													formik.values.brand
 														? brandOptions?.find(
-															(c) =>
-																c.value ===
-																formik.values.brand,
-														)
+																(c) =>
+																	c.value === formik.values.brand,
+														  )
 														: null
 												}
 												onChange={(val) => {
@@ -482,9 +454,10 @@ const Add = ({ refreshTableData }) => {
 												value={
 													formik.values.machine_part_id
 														? itemOptions?.find(
-															(c) =>
-																c.value === formik.values.machine_part_id,
-														)
+																(c) =>
+																	c.value ===
+																	formik.values.machine_part_id,
+														  )
 														: null
 												}
 												onChange={(val) => {
@@ -511,7 +484,10 @@ const Add = ({ refreshTableData }) => {
 										)}
 									</div>
 									<div className='col-md-3'>
-										<FormGroup id='Primary' label='Primary' className='col-md-12'>
+										<FormGroup
+											id='primary'
+											label='Primary'
+											className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
@@ -524,7 +500,10 @@ const Add = ({ refreshTableData }) => {
 										</FormGroup>
 									</div>
 									<div className='col-md-3'>
-										<FormGroup id='secondary' label='Secondary' className='col-md-12'>
+										<FormGroup
+											id='secondary'
+											label='Secondary'
+											className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
@@ -536,12 +515,12 @@ const Add = ({ refreshTableData }) => {
 											/>
 										</FormGroup>
 									</div>
-								</div><br />
+								</div>
+								<br />
 								<div className='table-responsive'>
 									<table className='table table-modern'>
 										<thead>
 											<tr>
-
 												<th>Company </th>
 												<th>Primary</th>
 												<th>Secondary</th>
@@ -549,44 +528,54 @@ const Add = ({ refreshTableData }) => {
 										</thead>
 
 										<tbody>
-											{formik.values.list?.map(
-												(item, index) => (
-													<tr key={item.id}>
-
-
-														<td>{item.label}</td>
-														<td><FormGroup id='oem_primary' className='col-md-12'>
+											{formik.values.list?.map((item, index) => (
+												<tr key={item.id}>
+													<td>{item.label}</td>
+													<td>
+														<FormGroup
+															id='oem_primary'
+															className='col-md-12'>
 															<Input
-																type="text"
+																type='text'
 																onChange={(val) => {
-																	formik.setFieldValue(`list[${index}].oem_primary`, val.target.value);
+																	formik.setFieldValue(
+																		`list[${index}].oem_primary`,
+																		val.target.value,
+																	);
 																}}
-																invalidFeedback={formik.errors[`list[${index}]oem_primary`]}
-
+																invalidFeedback={
+																	formik.errors[
+																		`list[${index}]oem_primary`
+																	]
+																}
 																value={item.oem_primary}
-
 															/>
-														</FormGroup></td>
-														<td><FormGroup id='oem_secondary' className='col-md-12'>
+														</FormGroup>
+													</td>
+													<td>
+														<FormGroup
+															id='oem_secondary'
+															className='col-md-12'>
 															<Input
-																type="text"
+																type='text'
 																onChange={(val) => {
-																	formik.setFieldValue(`list[${index}].oem_secondary`, val.target.value);
+																	formik.setFieldValue(
+																		`list[${index}].oem_secondary`,
+																		val.target.value,
+																	);
 																}}
-																invalidFeedback={formik.errors[`list[${index}]oem_secondary`]}
-
+																invalidFeedback={
+																	formik.errors[
+																		`list[${index}]oem_secondary`
+																	]
+																}
 																value={item.oem_secondary}
-
 															/>
-														</FormGroup></td>
-
-													</tr>
-												),
-											)}
-
+														</FormGroup>
+													</td>
+												</tr>
+											))}
 										</tbody>
-
-
 									</table>
 								</div>
 							</CardBody>
