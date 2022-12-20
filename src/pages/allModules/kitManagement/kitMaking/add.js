@@ -122,6 +122,7 @@ const Add = ({ refreshTableData }) => {
 						value: id,
 						name: `${item_oem_part_modeles.machine_part_oem_part.oem_part_number.number1}-${item_oem_part_modeles.machine_part_oem_part.machine_part.name}`,
 						reqQty: quantity,
+						exisQty: 0,
 					}),
 				);
 				console.log('rec', rec);
@@ -266,7 +267,7 @@ const Add = ({ refreshTableData }) => {
 														<tr key={item.id}>
 															<td>{item.name}</td>
 															<td>{item.reqQty}</td>
-															<td>0</td>
+															<td>{item.exisQty}</td>
 														</tr>
 													))}
 												</tbody>
