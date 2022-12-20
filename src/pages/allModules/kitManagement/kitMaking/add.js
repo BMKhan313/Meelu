@@ -1,5 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
@@ -15,6 +17,8 @@ import Modal, {
 	ModalHeader,
 	ModalTitle,
 } from '../../../../components/bootstrap/Modal';
+// eslint-disable-next-line import/no-unresolved
+
 import showNotification from '../../../../components/extras/showNotification';
 import { _titleSuccess, _titleError } from '../../../../notifyMessages/erroSuccess';
 
@@ -36,6 +40,9 @@ const validate = (values) => {
 	if (!values.name) {
 		errors.name = 'Required';
 	}
+	if (!values.kit_name) {
+		errors.kit_name = 'Required';
+	}
 	return errors;
 };
 
@@ -51,8 +58,8 @@ const Add = ({ refreshTableData }) => {
 	const [animationStatus, setAnimationStatus] = useState(true);
 	const [machineOptions, setMachineOptions] = useState();
 	const [machineOptionsLoading, setMachineOptionsLoading] = useState(false);
-	const [makeOptions, setMakeOptions] = useState();
-	const [makeOptionsLoading, setMakeOptionsLoading] = useState(false);
+	const [tableDataLoading, setTableDataLoading] = useState(false);
+	const [tableData, setTableData] = useState([]);
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
 
 	const initialStatus = () => {
@@ -68,8 +75,7 @@ const Add = ({ refreshTableData }) => {
 	const formik = useFormik({
 		initialValues: {
 			name: '',
-			machine_id: '',
-			make_id: '',
+			kit_name: '',
 		},
 		validate,
 		onSubmit: () => {
@@ -103,10 +109,30 @@ const Add = ({ refreshTableData }) => {
 				setIsLoading(false);
 			});
 	};
-	useEffect(() => {
-		Axios.get(`${baseURL}/getMachinesDropDown`)
+	const handleChange = () => {
+		setTableDataLoading(true);
+		Axios.get(`${baseURL}/getItemsInventory?colName=id&sort=asc`, {})
 			.then((response) => {
-				const rec = response.data.machines.map(({ id, name }) => ({
+				const rec = response.data.data.map(
+					({ id, item_details, quantity_in, quantity_out }) => ({
+						id,
+						value: id,
+						label: `${item_details.machine_part_oem_part.machine_part.name}`,
+						label3: quantity_in - quantity_out,
+					}),
+				);
+				setTableData(rec);
+				setTableDataLoading(false);
+			})
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+			});
+		console.log('data', tableData);
+	};
+	useEffect(() => {
+		Axios.get(`${baseURL}/getkitsDropdown`)
+			.then((response) => {
+				const rec = response.data.kitsDropdown.map(({ id, name }) => ({
 					id,
 					value: id,
 					label: name,
@@ -157,7 +183,7 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
-										<FormGroup label='Kit Name' id='machine_id'>
+										<FormGroup label='Kit Name' id='kit_name'>
 											<ReactSelect
 												className='col-md-12'
 												classNamePrefix='select'
@@ -165,74 +191,37 @@ const Add = ({ refreshTableData }) => {
 												isLoading={machineOptionsLoading}
 												isClearable
 												value={
-													formik.values.machine_id
+													formik.values.kit_name
 														? machineOptions.find(
 																(c) =>
 																	c.value ===
-																	formik.values.machine_id,
+																	formik.values.kit_name,
 														  )
 														: null
 												}
 												onChange={(val) => {
 													formik.setFieldValue(
-														'machine_id',
+														'kit_name',
 														val !== null && val.id,
 													);
+													handleChange();
 												}}
 												isValid={formik.isValid}
-												isTouched={formik.touched.machine_id}
-												invalidFeedback={formik.errors.machine_id}
+												isTouched={formik.touched.kit_name}
+												invalidFeedback={formik.errors.kit_name}
 												validFeedback='Looks good!'
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
-										<table className='table table-modern my-3'>
-											<thead>
-												<tr>
-													<th>Items</th>
-													<th>Required Quantity</th>
-													<th>Existing Quantity</th>
-												</tr>
-											</thead>
-											{/* {tableDataLoading ? (
-												<tbody>
-													<tr>
-														<td colSpan='12'>
-															<div className='d-flex justify-content-center'>
-																<Spinner
-																	color='primary'
-																	size='3rem'
-																/>
-															</div>
-														</td>
-													</tr>
-												</tbody>
-											) : (
-												<tbody>
-													{store.data.itemsManagementModule.models.tableData.data.map(
-														(item, index) => (
-															<tr key={item.id}>
-																<td>
-																	<Checks
-																		id={item.id.toString()}
-																		name='selectedList'
-																		value={item.id}
-																		onChange={
-																			selectTable.handleChange
-																		}
-																		checked={selectTable.values.selectedList.includes(
-																			item.id.toString(),
-																		)}
-																	/>
-																</td>
-																<td>{index + 1}</td>
-																<td>{item.name}</td>
-															</tr>
-														),
-													)}
-												</tbody>
-											)} */}
-										</table>
+										{formik.errors.kit_name && (
+											// <div className='invalid-feedback'>
+											<p
+												style={{
+													color: 'red',
+												}}>
+												{formik.errors.kit_name}
+											</p>
+										)}
 										<FormGroup
 											id='name'
 											label='Kit Quantity'
@@ -247,6 +236,39 @@ const Add = ({ refreshTableData }) => {
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
+										<table className='table table-modern my-3'>
+											<thead>
+												<tr>
+													<th>Items</th>
+													<th>Required Quantity</th>
+													<th>Exisiting Quantity</th>
+												</tr>
+											</thead>
+											{tableDataLoading ? (
+												<tbody>
+													<tr>
+														<td colSpan='12'>
+															<div className='d-flex justify-content-center'>
+																<Spinner
+																	color='primary'
+																	size='3rem'
+																/>
+															</div>
+														</td>
+													</tr>
+												</tbody>
+											) : (
+												<tbody>
+													{tableData.map((item) => (
+														<tr key={item.id}>
+															<td>{item.label}</td>
+															<td>0</td>
+															<td>{item.label3}</td>
+														</tr>
+													))}
+												</tbody>
+											)}
+										</table>
 									</div>
 								</div>
 							</CardBody>

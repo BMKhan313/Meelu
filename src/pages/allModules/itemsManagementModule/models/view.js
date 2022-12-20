@@ -148,6 +148,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						<tr>
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
+							<th>Machine</th>
+							<th>Make</th>
 							<th>Name</th>
 							<th>Actions</th>
 						</tr>
@@ -179,6 +181,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 											/>
 										</td>
 										<td>{index + 1}</td>
+										<td>{item.machine.name}</td>
+										<td>{item.make.name}</td>
 										<td>{item.name}</td>
 
 										<td>

@@ -184,6 +184,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData, lastRecord }) => 
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
 							<th>Name</th>
+
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -214,6 +215,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData, lastRecord }) => 
 											/>
 										</td>
 										<td>{index + 1}</td>
+
 										<td>{item.name}</td>
 
 										<td>
