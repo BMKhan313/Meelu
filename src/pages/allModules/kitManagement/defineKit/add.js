@@ -49,8 +49,8 @@ const Add = ({ refreshTableData }) => {
 	const [centeredStatus, setCenteredStatus] = useState(false);
 	const [fullScreenStatus, setFullScreenStatus] = useState(null);
 	const [animationStatus, setAnimationStatus] = useState(true);
-	const [machineOptions, setMachineOptions] = useState();
-	const [machineOptionsLoading, setMachineOptionsLoading] = useState(false);
+	const [kitOptions, setKitOptions] = useState();
+	const [kitOptionsLoading, setKitOptionsLoading] = useState(false);
 	const [makeOptions, setMakeOptions] = useState();
 	const [makeOptionsLoading, setMakeOptionsLoading] = useState(false);
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
@@ -68,9 +68,8 @@ const Add = ({ refreshTableData }) => {
 	const formik = useFormik({
 		initialValues: {
 			name: '',
-			machine_id: '',
 			make_id: '',
-			list: [{ name: '', requiredQuantity: '' }],
+			list: [{ kit_id: '', requiredQuantity: '' }],
 		},
 		validate,
 		onSubmit: () => {
@@ -118,8 +117,8 @@ const Add = ({ refreshTableData }) => {
 					value: id,
 					label: name,
 				}));
-				setMachineOptions(rec);
-				setMachineOptionsLoading(false);
+				setKitOptions(rec);
+				setKitOptionsLoading(false);
 			})
 			// eslint-disable-next-line no-console
 			.catch((err) => {});
@@ -188,79 +187,118 @@ const Add = ({ refreshTableData }) => {
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
-										{formik.values.list.length > 0 &&
-											formik.values.list.map((drListComponents, index) => (
-												<div className='d-flex flex-row align-items-center'>
-													<div className='col-md-5'>
-														<FormGroup
-															label='Item Name'
-															id='machine_id'>
-															<ReactSelect
-																className='col-md-12'
-																classNamePrefix='select'
-																options={machineOptions}
-																isLoading={machineOptionsLoading}
-																isClearable
-																value={
-																	formik.values.machine_id
-																		? machineOptions.find(
-																				(c) =>
-																					c.value ===
-																					formik.values
-																						.machine_id,
-																		  )
-																		: null
-																}
-																onChange={(val) => {
-																	formik.setFieldValue(
-																		'machine_id',
-																		val !== null && val.id,
-																	);
-																}}
-																isValid={formik.isValid}
-																isTouched={
-																	formik.touched.machine_id
-																}
-																invalidFeedback={
-																	formik.errors.machine_id
-																}
-																validFeedback='Looks good!'
-																filterOption={createFilter({
-																	matchFrom: 'start',
-																})}
-															/>
-														</FormGroup>
-													</div>
-													<div
-														className='col-md-5'
-														style={{ marginLeft: 10 }}>
-														<FormGroup
-															id='name'
-															label='Required Quantitiy'
-															className='col-md-12'>
-															<Input
-																onChange={formik.handleChange}
-																onBlur={formik.handleBlur}
-																value={formik.values.name}
-																isValid={formik.isValid}
-																isTouched={formik.touched.name}
-																invalidFeedback={formik.errors.name}
-																validFeedback='Looks good!'
-															/>
-														</FormGroup>
-													</div>
-													<div
-														className='col-md-1 mt-5'
-														style={{ marginLeft: 4 }}>
-														<Button
-															icon='cancel'
-															color='danger'
-															onClick={() => removeRow(index)}
-														/>
-													</div>
-												</div>
-											))}
-										<div className='row g-4' style={{ marginTop: 3 }}>
+
+										<table
+											className='table text-center table-modern'
+											style={{ overflow: 'scrollY' }}>
+											<thead>
+												<tr className='row mt-2' style={{ marginLeft: 2 }}>
+													<th className='col-5 col-sm-5 col-md-6'>
+														Items Name
+													</th>
+													<th className='col-5 col-sm-5 col-md-5'>
+														Required Quantity
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												{formik.values.list.length > 0 &&
+													formik.values.list.map((items, index) => (
+														<tr
+															className='d-flex align-items-center'
+															key={formik.values.list[index].kit_id}>
+															<td className='col-5 col-sm-5 col-md-7'>
+																<FormGroup
+																	label=''
+																	id={`list[${index}].kit_id`}>
+																	<ReactSelect
+																		className='col-md-12'
+																		classNamePrefix='select'
+																		options={kitOptions}
+																		isLoading={
+																			kitOptionsLoading
+																		}
+																		isClearable
+																		value={
+																			formik.values.list[
+																				index
+																			].kit_id
+																				? kitOptions.find(
+																						(c) =>
+																							c.value ===
+																							formik
+																								.values
+																								.list[
+																								index
+																							]
+																								.kit_id,
+																				  )
+																				: null
+																		}
+																		onChange={(val) => {
+																			formik.setFieldValue(
+																				`list[${index}].kit_id`,
+																				val !== null &&
+																					val.id,
+																			);
+																		}}
+																		isValid={formik.isValid}
+																		isTouched={
+																			formik.touched.kit_id
+																		}
+																		invalidFeedback={
+																			formik.errors[
+																				`list[${index}].kit_id`
+																			]
+																		}
+																		validFeedback='Looks good!'
+																		filterOption={createFilter({
+																			matchFrom: 'start',
+																		})}
+																	/>
+																</FormGroup>
+															</td>
+															<td
+																className='col-5 col-sm-5 col-md-4'
+																style={{ marginLeft: 10 }}>
+																<FormGroup
+																	id={`list[${index}].requiredQuantity`}
+																	label=''
+																	className='col-md-12'>
+																	<Input
+																		onChange={
+																			formik.handleChange
+																		}
+																		onBlur={formik.handleBlur}
+																		value={
+																			items.requiredQuantity
+																		}
+																		isValid={formik.isValid}
+																		isTouched={
+																			formik.touched
+																				.requiredQuantity
+																		}
+																		invalidFeedback={
+																			formik.errors
+																				.requiredQuantity
+																		}
+																		validFeedback='Looks good!'
+																	/>
+																</FormGroup>
+															</td>
+															<td className='col-md-1 mt-1'>
+																<Button
+																	icon='cancel'
+																	color='danger'
+																	onClick={() => removeRow(index)}
+																/>
+															</td>
+														</tr>
+													))}
+											</tbody>
+										</table>
+
+										<div className='row g-4'>
 											<div className='col-md-4'>
 												<Button
 													color='primary'
