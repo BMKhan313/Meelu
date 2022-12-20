@@ -46,12 +46,12 @@ const validate = (values) => {
 	if (!values.number1) {
 		errors.number1 = 'Required';
 	}
-	if (!values.machine) {
-		errors.machine = 'Required';
-	}
-	if (!values.make) {
-		errors.make = 'Required';
-	}
+	// if (!values.machine) {
+	// 	errors.machine = 'Required';
+	// }
+	// if (!values.make) {
+	// 	errors.make = 'Required';
+	// }
 	if (!values.machine_model_id) {
 		errors.machine_model_id = 'Required';
 	}
