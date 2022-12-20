@@ -332,8 +332,8 @@ const Add = ({ refreshTableData }) => {
 												isLoading={makeOptionsLoading}
 												isClearable
 												value={
-													formik.values.machine
-														? machineOptions?.find(
+													formik.values.make
+														? makeOptions?.find(
 																(c) =>
 																	c.value === formik.values.make,
 														  )

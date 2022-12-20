@@ -79,7 +79,7 @@ const Categories = () => {
 						<Card>
 							<CardHeader>
 								<CardLabel icon='Assignment'>
-									<CardTitle> Make List</CardTitle>
+									<CardTitle> Parts List</CardTitle>
 								</CardLabel>
 								<CardActions>
 									<Add refreshTableData={refreshTableData} />
