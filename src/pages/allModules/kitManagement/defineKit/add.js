@@ -40,18 +40,20 @@ const validate = (values) => {
 	if (!values.name) {
 		errors.name = 'Required';
 	}
-
+	if (values.rows.length === 0) {
+		errors.rows = <p>Insert at leat a single row!</p>;
+	}
 	values.rows.forEach((data, index) => {
 		if (!data.item_id) {
 			errors = {
 				...errors,
-				[`rows[${index}]item_id`]: 'Please Select Drop Down Item',
+				[`rows[${index}]item_id`]: 'Please Select Drop Down Item!',
 			};
 		}
 		if (!data.quantity) {
 			errors = {
 				...errors,
-				[`rows[${index}]quantity`]: 'Please provide Quantity',
+				[`rows[${index}]quantity`]: 'Provide Quantity!',
 			};
 		}
 	});
@@ -220,6 +222,17 @@ const Add = ({ refreshTableData }) => {
 													</th>
 												</tr>
 											</thead>
+											{formik.errors.rows && (
+												// <div className='invalid-feedback'>
+												<p
+													style={{
+														color: 'red',
+														textAlign: 'left',
+														marginTop: 3,
+													}}>
+													{formik.errors.rows}
+												</p>
+											)}
 											<tbody>
 												{formik.values.rows.length > 0 &&
 													formik.values.rows.map((items, index) => (
@@ -283,6 +296,8 @@ const Add = ({ refreshTableData }) => {
 																	<p
 																		style={{
 																			color: 'red',
+																			textAlign: 'left',
+																			marginTop: 3,
 																		}}>
 																		{
 																			formik.errors[
@@ -322,6 +337,8 @@ const Add = ({ refreshTableData }) => {
 																	<p
 																		style={{
 																			color: 'red',
+																			textAlign: 'left',
+																			marginTop: 3,
 																		}}>
 																		{
 																			formik.errors[
