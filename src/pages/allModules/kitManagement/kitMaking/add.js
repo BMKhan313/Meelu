@@ -109,26 +109,30 @@ const Add = ({ refreshTableData }) => {
 				setIsLoading(false);
 			});
 	};
-	const handleChange = () => {
+	useEffect(() => {
 		setTableDataLoading(true);
-		Axios.get(`${baseURL}/getItemsInventory?colName=id&sort=asc`, {})
+		Axios.get(
+			`${baseURL}/viewKits?id=${formik.values.kit_name ? formik.values.kit_name : ''}`,
+			{},
+		)
 			.then((response) => {
-				const rec = response.data.data.map(
-					({ id, item_details, quantity_in, quantity_out }) => ({
+				const rec = response.data.kitRecipe.kitchild.map(
+					({ id, quantity, item_oem_part_modeles }) => ({
 						id,
 						value: id,
-						label: `${item_details.machine_part_oem_part.machine_part.name}`,
-						label3: quantity_in - quantity_out,
+						name: `${item_oem_part_modeles.machine_part_oem_part.oem_part_number.number1}-${item_oem_part_modeles.machine_part_oem_part.machine_part.name}`,
+						reqQty: quantity,
+						exisQty: 0,
 					}),
 				);
+				console.log('rec', rec);
 				setTableData(rec);
 				setTableDataLoading(false);
 			})
 			.catch((err) => {
 				showNotification(_titleError, err.message, 'Danger');
 			});
-		console.log('data', tableData);
-	};
+	}, [formik.values.kit_name]);
 	useEffect(() => {
 		Axios.get(`${baseURL}/getkitsDropdown`)
 			.then((response) => {
@@ -138,6 +142,7 @@ const Add = ({ refreshTableData }) => {
 					label: name,
 				}));
 				setMachineOptions(rec);
+
 				setMachineOptionsLoading(false);
 			})
 			// eslint-disable-next-line no-console
@@ -204,7 +209,6 @@ const Add = ({ refreshTableData }) => {
 														'kit_name',
 														val !== null && val.id,
 													);
-													handleChange();
 												}}
 												isValid={formik.isValid}
 												isTouched={formik.touched.kit_name}
@@ -261,9 +265,9 @@ const Add = ({ refreshTableData }) => {
 												<tbody>
 													{tableData.map((item) => (
 														<tr key={item.id}>
-															<td>{item.label}</td>
-															<td>0</td>
-															<td>{item.label3}</td>
+															<td>{item.name}</td>
+															<td>{item.reqQty}</td>
+															<td>{item.exisQty}</td>
 														</tr>
 													))}
 												</tbody>
