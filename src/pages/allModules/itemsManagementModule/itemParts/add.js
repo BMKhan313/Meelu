@@ -1,5 +1,7 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
@@ -178,12 +180,12 @@ const Add = ({ refreshTableData }) => {
 
 				}
 			});
-			Axios.get(`${baseURL}/kitItemDropDown`)
+			Axios.get(`${baseURL}/kitItemDropdown`)
 			.then((response) => {
-				const rec = response.data.machines.map(({ id, name }) => ({
+				const rec = response.data.data.map(({ id, machine_part_oem_part }) => ({
 					id,
 					value: id,
-					label: `oem-primary: ${name}`,
+					label: `${machine_part_oem_part.oem_part_number.number1}: ${machine_part_oem_part.machine_part.name}`,
 				}));
 				setItemOptions(rec);
 				setItemOptionsLoading(false);
