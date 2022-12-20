@@ -151,6 +151,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
 							<th>Name</th>
+							<th>Primary</th>
+							<th>Secondary</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -181,7 +183,13 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 											/>
 										</td>
 										<td>{index + 1}</td>
-										<td>{item.name}</td>
+										<td>{item.machine_part_oem_part.machine_part.name}</td>
+										<td>
+											{item.machine_part_oem_part.oem_part_number.number1}
+										</td>
+										<td>
+											{item.machine_part_oem_part.oem_part_number.number2}
+										</td>
 
 										<td>
 											<ButtonGroup>

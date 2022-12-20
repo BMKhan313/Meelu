@@ -50,7 +50,7 @@ const Categories = () => {
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.makes,
+						response.data.data,
 						'itemsManagementModule',
 						'itemParts',
 						'tableData',
