@@ -86,7 +86,7 @@ const Add = ({ refreshTableData }) => {
 	const [makeOptions, setMakeOptions] = useState();
 	const [makeOptionsLoading, setMakeOptionsLoading] = useState(false);
 	const [modelOptions, setModelOptions] = useState();
-	
+
 	const [modelOptionsLoading, setModelOptionsLoading] = useState(false);
 	const [itemOptions, setItemOptions] = useState();
 	const [itemOptionsLoading, setItemOptionsLoading] = useState(false);
@@ -109,7 +109,7 @@ const Add = ({ refreshTableData }) => {
 
 	const formik = useFormik({
 		initialValues: {
-	
+
 			secondary: '',
 			primary: '',
 			machine: '',
@@ -157,6 +157,8 @@ const Add = ({ refreshTableData }) => {
 
 				}
 			});
+			
+			
 		Axios.get(`${baseURL}/getMachinesDropDown`)
 			.then((response) => {
 				const rec = response.data.machines.map(({ id, name }) => ({
@@ -166,6 +168,25 @@ const Add = ({ refreshTableData }) => {
 				}));
 				setMachineOptions(rec);
 				setMachineOptionsLoading(false);
+			})
+			// eslint-disable-next-line no-console
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+				if (err.response.status === 401) {
+					showNotification(_titleError, err.response.data.message, 'Danger');
+
+
+				}
+			});
+			Axios.get(`${baseURL}/kitItemDropDown`)
+			.then((response) => {
+				const rec = response.data.machines.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: `oem-primary: ${name}`,
+				}));
+				setItemOptions(rec);
+				setItemOptionsLoading(false);
 			})
 			// eslint-disable-next-line no-console
 			.catch((err) => {
@@ -195,7 +216,7 @@ const Add = ({ refreshTableData }) => {
 
 				}
 			});
-			Axios.get(`${baseURL}/getMachineModelsDropDown`)
+		Axios.get(`${baseURL}/getMachineModelsDropDown`)
 			.then((response) => {
 				const rec = response.data.machineModels.map(({ id, name }) => ({
 					id,
@@ -536,7 +557,7 @@ const Add = ({ refreshTableData }) => {
 															<Input
 																type="text"
 																onChange={(val) => {
-																	formik.setFieldValue(`list[${index}].oem_primary`, val);
+																	formik.setFieldValue(`list[${index}].oem_primary`, val.target.value);
 																}}
 																invalidFeedback={formik.errors[`list[${index}]oem_primary`]}
 
@@ -548,7 +569,7 @@ const Add = ({ refreshTableData }) => {
 															<Input
 																type="text"
 																onChange={(val) => {
-																	formik.setFieldValue(`list[${index}].oem_secondary`, val);
+																	formik.setFieldValue(`list[${index}].oem_secondary`, val.target.value);
 																}}
 																invalidFeedback={formik.errors[`list[${index}]oem_secondary`]}
 
