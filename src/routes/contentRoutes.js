@@ -8,6 +8,7 @@ import {
 	accountsModule,
 	itemsManagementModule,
 	kitModule,
+	inventoryModule,
 } from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
@@ -212,7 +213,10 @@ const KITMANAGEMENTCOMPONENTS = {
 	KITMAKING: lazy(() => import('../pages/allModules/kitManagement/kitMaking/index')),
 	KITBREAKING: lazy(() => import('../pages/allModules/kitManagement/kitBreaking/index')),
 };
-
+const INVENTORYCOMPONENTS = {
+	PARTS: lazy(() => import('../pages/allModules/inventory/parts/index')),
+	KITS: lazy(() => import('../pages/allModules/inventory/kits/index')),
+};
 const dashboardRoutes = [
 	/**
 	 * Dashboard Home
@@ -267,7 +271,7 @@ const itemsManagementRoutes = [
 ];
 const kitManagementRoutes = [
 	/**
-	 * Dashboard Home
+	 * kit management
 	 */
 
 	{
@@ -286,6 +290,24 @@ const kitManagementRoutes = [
 		exact: true,
 	},
 ];
+
+const inventoryManagementRoutes = [
+	/**
+	 * Inventory
+	 */
+
+	{
+		path: inventoryModule.inventoryModules.subMenu.parts.path,
+		element: <INVENTORYCOMPONENTS.PARTS />,
+		exact: true,
+	},
+	{
+		path: inventoryModule.inventoryModules.subMenu.kits.path,
+		element: <INVENTORYCOMPONENTS.KITS />,
+		exact: true,
+	},
+];
+
 const accountRoutes = [
 	{
 		path: accountsModule.accounts.subMenu.individualAccounts.path,
@@ -1043,5 +1065,6 @@ const dashbord = [...dashboardRoutes];
 const accounts = [...accountRoutes];
 const itemsManagementR = [...itemsManagementRoutes];
 const kitManagementR = [...kitManagementRoutes];
+const inventoryMangementR = [...inventoryManagementRoutes];
 
-export { dashbord, contents, accounts, itemsManagementR, kitManagementR };
+export { dashbord, contents, accounts, itemsManagementR, kitManagementR, inventoryMangementR };

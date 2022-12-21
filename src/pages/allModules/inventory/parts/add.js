@@ -1,13 +1,11 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable camelcase */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
 
 import moment from 'moment';
-import ReactSelect, { createFilter } from 'react-select';
+
 import PropTypes from 'prop-types';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
 import Spinner from '../../../../components/bootstrap/Spinner';
@@ -17,8 +15,6 @@ import Modal, {
 	ModalHeader,
 	ModalTitle,
 } from '../../../../components/bootstrap/Modal';
-// eslint-disable-next-line import/no-unresolved
-
 import showNotification from '../../../../components/extras/showNotification';
 import { _titleSuccess, _titleError } from '../../../../notifyMessages/erroSuccess';
 
@@ -33,15 +29,13 @@ import Card, {
 
 import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
 import Input from '../../../../components/bootstrap/forms/Input';
+
 import Button from '../../../../components/bootstrap/Button';
 
 const validate = (values) => {
 	const errors = {};
 	if (!values.name) {
 		errors.name = 'Required';
-	}
-	if (!values.kit_name) {
-		errors.kit_name = 'Required';
 	}
 	return errors;
 };
@@ -56,10 +50,7 @@ const Add = ({ refreshTableData }) => {
 	const [centeredStatus, setCenteredStatus] = useState(false);
 	const [fullScreenStatus, setFullScreenStatus] = useState(null);
 	const [animationStatus, setAnimationStatus] = useState(true);
-	const [machineOptions, setMachineOptions] = useState();
-	const [machineOptionsLoading, setMachineOptionsLoading] = useState(false);
-	const [tableDataLoading, setTableDataLoading] = useState(false);
-	const [tableData, setTableData] = useState([]);
+
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
 
 	const initialStatus = () => {
@@ -75,7 +66,6 @@ const Add = ({ refreshTableData }) => {
 	const formik = useFormik({
 		initialValues: {
 			name: '',
-			kit_name: '',
 		},
 		validate,
 		onSubmit: () => {
@@ -87,7 +77,7 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	const submitForm = (myFormik) => {
-		Axios.post(`${baseURL}/addMachineModel`, myFormik.values, {
+		Axios.post(`${baseURL}/addMachine`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})
 			.then((res) => {
@@ -109,47 +99,6 @@ const Add = ({ refreshTableData }) => {
 				setIsLoading(false);
 			});
 	};
-	useEffect(() => {
-		if (formik.values.kit_name) {
-			Axios.get(
-				`${baseURL}/viewKits?id=${formik.values.kit_name ? formik.values.kit_name : ''}`,
-				{},
-			)
-				.then((response) => {
-					const rec = response.data.kitRecipe.kitchild.map(
-						({ id, quantity, item_oem_part_modeles }) => ({
-							id,
-							value: id,
-							name: `${item_oem_part_modeles.machine_part_oem_part.oem_part_number.number1}-${item_oem_part_modeles.machine_part_oem_part.machine_part.name}`,
-							reqQty: quantity,
-							exisQty: 0,
-						}),
-					);
-					console.log('rec', rec);
-					setTableData(rec);
-					setTableDataLoading(false);
-				})
-				.catch((err) => {
-					showNotification(_titleError, err.message, 'Danger');
-				});
-		}
-	}, [formik.values.kit_name]);
-	useEffect(() => {
-		Axios.get(`${baseURL}/getkitsDropdown`)
-			.then((response) => {
-				const rec = response.data.kitsDropdown.map(({ id, name }) => ({
-					id,
-					value: id,
-					label: name,
-				}));
-				setMachineOptions(rec);
-
-				setMachineOptionsLoading(false);
-			})
-			// eslint-disable-next-line no-console
-			.catch((err) => {});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 
 	return (
 		<div className='col-auto'>
@@ -180,7 +129,7 @@ const Add = ({ refreshTableData }) => {
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
 					<CardLabel icon='Add'>
-						<ModalTitle id='exampleModalLabel'>Make New Kit</ModalTitle>
+						<ModalTitle id='exampleModalLabel'>Add Part</ModalTitle>
 					</CardLabel>
 				</ModalHeader>
 				<ModalBody>
@@ -189,48 +138,7 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
-										<FormGroup label='Kit Name' id='kit_name'>
-											<ReactSelect
-												className='col-md-12'
-												classNamePrefix='select'
-												options={machineOptions}
-												isLoading={machineOptionsLoading}
-												isClearable
-												value={
-													formik.values.kit_name
-														? machineOptions.find(
-																(c) =>
-																	c.value ===
-																	formik.values.kit_name,
-														  )
-														: null
-												}
-												onChange={(val) => {
-													formik.setFieldValue(
-														'kit_name',
-														val !== null && val.id,
-													);
-												}}
-												isValid={formik.isValid}
-												isTouched={formik.touched.kit_name}
-												invalidFeedback={formik.errors.kit_name}
-												validFeedback='Looks good!'
-												filterOption={createFilter({ matchFrom: 'start' })}
-											/>
-										</FormGroup>
-										{formik.errors.kit_name && (
-											// <div className='invalid-feedback'>
-											<p
-												style={{
-													color: 'red',
-												}}>
-												{formik.errors.kit_name}
-											</p>
-										)}
-										<FormGroup
-											id='name'
-											label='Kit Quantity'
-											className='col-md-12'>
+										<FormGroup id='name' label='Name' className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
@@ -241,39 +149,6 @@ const Add = ({ refreshTableData }) => {
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
-										<table className='table table-modern my-3'>
-											<thead>
-												<tr>
-													<th>Items</th>
-													<th>Required Quantity</th>
-													<th>Exisiting Quantity</th>
-												</tr>
-											</thead>
-											{tableDataLoading ? (
-												<tbody>
-													<tr>
-														<td colSpan='12'>
-															<div className='d-flex justify-content-center'>
-																<Spinner
-																	color='primary'
-																	size='3rem'
-																/>
-															</div>
-														</td>
-													</tr>
-												</tbody>
-											) : (
-												<tbody>
-													{tableData.map((item) => (
-														<tr key={item.id}>
-															<td>{item.name}</td>
-															<td>{item.reqQty}</td>
-															<td>{item.exisQty}</td>
-														</tr>
-													))}
-												</tbody>
-											)}
-										</table>
 									</div>
 								</div>
 							</CardBody>
@@ -290,13 +165,13 @@ const Add = ({ refreshTableData }) => {
 								<CardFooterRight>
 									<Button
 										className='me-3'
-										icon={isLoading ? null : 'Submit'}
+										icon={isLoading ? null : 'Save'}
 										isLight
 										color='success'
 										isDisable={isLoading}
 										onClick={formik.handleSubmit}>
 										{isLoading && <Spinner isSmall inButton />}
-										{isLoading ? 'Submiting' : 'Submit'}
+										{isLoading ? 'Saving' : 'Save'}
 									</Button>
 								</CardFooterRight>
 							</CardFooter>

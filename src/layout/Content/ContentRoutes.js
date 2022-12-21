@@ -6,6 +6,7 @@ import {
 	accounts,
 	itemsManagementR,
 	kitManagementR,
+	inventoryMangementR,
 } from '../../routes/contentRoutes';
 
 const PAGE_404 = lazy(() => import('../../pages/presentation/auth/Page404'));
@@ -30,6 +31,10 @@ const ContentRoutes = () => {
 				<Route key={page.path} {...page} />
 			))}
 			{kitManagementR.map((page) => (
+				// eslint-disable-next-line react/jsx-props-no-spreading
+				<Route key={page.path} {...page} />
+			))}
+			{inventoryMangementR.map((page) => (
 				// eslint-disable-next-line react/jsx-props-no-spreading
 				<Route key={page.path} {...page} />
 			))}

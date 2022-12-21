@@ -143,20 +143,8 @@ const Add = ({ refreshTableData }) => {
 			})
 			// eslint-disable-next-line no-console
 			.catch((err) => {});
-
-		// Axios.get(`${baseURL}/getMakesDropDown`)
-		// 	.then((response) => {
-		// 		const rec = response.data.makes.map(({ id, name }) => ({
-		// 			id,
-		// 			value: id,
-		// 			label: name,
-		// 		}));
-		// 		setMakeOptions(rec);
-		// 		setMakeOptionsLoading(false);
-		// 	})
-		// 	// eslint-disable-next-line no-console
-		// 	.catch((err) => {});
-		// // eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line no-console
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
@@ -169,7 +157,6 @@ const Add = ({ refreshTableData }) => {
 					hoverShadow='default'
 					onClick={() => {
 						initialStatus();
-
 						setState(true);
 						setStaticBackdropStatus(true);
 					}}>
@@ -183,7 +170,7 @@ const Add = ({ refreshTableData }) => {
 				isStaticBackdrop={staticBackdropStatus}
 				isScrollable={scrollableStatus}
 				isCentered={centeredStatus}
-				size='lg'
+				size={null}
 				fullScreen={fullScreenStatus}
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>

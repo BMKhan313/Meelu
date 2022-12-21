@@ -41,7 +41,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
-	const [perPage, setPerPage] = useState(Number(store.data.kitManagement.defineKit.perPage));
+	const [perPage, setPerPage] = useState(
+		Number(store.data.inventoryManagementModule.parts.perPage),
+	);
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
 	const { selectTable, SelectAllCheck } = useSelectTable(tableData);
 
@@ -70,10 +72,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
-		Axios.get(`${baseURL}/editKits?id=${idd}`)
+		Axios.get(`${baseURL}/editMachine?id=${idd}`)
 			.then((res) => {
-				console.log('', res.data.data);
-				setEditingItem(res.data.data);
+				setEditingItem(res.data.machine);
 				setEditingItemLoading(false);
 			})
 			.catch((err) => {
@@ -107,7 +108,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 
 	const deleteItem = (id) => {
-		Axios.delete(`${baseURL}/deletKits?id=${id}`)
+		Axios.delete(`${baseURL}/deleteMachine?id=${id}`)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					showNotification('Deleted', res.data.message, 'success');
@@ -131,14 +132,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 	useEffect(
 		() => {
-			dispatch(updateSingleState([perPage, 'kitManagement', 'defineKit', 'perPage']));
+			dispatch(updateSingleState([perPage, 'inventoryManagementModule', 'parts', 'perPage']));
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[perPage],
 	);
 
 	const handlePageChange = (e) => {
-		dispatch(updateSingleState([e, 'kitManagement', 'defineKit', 'pageNo']));
+		dispatch(updateSingleState([e, 'inventoryManagementModule', 'parts', 'pageNo']));
 	};
 
 	return (
@@ -165,7 +166,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.kitManagement.defineKit.tableData.data.map(
+							{store.data.inventoryManagementModule.parts.tableData.data.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
@@ -233,14 +234,6 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 														<DropdownItem isHeader>
 															Actions
 														</DropdownItem>
-														<DropdownItem
-														// onClick={() => {
-														// 	setChildModal(true);
-														// 	getChildData(item.id);
-														// }}
-														>
-															View
-														</DropdownItem>
 													</DropdownMenu>
 												</Dropdown>
 											</ButtonGroup>
@@ -254,9 +247,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 				<PaginationButtons
 					label='make'
-					from={store.data.kitManagement.defineKit.tableData?.from ?? 1}
-					to={store.data.kitManagement.defineKit.tableData?.to ?? 1}
-					total={store.data.kitManagement.defineKit.tableData?.total ?? 0}
+					from={store.data.inventoryManagementModule.parts.tableData?.from ?? 1}
+					to={store.data.inventoryManagementModule.parts.tableData?.to ?? 1}
+					total={store.data.inventoryManagementModule.parts.tableData?.total ?? 0}
 					perPage={Number(perPage ?? 10)}
 					setPerPage={setPerPage}
 				/>
@@ -264,12 +257,12 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<div className='row d-flex justify-content-end'>
 					<div className='col-3'>
 						<Pagination
-							activePage={store.data.kitManagement.defineKit?.pageNo ?? 1}
+							activePage={store.data.inventoryManagementModule.parts?.pageNo ?? 1}
 							totalItemsCount={
-								store.data.kitManagement.defineKit?.tableData?.total ?? 0
+								store.data.inventoryManagementModule.parts?.tableData?.total ?? 0
 							}
 							itemsCountPerPage={Number(
-								store.data.kitManagement.defineKit?.perPage ?? 10,
+								store.data.inventoryManagementModule.parts?.perPage ?? 10,
 							)}
 							onChange={(e) => handlePageChange(e)}
 							itemClass='page-item'
@@ -311,7 +304,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<Card>
 								<CardBody>
 									<h5>
-										Are you sure, you want to delete the selected Kit? <br />
+										Are you sure, you want to delete the selected Part? <br />
 										This cannot be undone!
 									</h5>
 								</CardBody>
@@ -360,7 +353,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						{' '}
 						<CardHeader>
 							<CardLabel icon='Edit' iconColor='info'>
-								<CardTitle>Editing Model</CardTitle>
+								<CardTitle>Editing Parts</CardTitle>
 								<small> Item Id: {itemId}</small>
 							</CardLabel>
 						</CardHeader>

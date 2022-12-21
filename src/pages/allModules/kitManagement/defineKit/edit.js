@@ -43,10 +43,8 @@ const validate = (values) => {
 const Edit = ({ editingItem, handleStateEdit }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [lastSave, setLastSave] = useState(null);
-	const [machineOptions, setMachineOptions] = useState([]);
-	const [machineOptionsLoading, setMachineOptionsLoading] = useState(true);
-	const [makeOptions, setMakeOptions] = useState([]);
-	const [makeOptionsLoading, setMakeOptionsLoading] = useState(true);
+	const [kitEditOptions, setKitEditOptions] = useState([]);
+	const [editKitOptionsLoading, setEditKitOptionsLoading] = useState(true);
 
 	const formik = useFormik({
 		initialValues: editingItem,
@@ -56,9 +54,14 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 			setTimeout(handleSave, 2000);
 		},
 	});
-
+	const removeRow = (i) => {
+		formik.setFieldValue('rows', [
+			...formik.values.rows.slice(0, i),
+			...formik.values.rows.slice(i + 1),
+		]);
+	};
 	const submitForm = (data) => {
-		Axios.post(`${baseURL}/updateMachineModel`, data)
+		Axios.post(`${baseURL}/updateKit`, data)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					formik.resetForm();
@@ -87,29 +90,16 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 	};
 
 	useEffect(() => {
-		Axios.get(`${baseURL}/getMachinesDropDown`)
+		Axios.get(`${baseURL}/kitItemDropdown`)
 			.then((response) => {
-				const rec = response.data.machines.map(({ id, name }) => ({
+				// console.log('bmmmmkkkk::', response.data);
+				const rec = response.data.data.map(({ id, machine_part_oem_part }) => ({
 					id,
 					value: id,
-					label: name,
+					label: `${machine_part_oem_part.oem_part_number.number1}-${machine_part_oem_part.machine_part.name}`,
 				}));
-				// console.log('bmk::', rec);
-				setMachineOptions(rec);
-				setMachineOptionsLoading(false);
-			})
-			// eslint-disable-next-line no-console
-			.catch((err) => {});
-
-		Axios.get(`${baseURL}/getMakesDropDown`)
-			.then((response) => {
-				const rec = response.data.makes.map(({ id, name }) => ({
-					id,
-					value: id,
-					label: name,
-				}));
-				setMakeOptions(rec);
-				setMakeOptionsLoading(false);
+				setKitEditOptions(rec);
+				setEditKitOptionsLoading(false);
 			})
 			// eslint-disable-next-line no-console
 			.catch((err) => {});
@@ -122,55 +112,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 				<CardBody>
 					<div className='row g-2'>
 						<div className='col-md-12'>
-							<FormGroup label='Machines' id='machine_id'>
-								<ReactSelect
-									className='col-md-12'
-									classNamePrefix='select'
-									options={machineOptions}
-									isLoading={machineOptionsLoading}
-									isClearable
-									value={
-										formik.values.machine_id
-											? machineOptions.find(
-													(c) => c.value === formik.values.machine_id,
-											  )
-											: null
-									}
-									onChange={(val) => {
-										formik.setFieldValue('machine_id', val !== null && val.id);
-									}}
-									isValid={formik.isValid}
-									isTouched={formik.touched.machine_id}
-									invalidFeedback={formik.errors.machine_id}
-									validFeedback='Looks good!'
-									filterOption={createFilter({ matchFrom: 'start' })}
-								/>
-							</FormGroup>
-							<FormGroup label='Makes' id='make_id'>
-								<ReactSelect
-									className='col-md-12'
-									classNamePrefix='select'
-									options={makeOptions}
-									isLoading={makeOptionsLoading}
-									isClearable
-									value={
-										formik.values.make_id
-											? makeOptions?.find(
-													(c) => c.value === formik.values.make_id,
-											  )
-											: null
-									}
-									onChange={(val) => {
-										formik.setFieldValue('make_id', val !== null && val.id);
-									}}
-									isValid={formik.isValid}
-									isTouched={formik.touched.make_id}
-									invalidFeedback={formik.errors.make_id}
-									validFeedback='Looks good!'
-									filterOption={createFilter({ matchFrom: 'start' })}
-								/>
-							</FormGroup>
-							<FormGroup id='name' label='Name' className='col-md-12'>
+							<FormGroup id='name' label='Kit Name' className='col-md-12'>
 								<Input
 									onChange={formik.handleChange}
 									onBlur={formik.handleBlur}
@@ -181,6 +123,148 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 									validFeedback='Looks good!'
 								/>
 							</FormGroup>
+							<table
+								className='table text-center table-modern'
+								style={{ overflow: 'scrollY' }}>
+								<thead>
+									<tr className='row mt-2' style={{ marginLeft: 2 }}>
+										<th className='col-6 col-sm-5 col-md-6'>Items Name</th>
+										<th className='col-4 col-sm-5 col-md-5'>
+											Required Quantity
+										</th>
+									</tr>
+								</thead>
+								{formik.errors.rows && (
+									// <div className='invalid-feedback'>
+									<p
+										style={{
+											color: 'red',
+											textAlign: 'left',
+											marginTop: 3,
+										}}>
+										{formik.errors.rows}
+									</p>
+								)}
+								<tbody>
+									{formik.values.rows.length > 0 &&
+										formik.values.rows.map((items, index) => (
+											<tr
+												className='d-flex align-items-center'
+												key={formik.values.rows[index].item_id}>
+												<td className='col-6 col-sm-6 col-md-7'>
+													<FormGroup
+														label=''
+														id={`rows[${index}].item_id`}>
+														<ReactSelect
+															className='col-md-12'
+															classNamePrefix='select'
+															options={kitEditOptions}
+															isLoading={editKitOptionsLoading}
+															isClearable
+															value={
+																formik.values.rows[index].item_id
+																	? kitEditOptions.find(
+																			(c) =>
+																				c.value ===
+																				formik.values.rows[
+																					index
+																				].item_id,
+																	  )
+																	: null
+															}
+															onChange={(val) => {
+																formik.setFieldValue(
+																	`rows[${index}].item_id`,
+																	val !== null && val.id,
+																);
+															}}
+															isValid={formik.isValid}
+															isTouched={formik.touched.item_id}
+															invalidFeedback={
+																formik.errors[
+																	`rows[${index}].item_id`
+																]
+															}
+															validFeedback='Looks good!'
+															filterOption={createFilter({
+																matchFrom: 'start',
+															})}
+														/>
+													</FormGroup>
+													{formik.errors[`rows[${index}]item_id`] && (
+														// <div className='invalid-feedback'>
+														<p
+															style={{
+																color: 'red',
+																textAlign: 'left',
+																marginTop: 3,
+															}}>
+															{formik.errors[`rows[${index}]item_id`]}
+														</p>
+													)}
+												</td>
+												<td
+													className='col-4 col-sm-4 col-md-4'
+													style={{ marginLeft: 3 }}>
+													<FormGroup
+														id={`rows[${index}].quantity`}
+														label=''
+														className='col-md-12'>
+														<Input
+															onChange={formik.handleChange}
+															onBlur={formik.handleBlur}
+															value={items.quantity}
+															isValid={formik.isValid}
+															isTouched={formik.touched.quantity}
+															invalidFeedback={formik.errors.quantity}
+															validFeedback='Looks good!'
+														/>
+													</FormGroup>
+													{formik.errors[`rows[${index}]quantity`] && (
+														// <div className='invalid-feedback'>
+														<p
+															style={{
+																color: 'red',
+																textAlign: 'left',
+																marginTop: 3,
+															}}>
+															{
+																formik.errors[
+																	`rows[${index}]quantity`
+																]
+															}
+														</p>
+													)}
+												</td>
+												<td className='col-md-1 mt-1'>
+													<Button
+														icon='cancel'
+														color='danger'
+														onClick={() => removeRow(index)}
+													/>
+												</td>
+											</tr>
+										))}
+								</tbody>
+							</table>
+							<div className='row g-4'>
+								<div className='col-md-4'>
+									<Button
+										color='primary'
+										icon='add'
+										onClick={() => {
+											formik.setFieldValue('rows', [
+												...formik.values.rows,
+												{
+													name: '',
+													quantity: '',
+												},
+											]);
+										}}>
+										Add Row
+									</Button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</CardBody>
