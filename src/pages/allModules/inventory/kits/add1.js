@@ -1,7 +1,5 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
@@ -17,8 +15,6 @@ import Modal, {
 	ModalHeader,
 	ModalTitle,
 } from '../../../../components/bootstrap/Modal';
-// eslint-disable-next-line import/no-unresolved
-
 import showNotification from '../../../../components/extras/showNotification';
 import { _titleSuccess, _titleError } from '../../../../notifyMessages/erroSuccess';
 
@@ -40,13 +36,10 @@ const validate = (values) => {
 	if (!values.name) {
 		errors.name = 'Required';
 	}
-	if (!values.kit_name) {
-		errors.kit_name = 'Required';
-	}
 	return errors;
 };
 
-const Add = ({ refreshTableData }) => {
+const Add1 = ({ refreshTableData1 }) => {
 	const [state, setState] = useState(false);
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -58,8 +51,8 @@ const Add = ({ refreshTableData }) => {
 	const [animationStatus, setAnimationStatus] = useState(true);
 	const [machineOptions, setMachineOptions] = useState();
 	const [machineOptionsLoading, setMachineOptionsLoading] = useState(false);
-	const [tableDataLoading, setTableDataLoading] = useState(false);
-	const [tableData, setTableData] = useState([]);
+	const [makeOptions, setMakeOptions] = useState();
+	const [makeOptionsLoading, setMakeOptionsLoading] = useState(false);
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
 
 	const initialStatus = () => {
@@ -75,7 +68,8 @@ const Add = ({ refreshTableData }) => {
 	const formik = useFormik({
 		initialValues: {
 			name: '',
-			kit_name: '',
+			machine_id: '',
+			make_id: '',
 		},
 		validate,
 		onSubmit: () => {
@@ -87,7 +81,7 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	const submitForm = (myFormik) => {
-		Axios.post(`${baseURL}/addMachineModel`, myFormik.values, {
+		Axios.post(`${baseURL}/1MachineModel`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})
 			.then((res) => {
@@ -95,7 +89,7 @@ const Add = ({ refreshTableData }) => {
 					formik.resetForm();
 					showNotification(_titleSuccess, res.data.message, 'success');
 					setState(false);
-					refreshTableData();
+					refreshTableData1();
 					setIsLoading(false);
 				} else {
 					setIsLoading(false);
@@ -110,41 +104,28 @@ const Add = ({ refreshTableData }) => {
 			});
 	};
 	useEffect(() => {
-		if (formik.values.kit_name) {
-			Axios.get(
-				`${baseURL}/viewKits?id=${formik.values.kit_name ? formik.values.kit_name : ''}`,
-				{},
-			)
-				.then((response) => {
-					const rec = response.data.kitRecipe.kitchild.map(
-						({ id, quantity, item_oem_part_modeles }) => ({
-							id,
-							value: id,
-							name: `${item_oem_part_modeles.machine_part_oem_part.oem_part_number.number1}-${item_oem_part_modeles.machine_part_oem_part.machine_part.name}`,
-							reqQty: quantity,
-							exisQty: 0,
-						}),
-					);
-					console.log('rec', rec);
-					setTableData(rec);
-					setTableDataLoading(false);
-				})
-				.catch((err) => {
-					showNotification(_titleError, err.message, 'Danger');
-				});
-		}
-	}, [formik.values.kit_name]);
-	useEffect(() => {
-		Axios.get(`${baseURL}/getkitsDropdown`)
+		Axios.get(`${baseURL}/getMachinesDropDown`)
 			.then((response) => {
-				const rec = response.data.kitsDropdown.map(({ id, name }) => ({
+				const rec = response.data.machines.map(({ id, name }) => ({
 					id,
 					value: id,
 					label: name,
 				}));
 				setMachineOptions(rec);
-
 				setMachineOptionsLoading(false);
+			})
+			// eslint-disable-next-line no-console
+			.catch((err) => {});
+
+		Axios.get(`${baseURL}/getMakesDropDown`)
+			.then((response) => {
+				const rec = response.data.makes.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setMakeOptions(rec);
+				setMakeOptionsLoading(false);
 			})
 			// eslint-disable-next-line no-console
 			.catch((err) => {});
@@ -155,7 +136,7 @@ const Add = ({ refreshTableData }) => {
 		<div className='col-auto'>
 			<div className='col-auto'>
 				<Button
-					color='success'
+					color='danger'
 					isLight
 					icon='Add'
 					hoverShadow='default'
@@ -165,7 +146,7 @@ const Add = ({ refreshTableData }) => {
 						setState(true);
 						setStaticBackdropStatus(true);
 					}}>
-					Make New Kit
+					Break Kit
 				</Button>
 			</div>
 			<Modal
@@ -180,7 +161,7 @@ const Add = ({ refreshTableData }) => {
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
 					<CardLabel icon='Add'>
-						<ModalTitle id='exampleModalLabel'>Make New Kit</ModalTitle>
+						<ModalTitle id='exampleModalLabel'>Break Kit</ModalTitle>
 					</CardLabel>
 				</ModalHeader>
 				<ModalBody>
@@ -189,7 +170,7 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
-										<FormGroup label='Kit Name' id='kit_name'>
+										<FormGroup label='Machines' id='machine_id'>
 											<ReactSelect
 												className='col-md-12'
 												classNamePrefix='select'
@@ -197,40 +178,57 @@ const Add = ({ refreshTableData }) => {
 												isLoading={machineOptionsLoading}
 												isClearable
 												value={
-													formik.values.kit_name
+													formik.values.machine_id
 														? machineOptions.find(
 																(c) =>
 																	c.value ===
-																	formik.values.kit_name,
+																	formik.values.machine_id,
 														  )
 														: null
 												}
 												onChange={(val) => {
 													formik.setFieldValue(
-														'kit_name',
+														'machine_id',
 														val !== null && val.id,
 													);
 												}}
 												isValid={formik.isValid}
-												isTouched={formik.touched.kit_name}
-												invalidFeedback={formik.errors.kit_name}
+												isTouched={formik.touched.machine_id}
+												invalidFeedback={formik.errors.machine_id}
 												validFeedback='Looks good!'
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
-										{formik.errors.kit_name && (
-											// <div className='invalid-feedback'>
-											<p
-												style={{
-													color: 'red',
-												}}>
-												{formik.errors.kit_name}
-											</p>
-										)}
-										<FormGroup
-											id='name'
-											label='Kit Quantity'
-											className='col-md-12'>
+										<FormGroup label='Makes' id='make_id'>
+											<ReactSelect
+												className='col-md-12'
+												classNamePrefix='select'
+												options={makeOptions}
+												isLoading={makeOptionsLoading}
+												isClearable
+												value={
+													formik.values.make_id
+														? makeOptions.find(
+																(c) =>
+																	c.value ===
+																	formik.values.make_id,
+														  )
+														: null
+												}
+												onChange={(val) => {
+													formik.setFieldValue(
+														'make_id',
+														val !== null && val.id,
+													);
+												}}
+												isValid={formik.isValid}
+												isTouched={formik.touched.make_id}
+												invalidFeedback={formik.errors.make_id}
+												validFeedback='Looks good!'
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
+										<FormGroup id='name' label='Name' className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
@@ -241,39 +239,6 @@ const Add = ({ refreshTableData }) => {
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
-										<table className='table table-modern my-3'>
-											<thead>
-												<tr>
-													<th>Items</th>
-													<th>Required Quantity</th>
-													<th>Exisiting Quantity</th>
-												</tr>
-											</thead>
-											{tableDataLoading ? (
-												<tbody>
-													<tr>
-														<td colSpan='12'>
-															<div className='d-flex justify-content-center'>
-																<Spinner
-																	color='primary'
-																	size='3rem'
-																/>
-															</div>
-														</td>
-													</tr>
-												</tbody>
-											) : (
-												<tbody>
-													{tableData.map((item) => (
-														<tr key={item.id}>
-															<td>{item.name}</td>
-															<td>{item.reqQty}</td>
-															<td>{item.exisQty}</td>
-														</tr>
-													))}
-												</tbody>
-											)}
-										</table>
 									</div>
 								</div>
 							</CardBody>
@@ -290,13 +255,13 @@ const Add = ({ refreshTableData }) => {
 								<CardFooterRight>
 									<Button
 										className='me-3'
-										icon={isLoading ? null : 'Submit'}
+										icon={isLoading ? null : 'Save'}
 										isLight
 										color='success'
 										isDisable={isLoading}
 										onClick={formik.handleSubmit}>
 										{isLoading && <Spinner isSmall inButton />}
-										{isLoading ? 'Submiting' : 'Submit'}
+										{isLoading ? 'Saving' : 'Save'}
 									</Button>
 								</CardFooterRight>
 							</CardFooter>
@@ -316,8 +281,8 @@ const Add = ({ refreshTableData }) => {
 		</div>
 	);
 };
-Add.propTypes = {
-	refreshTableData: PropTypes.func.isRequired,
+Add1.propTypes = {
+	refreshTableData1: PropTypes.func.isRequired,
 };
 
-export default Add;
+export default Add1;
