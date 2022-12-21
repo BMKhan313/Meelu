@@ -13,6 +13,7 @@ import {
 	dashboardHome,
 	itemsManagementModule,
 	kitModule,
+	inventoryModule,
 } from '../../menu';
 import ThemeContext from '../../contexts/themeContext';
 import Card, { CardBody } from '../../components/bootstrap/Card';
@@ -62,6 +63,8 @@ const Aside = () => {
 					<Navigation menu={itemsManagementModule} id='aside-dashboard' />
 					<NavigationLine />
 					<Navigation menu={kitModule} id='aside-dashboard' />
+					<NavigationLine />
+					<Navigation menu={inventoryModule} id='aside-dashboard' />
 					<NavigationLine />
 					{/* <Navigation menu={dashboardMenu} id='aside-dashboard' /> */}
 					{doc && (

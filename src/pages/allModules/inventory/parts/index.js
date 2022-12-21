@@ -1,15 +1,13 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 
 // ** Axios Imports
 import { useDispatch, useSelector } from 'react-redux';
-import Select, { createFilter } from 'react-select';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
-import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
-import Button from '../../../../components/bootstrap/Button';
 
 // eslint-disable-next-line import/no-unresolved
 import { updateSingleState } from '../../redux/tableCrud/index';
-import Input from '../../../../components/bootstrap/forms/Input';
 
 import PageWrapper from '../../../../layout/PageWrapper/PageWrapper';
 import Page from '../../../../layout/Page/Page';
@@ -28,10 +26,10 @@ import View from './view';
 import Add from './add';
 
 export const searchByOptions = [{ value: 1, text: 'Id' }];
-export const options = [
-	{ id: 1, value: 1, label: 'abc' },
-	{ id: 1, value: 1, label: 'def' },
-	{ id: 1, value: 1, label: 'ghi' },
+export const categoryOptions = [
+	{ value: 0, text: 'qqq' },
+	{ value: 1, text: 'www' },
+	{ value: 2, text: 'eee' },
 ];
 
 const Categories = () => {
@@ -41,25 +39,22 @@ const Categories = () => {
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
-	const [searchNo, setSearchNo] = useState('');
-
-	const [selectedOption, setSelectedOption] = useState('');
 
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getModelItemOem?records=${store.data.itemsManagementModule.itemParts.perPage}&pageNo=${store.data.itemsManagementModule.itemParts.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getMachines?records=${store.data.inventoryManagementModule.parts.perPage}&pageNo=${store.data.inventoryManagementModule.parts.pageNo}&colName=id&sort=asc`,
 			{},
 		)
 			.then((response) => {
-				setTableData(response.data.data.data);
-				setTableData2(response.data.data);
+				setTableData(response.data.machines.data);
+				setTableData2(response.data.machines);
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.data,
-						'itemsManagementModule',
-						'itemParts',
+						response.data.machines,
+						'inventoryManagementModule',
+						'parts',
 						'tableData',
 					]),
 				);
@@ -74,8 +69,8 @@ const Categories = () => {
 		refreshTableData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
-		store.data.itemsManagementModule.itemParts.perPage,
-		store.data.itemsManagementModule.itemParts.pageNo,
+		store.data.inventoryManagementModule.parts.perPage,
+		store.data.inventoryManagementModule.parts.pageNo,
 	]);
 
 	return (
@@ -93,47 +88,24 @@ const Categories = () => {
 								</CardActions>
 							</CardHeader>
 							<CardBody>
-								<div className='row g-4 d-flex align-items-end'>
-									<div className='col-md-2'>
-										<FormGroup label='Filter' id='filterId'>
-											<Select
-												className='col-md-12'
-												classNamePrefix='select'
-												options={options}
-												isClearable
-												value={selectedOption}
-												onChange={(val) => {
-													setSelectedOption(val);
-												}}
-												filterOption={createFilter({ matchFrom: 'start' })}
-											/>
-										</FormGroup>
-									</div>
+								{/* <div className='row g-4'>
+									<FormGroup className='col-md-2' label='Category'>
+										<Select
+											ariaLabel='Default select example'
+											placeholder='Open this select menu'
+											onChange={(e) => {
+												setCategoryOptionsSelected({
+													value: e.target.value,
+												});
+											}}
+											value={categoryOptionsSelected.value}
+											list={categoryOptions}
+										/>
+									</FormGroup>
+								</div> */}
+								<br />
 
-									<div className='col-md-2'>
-										<FormGroup label='Name' id='searchFileNo'>
-											<Input
-												id='searchFileNo'
-												type='text'
-												onChange={(e) => {
-													setSearchNo(e.target.value);
-												}}
-												value={searchNo}
-												validFeedback='Looks good!'
-											/>
-										</FormGroup>
-									</div>
-									<div className='col-md-2'>
-										<Button
-											color='primary'
-											onClick={() => refreshTableData()}
-											isOutline
-											// isDisable={landsViewLoading}
-											isActive>
-											Search
-										</Button>
-									</div>
-								</div>
+								<br />
 							</CardBody>
 							<View
 								tableData={tableData}
