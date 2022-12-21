@@ -222,7 +222,7 @@ const Add = ({ refreshTableData }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	const submitForm = (myFormik) => {
-		console.log('data', myFormik.values);
+		// console.log('data', myFormik.values);
 		Axios.post(`${baseURL}/addModelItemOem`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})

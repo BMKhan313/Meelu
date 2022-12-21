@@ -72,6 +72,27 @@ export const addProjectSlice = createSlice({
 				},
 			},
 			// itemsManagementModule End
+
+			// inventory
+			inventoryManagementModule: {
+				parts: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
+				kits: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
+			},
+			// inventory Ends
 		},
 		cookies: {
 			userRights: [],

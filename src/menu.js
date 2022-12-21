@@ -99,6 +99,35 @@ export const kitModule = {
 		},
 	},
 };
+
+export const inventoryModule = {
+	heading: {
+		id: 'inventoryModule',
+		text: 'Inventory',
+		icon: 'DirectionsCar',
+	},
+	inventoryModules: {
+		id: 'inventory',
+		text: 'Inventory',
+		path: `${subDir}inventory`,
+		icon: 'DirectionsCar',
+		subMenu: {
+			parts: {
+				id: 'parts',
+				text: 'Parts',
+				path: `${subDir}inventory/parts`,
+				icon: 'ArrowBarUp',
+			},
+			kits: {
+				id: 'kits',
+				text: 'Kits',
+				path: `${subDir}inventory/kits`,
+				icon: 'ArrowBarUp',
+			},
+		},
+	},
+};
+
 export const accountsModule = {
 	accountsHeading: {
 		id: 'accountsHeading',
