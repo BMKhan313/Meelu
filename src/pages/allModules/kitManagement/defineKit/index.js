@@ -46,12 +46,13 @@ const Categories = () => {
 	const [kitOptionsLoading, setKitOptionsLoading] = useState(false);
 	const [selectedItem, setSelectedItem] = useState({
 		id: '',
+		value: '',
 		label: '',
 	});
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getKits?records=${store.data.kitManagement.defineKit.perPage}&pageNo=${store.data.kitManagement.defineKit.pageNo}&colName=id&sort=asc&item_id=${selectedItem.id}`,
+			`${baseURL}/getKits?records=${store.data.kitManagement.defineKit.perPage}&pageNo=${store.data.kitManagement.defineKit.pageNo}&colName=id&sort=asc&id=${selectedItem.id}`,
 		)
 			.then((response) => {
 				// console.log('myres::', response.data.data.data);
@@ -132,10 +133,10 @@ const Categories = () => {
 												isLoading={kitOptionsLoading}
 												isClearable
 												value={kitOptions.find(
-													(c) => c.value === selectedItem.label,
+													(c) => c.label === selectedItem?.label,
 												)}
 												onChange={(val) => {
-													setSelectedItem({ id: val.id });
+													setSelectedItem(val);
 												}}
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
