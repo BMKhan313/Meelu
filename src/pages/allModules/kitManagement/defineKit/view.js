@@ -70,9 +70,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
-		Axios.get(`${baseURL}/editMachineModel?id=${idd}`)
+		Axios.get(`${baseURL}/editKits?id=${idd}`)
 			.then((res) => {
-				setEditingItem(res.data.machine);
+				console.log('', res.data.data);
+				setEditingItem(res.data.data);
 				setEditingItemLoading(false);
 			})
 			.catch((err) => {
