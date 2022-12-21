@@ -125,7 +125,6 @@ const Add = ({ refreshTableData }) => {
 							exisQty: 0,
 						}),
 					);
-					console.log('rec', rec);
 					setTableData(rec);
 					setTableDataLoading(false);
 				})
@@ -136,14 +135,15 @@ const Add = ({ refreshTableData }) => {
 	}, [formik.values.kit_name]);
 	useEffect(() => {
 		Axios.get(`${baseURL}/getkitsDropdown`)
+
 			.then((response) => {
+				// console.log('bnnn::', response.data);
 				const rec = response.data.kitsDropdown.map(({ id, name }) => ({
 					id,
 					value: id,
 					label: name,
 				}));
 				setMachineOptions(rec);
-
 				setMachineOptionsLoading(false);
 			})
 			// eslint-disable-next-line no-console
