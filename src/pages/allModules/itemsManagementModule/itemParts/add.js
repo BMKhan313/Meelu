@@ -46,11 +46,11 @@ const validate = (values) => {
 	if (!values.number1) {
 		errors.number1 = 'Required';
 	}
-	// if (!values.machine) {
-	// 	errors.machine = 'Required';
+	// if (!values.machine_id) {
+	// 	errors.machine_id = 'Required';
 	// }
-	// if (!values.make) {
-	// 	errors.make = 'Required';
+	// if (!values.make_id) {
+	// 	errors.make_id = 'Required';
 	// }
 	if (!values.machine_model_id) {
 		errors.machine_model_id = 'Required';
@@ -111,8 +111,8 @@ const Add = ({ refreshTableData }) => {
 		initialValues: {
 			number2: '',
 			number1: '',
-			machine: '',
-			make: '',
+			machine_id: '',
+			make_id: '',
 			machine_model_id: '',
 			brand: '',
 			machine_part_id: '',
@@ -201,23 +201,7 @@ const Add = ({ refreshTableData }) => {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
 			});
-		Axios.get(`${baseURL}/getMachineModelsDropDown`)
-			.then((response) => {
-				const rec = response.data.machineModels.map(({ id, name }) => ({
-					id,
-					value: id,
-					label: name,
-				}));
-				setModelOptions(rec);
-				setModelOptionsLoading(false);
-			})
-			// eslint-disable-next-line no-console
-			.catch((err) => {
-				showNotification(_titleError, err.message, 'Danger');
-				if (err.response.status === 401) {
-					showNotification(_titleError, err.response.data.message, 'Danger');
-				}
-			});
+		
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -246,6 +230,30 @@ const Add = ({ refreshTableData }) => {
 			});
 	};
 
+	useEffect(() => {
+		setModelOptionsLoading(true);
+
+		Axios.get(`${baseURL}/getMachineModelsDropDown?machine_id=${formik.values.machine_id?formik.values.machine_id:''}&make_id=${formik.values.make_id?formik.values.make_id:''}`)
+			.then((response) => {
+				const rec = response.data.machineModels.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setModelOptions(rec);
+				setModelOptionsLoading(false);
+
+			
+			})
+			// eslint-disable-next-line no-console
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+				if (err.response.status === 401) {
+					showNotification(_titleError, err.response.data.message, 'Danger');
+				}
+			});
+
+	}, [formik.values.machine_id,formik.values.make_id]);
 	return (
 		<div className='col-auto'>
 			<div className='col-auto'>
@@ -284,7 +292,7 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-4 '>
 									<div className='col-md-4'>
-										<FormGroup label='Machine' id='machine'>
+										<FormGroup label='Machine' id='machine_id'>
 											<Select
 												className='col-md-12'
 												classNamePrefix='select'
@@ -292,40 +300,40 @@ const Add = ({ refreshTableData }) => {
 												isLoading={machineOptionsLoading}
 												isClearable
 												value={
-													formik.values.machine
+													formik.values.machine_id
 														? machineOptions?.find(
 																(c) =>
 																	c.value ===
-																	formik.values.machine,
+																	formik.values.machine_id,
 														  )
 														: null
 												}
 												onChange={(val) => {
 													formik.setFieldValue(
-														'machine',
+														'machine_id',
 														val !== null && val.id,
 													);
 												}}
 												onBlur={formik.handleBlur}
 												isValid={formik.isValid}
-												isTouched={formik.touched.machine}
-												invalidFeedback={formik.errors.machine}
+												isTouched={formik.touched.machine_id}
+												invalidFeedback={formik.errors.machine_id}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
-										{formik.errors.machine && (
+										{formik.errors.machine_id && (
 											// <div className='invalid-feedback'>
 											<p
 												style={{
 													color: 'red',
 												}}>
-												{formik.errors.machine}
+												{formik.errors.machine_id}
 											</p>
 										)}
 									</div>
 
 									<div className='col-md-4'>
-										<FormGroup label='Make' id='make'>
+										<FormGroup label='Make' id='make_id'>
 											<Select
 												className='col-md-12'
 												classNamePrefix='select'
@@ -333,33 +341,33 @@ const Add = ({ refreshTableData }) => {
 												isLoading={makeOptionsLoading}
 												isClearable
 												value={
-													formik.values.make
+													formik.values.make_id
 														? makeOptions?.find(
 																(c) =>
-																	c.value === formik.values.make,
+																	c.value === formik.values.make_id,
 														  )
 														: null
 												}
 												onChange={(val) => {
 													formik.setFieldValue(
-														'make',
+														'make_id',
 														val !== null && val.id,
 													);
 												}}
 												onBlur={formik.handleBlur}
 												isValid={formik.isValid}
-												isTouched={formik.touched.make}
-												invalidFeedback={formik.errors.make}
+												isTouched={formik.touched.make_id}
+												invalidFeedback={formik.errors.make_id}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
-										{formik.errors.make && (
+										{formik.errors.make_id && (
 											// <div className='invalid-feedback'>
 											<p
 												style={{
 													color: 'red',
 												}}>
-												{formik.errors.make}
+												{formik.errors.make_id}
 											</p>
 										)}
 									</div>
