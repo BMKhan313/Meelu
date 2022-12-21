@@ -72,7 +72,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
-		Axios.get(`${baseURL}/editMake?id=${idd}`)
+		Axios.get(`${baseURL}/editItem?id=${idd}`)
 			.then((res) => {
 				setEditingItem(res.data.itemParts);
 				setEditingItemLoading(false);
@@ -153,7 +153,11 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<th>Name</th>
 							<th>Primary</th>
 							<th>Secondary</th>
+							<th>Model</th>
+							<th>Machine</th>
+						
 							<th>Actions</th>
+							
 						</tr>
 					</thead>
 					{tableDataLoading ? (
@@ -168,7 +172,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.itemsManagementModule.itemParts.tableData.data.map(
+							{store.data.itemsManagementModule.itemParts?.tableData?.data?.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
@@ -189,6 +193,15 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										</td>
 										<td>
 											{item.machine_part_oem_part.oem_part_number.number2}
+										</td>
+									<td>
+											{item.machine_model.name}
+										</td>
+										<td>
+											{item.machine_model.machine.name}
+										</td>
+										<td>
+											{item.machine_model.make.name}
 										</td>
 
 										<td>
