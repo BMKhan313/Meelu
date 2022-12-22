@@ -69,6 +69,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setFullScreenStatusEdit(false);
 		setAnimationStatusEdit(true);
 		setHeaderCloseStatusEdit(true);
+	
 	};
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
