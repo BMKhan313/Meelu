@@ -38,11 +38,11 @@ import Button from '../../../../components/bootstrap/Button';
 
 const validate = (values) => {
 	const errors = {};
-	if (!values.name) {
-		errors.name = 'Required';
+	if (!values.in_flow) {
+		errors.in_flow = 'Required';
 	}
-	if (!values.kit_name) {
-		errors.kit_name = 'Required';
+	if (!values.kit_id) {
+		errors.kit_id = 'Required';
 	}
 	return errors;
 };
@@ -57,7 +57,7 @@ const Add = ({ refreshTableData }) => {
 	const [centeredStatus, setCenteredStatus] = useState(false);
 	const [fullScreenStatus, setFullScreenStatus] = useState(null);
 	const [animationStatus, setAnimationStatus] = useState(true);
-	const [machineOptions, setMachineOptions] = useState();
+	const [machineOptions, setMachineOptions] = useState('');
 	const [machineOptionsLoading, setMachineOptionsLoading] = useState(false);
 	const [tableDataLoading, setTableDataLoading] = useState(false);
 	const [tableData, setTableData] = useState([]);
@@ -75,8 +75,9 @@ const Add = ({ refreshTableData }) => {
 
 	const formik = useFormik({
 		initialValues: {
-			name: '',
-			kit_name: '',
+			in_flow: '',
+			kit_id: '',
+			out_flow: 0,
 		},
 		validate,
 		onSubmit: () => {
@@ -111,9 +112,9 @@ const Add = ({ refreshTableData }) => {
 			});
 	};
 	useEffect(() => {
-		if (formik.values.kit_name) {
+		if (formik.values.kit_id) {
 			Axios.get(
-				`${baseURL}/viewKits?id=${formik.values.kit_name ? formik.values.kit_name : ''}`,
+				`${baseURL}/viewKits?id=${formik.values.kit_id ? formik.values.kit_id : ''}`,
 				{},
 			)
 				.then((response) => {
@@ -133,7 +134,7 @@ const Add = ({ refreshTableData }) => {
 					showNotification(_titleError, err.message, 'Danger');
 				});
 		}
-	}, [formik.values.kit_name]);
+	}, [formik.values.kit_id]);
 	useEffect(() => {
 		Axios.get(`${baseURL}/getkitsDropdown`)
 			.then((response) => {
@@ -189,7 +190,7 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
-										<FormGroup label='Kit Name' id='kit_name'>
+										<FormGroup label='Kit Name' id='kit_id'>
 											<ReactSelect
 												className='col-md-12'
 												classNamePrefix='select'
@@ -197,34 +198,34 @@ const Add = ({ refreshTableData }) => {
 												isLoading={machineOptionsLoading}
 												isClearable
 												value={
-													formik.values.kit_name
+													formik.values.kit_id
 														? machineOptions.find(
 																(c) =>
 																	c.value ===
-																	formik.values.kit_name,
+																	formik.values.kit_id,
 														  )
 														: null
 												}
 												onChange={(val) => {
 													formik.setFieldValue(
-														'kit_name',
+														'kit_id',
 														val !== null && val.id,
 													);
 												}}
 												isValid={formik.isValid}
-												isTouched={formik.touched.kit_name}
-												invalidFeedback={formik.errors.kit_name}
+												isTouched={formik.touched.kit_id}
+												invalidFeedback={formik.errors.kit_id}
 												validFeedback='Looks good!'
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
-										{formik.errors.kit_name && (
+										{formik.errors.kit_id && (
 											// <div className='invalid-feedback'>
 											<p
 												style={{
 													color: 'red',
 												}}>
-												{formik.errors.kit_name}
+												{formik.errors.kit_id}
 											</p>
 										)}
 										<table className='table table-modern my-3'>
@@ -265,14 +266,15 @@ const Add = ({ refreshTableData }) => {
 												<Label> Kit Quantity</Label>
 											</FormGroup>
 
-											<FormGroup id='name' label='' className='col-md-8'>
+											<FormGroup id='in_flow' label='' className='col-md-8'>
 												<Input
+													type='number'
 													onChange={formik.handleChange}
 													onBlur={formik.handleBlur}
-													value={formik.values.name}
+													value={formik.values.in_flow}
 													isValid={formik.isValid}
-													isTouched={formik.touched.name}
-													invalidFeedback={formik.errors.name}
+													isTouched={formik.touched.in_flow}
+													invalidFeedback={formik.errors.in_flow}
 													validFeedback='Looks good!'
 												/>
 											</FormGroup>
