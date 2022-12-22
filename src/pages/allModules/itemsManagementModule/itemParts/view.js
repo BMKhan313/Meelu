@@ -72,9 +72,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
-		Axios.get(`${baseURL}/editItem?id=${idd}`)
+		Axios.get(`${baseURL}/editModelItemOem?id=${idd}`)
 			.then((res) => {
-				setEditingItem(res.data.itemParts);
+				setEditingItem(res.data.data);
 				setEditingItemLoading(false);
 			})
 			.catch((err) => {
@@ -150,12 +150,12 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						<tr>
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
-							<th>Name</th>
+							<th>Machine</th>
+							<th>Make</th>
+							<th>Model</th>
+						   <th>Name</th>
 							<th>Primary</th>
 							<th>Secondary</th>
-							<th>Model</th>
-							<th>Machine</th>
-						
 							<th>Actions</th>
 							
 						</tr>
@@ -187,6 +187,17 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 											/>
 										</td>
 										<td>{index + 1}</td>
+										
+									
+										<td>
+											{item.machine_model.machine.name}
+										</td>
+										<td>
+											{item.machine_model.make.name}
+										</td>
+										<td>
+											{item.machine_model.name}
+										</td>
 										<td>{item.machine_part_oem_part.machine_part.name}</td>
 										<td>
 											{item.machine_part_oem_part.oem_part_number.number1}
@@ -194,16 +205,6 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										<td>
 											{item.machine_part_oem_part.oem_part_number.number2}
 										</td>
-									<td>
-											{item.machine_model.name}
-										</td>
-										<td>
-											{item.machine_model.machine.name}
-										</td>
-										<td>
-											{item.machine_model.make.name}
-										</td>
-
 										<td>
 											<ButtonGroup>
 												<Button
@@ -374,7 +375,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						{' '}
 						<CardHeader>
 							<CardLabel icon='Edit' iconColor='info'>
-								<CardTitle>Editing Item</CardTitle>
+								<CardTitle>Editing Item Part</CardTitle>
 								<small> Item Id: {itemId}</small>
 							</CardLabel>
 						</CardHeader>
@@ -390,18 +391,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							) : (
 								<Edit editingItem={editingItem} handleStateEdit={handleStateEdit} />
 							)}
-							<CardFooter>
-								<CardFooterRight>
-									<Button
-										color='info'
-										icon='cancel'
-										isOutline
-										className='border-0'
-										onClick={() => setStateEdit(false)}>
-										Cancel
-									</Button>
-								</CardFooterRight>
-							</CardFooter>
+						
 						</div>
 					</div>
 				</ModalBody>

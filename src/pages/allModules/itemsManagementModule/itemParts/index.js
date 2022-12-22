@@ -45,7 +45,8 @@ const Categories = () => {
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
-	const [searchNo, setSearchNo] = useState('');
+	const [oemNo, setOemNo] = useState('');
+	const [oemNo2, setOemNo2] = useState('');
 	const [machineOptions, setMachineOptions] = useState();
 	const [selectedMachine, setSelectedMachine] = useState('');
 	const [companyOptions, setCompanyOptions] = useState();
@@ -63,21 +64,22 @@ const Categories = () => {
 		setTableDataLoading(true);
 		Axios.get(
 			`${baseURL}/getModelItemOem?records=${store.data.itemsManagementModule.itemParts.perPage}&pageNo=${store.data.itemsManagementModule.itemParts.pageNo}
-			&colName=id&sort=asc`,
+			&colName=id&sort=asc&make_id=${selectedMake?selectedMake.id:''}&machine_id=${selectedMachine?selectedMachine.id:''}
+			&model_id=${selectedModel?selectedModel.id:''}&item_id=${selectedName?selectedName.id:''}&primary=${oemNo}`,
 			{},
 		)
 			.then((response) => {
-				// setTableData(response.data.data.data);
-				// setTableData2(response.data.data);
+				setTableData(response.data.data.data);
+				setTableData2(response.data.data);
 				setTableDataLoading(false);
-				// dispatch(
-				// 	updateSingleState([
-				// 		response.data.data,
-				// 		'itemsManagementModule',
-				// 		'itemParts',
-				// 		'tableData',
-				// 	]),
-				// );
+				dispatch(
+					updateSingleState([
+						response.data.data,
+						'itemsManagementModule',
+						'itemParts',
+						'tableData',
+					]),
+				);
 				console.log("res1",response,)
 			})
 
@@ -143,19 +145,22 @@ const Categories = () => {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
 			});
-			Axios.get(`${baseURL}/kitItemDropdown`)
+			Axios.get(`${baseURL}/getMachinePartsDropDown`)
 			.then((response) => {
-				// console.log('bmmmmkkkk::', response.data);
-				const rec = response.data.data.map(({ id, machine_part_oem_part }) => ({
+				const rec = response.data.machine_Parts.map(({ id, name }) => ({
 					id,
 					value: id,
-					label: `${machine_part_oem_part.oem_part_number.number1}-${machine_part_oem_part.machine_part.name}`,
+					label: name,
 				}));
 				setNameOptions(rec);
-				
 			})
 			// eslint-disable-next-line no-console
-			.catch((err) => {});
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+				if (err.response.status === 401) {
+					showNotification(_titleError, err.response.data.message, 'Danger');
+				}
+			});
 			
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		}, []);
@@ -205,8 +210,8 @@ const Categories = () => {
 							</CardHeader>
 							<CardBody>
 								<div className='row g-4 d-flex align-items-end'>
-									<div className='col-md-2'>
-										<FormGroup label='Name' id='name'>
+									<div className='col-md-3'>
+										<FormGroup label='Item' id='name'>
 											<Select
 												className='col-md-12'
 												classNamePrefix='select'
@@ -227,7 +232,7 @@ const Categories = () => {
 											/>
 										</FormGroup>
 									</div>
-									<div className='col-md-2'>
+									<div className='col-md-3'>
 										<FormGroup label='Machine' id='machine'>
 											<Select
 												className='col-md-12'
@@ -246,7 +251,7 @@ const Categories = () => {
 										</FormGroup>
 									</div>
 									
-									<div className='col-md-2'>
+									<div className='col-md-3'>
 										<FormGroup label='Make' id='make'>
 											<Select
 												className='col-md-12'
@@ -263,7 +268,7 @@ const Categories = () => {
 											/>
 										</FormGroup>
 									</div> 
-									<div className='col-md-2'>
+									<div className='col-md-3'>
 										<FormGroup label='Model' id='model'>
 											<Select
 												className='col-md-12'
@@ -283,7 +288,21 @@ const Categories = () => {
 									</div> 
 									
 									</div>
+
 									<div className='row g-4 d-flex align-items-end'>
+									<div className='col-md-2'>
+										<FormGroup label='OEM Num' id='oem_num'>
+											<Input
+												id='oemFileNo'
+												type='text'
+												onChange={(e) => {
+													setOemNo(e.target.value);
+												}}
+												value={oemNo}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+									</div>
 									<div className='col-md-2'>
 										<FormGroup label='Companies' id='companies'>
 											<Select
@@ -315,14 +334,14 @@ const Categories = () => {
 										</FormGroup>
 									</div> */}
 									<div className='col-md-2'>
-										<FormGroup label='OEM Number' id='oem_id'>
+										<FormGroup label='OEM Number' id='oem_id2'>
 											<Input
-												id='searchFileNo'
+												id='oem2FileNo'
 												type='text'
 												onChange={(e) => {
-													setSearchNo(e.target.value);
+													setOemNo2(e.target.value);
 												}}
-												value={searchNo}
+												value={oemNo2}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
