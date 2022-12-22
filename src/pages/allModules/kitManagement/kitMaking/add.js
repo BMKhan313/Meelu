@@ -38,11 +38,8 @@ import Button from '../../../../components/bootstrap/Button';
 
 const validate = (values) => {
 	const errors = {};
-	if (!values.name) {
-		errors.name = 'Required';
-	}
-	if (!values.kit_name) {
-		errors.kit_name = 'Required';
+	if (!values.kit_id) {
+		errors.kit_id = 'Required';
 	}
 	return errors;
 };
@@ -75,8 +72,9 @@ const Add = ({ refreshTableData }) => {
 
 	const formik = useFormik({
 		initialValues: {
-			name: '',
-			kit_name: '',
+			kit_id: '',
+			in_flow: 0,
+			out_flow: 0,
 		},
 		validate,
 		onSubmit: () => {
@@ -85,7 +83,7 @@ const Add = ({ refreshTableData }) => {
 		},
 	});
 	const handleSave = () => {
-		submitForm(formik);
+		submitForm(formik.values);
 	};
 	const submitForm = (myFormik) => {
 		Axios.post(`${baseURL}/addKitInventory`, myFormik.values, {
@@ -106,9 +104,9 @@ const Add = ({ refreshTableData }) => {
 			});
 	};
 	useEffect(() => {
-		if (formik.values.kit_name) {
+		if (formik.values.kit_id) {
 			Axios.get(
-				`${baseURL}/viewKits?id=${formik.values.kit_name ? formik.values.kit_name : ''}`,
+				`${baseURL}/viewKits?id=${formik.values.kit_id ? formik.values.kit_id : ''}`,
 				{},
 			)
 				.then((response) => {
@@ -121,7 +119,6 @@ const Add = ({ refreshTableData }) => {
 							exisQty: 0,
 						}),
 					);
-					console.log('rec', rec);
 					setTableData(rec);
 					setTableDataLoading(false);
 				})
@@ -129,17 +126,18 @@ const Add = ({ refreshTableData }) => {
 					showNotification(_titleError, err.message, 'Danger');
 				});
 		}
-	}, [formik.values.kit_name]);
+	}, [formik.values.kit_id]);
 	useEffect(() => {
 		Axios.get(`${baseURL}/getkitsDropdown`)
+
 			.then((response) => {
+				// console.log('bnnn::', response.data);
 				const rec = response.data.kitsDropdown.map(({ id, name }) => ({
 					id,
 					value: id,
 					label: name,
 				}));
 				setMachineOptions(rec);
-
 				setMachineOptionsLoading(false);
 			})
 			// eslint-disable-next-line no-console
@@ -185,7 +183,7 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
-										<FormGroup label='Kit Name' id='kit_name'>
+										<FormGroup label='Kit Name' id='kit_id'>
 											<ReactSelect
 												className='col-md-12'
 												classNamePrefix='select'
@@ -193,34 +191,34 @@ const Add = ({ refreshTableData }) => {
 												isLoading={machineOptionsLoading}
 												isClearable
 												value={
-													formik.values.kit_name
+													formik.values.kit_id
 														? machineOptions.find(
 																(c) =>
 																	c.value ===
-																	formik.values.kit_name,
+																	formik.values.kit_id,
 														  )
 														: null
 												}
 												onChange={(val) => {
 													formik.setFieldValue(
-														'kit_name',
+														'kit_id',
 														val !== null && val.id,
 													);
 												}}
 												isValid={formik.isValid}
-												isTouched={formik.touched.kit_name}
-												invalidFeedback={formik.errors.kit_name}
+												isTouched={formik.touched.kit_id}
+												invalidFeedback={formik.errors.kit_id}
 												validFeedback='Looks good!'
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
-										{formik.errors.kit_name && (
+										{formik.errors.kit_id && (
 											// <div className='invalid-feedback'>
 											<p
 												style={{
 													color: 'red',
 												}}>
-												{formik.errors.kit_name}
+												{formik.errors.kit_id}
 											</p>
 										)}
 										<table className='table table-modern my-3'>
