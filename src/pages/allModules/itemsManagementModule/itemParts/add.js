@@ -40,9 +40,9 @@ import Button from '../../../../components/bootstrap/Button';
 const validate = (values) => {
 	const errors = {};
 
-	if (!values.number2) {
-		errors.number2 = 'Required';
-	}
+	// if (!values.number2) {
+	// 	errors.number2 = 'Required';
+	// }
 	if (!values.number1) {
 		errors.number1 = 'Required';
 	}
@@ -283,7 +283,7 @@ const Add = ({ refreshTableData }) => {
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
 					<CardLabel icon='Add'>
-						<ModalTitle id='exampleModalLabel'>Add Make</ModalTitle>
+						<ModalTitle id='exampleModalLabel'>Add Item Part</ModalTitle>
 					</CardLabel>
 				</ModalHeader>
 				<ModalBody>

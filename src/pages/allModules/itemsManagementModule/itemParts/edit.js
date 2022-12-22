@@ -33,6 +33,25 @@ const validate = (values) => {
 	if (!values.name) {
 		errors.name = 'Required';
 	}
+	if (!values.number2) {
+		errors.number2 = 'Required';
+	}
+	if (!values.number1) {
+		errors.number1 = 'Required';
+	}
+	// if (!values.machine_id) {
+	// 	errors.machine_id = 'Required';
+	// }
+	// if (!values.make_id) {
+	// 	errors.make_id = 'Required';
+	// }
+	if (!values.machine_model_id) {
+		errors.machine_model_id = 'Required';
+	}
+
+	if (!values.machine_part_id) {
+		errors.machine_part_id = 'Required';
+	}
 	return errors;
 };
 
@@ -57,6 +76,13 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 
 	const formik = useFormik({
 		initialValues: editingItem,
+		number2: '',
+			number1: '',
+			machine_id: '',
+			make_id: '',
+			machine_model_id: '',
+			brand: '',
+			machine_part_id: '',
 		validate,
 		onSubmit: () => {
 			setIsLoading(true);
@@ -117,26 +143,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 
 	}, [formik.values.machine_id,formik.values.make_id]);
 	useEffect(() => {
-		Axios.get(`${baseURL}/getCompaniesDropDown`)
-			.then((response) => {
-				const rec = response.data.companies.map(({ id, name }) => ({
-					id,
-					company_id: id,
-					value: id,
-					label: name,
-					number1: '',
-					number2: '',
-				}));
-				formik.setFieldValue('rows', rec);
-			})
-
-			// eslint-disable-next-line no-console
-			.catch((err) => {
-				showNotification(_titleError, err.message, 'Danger');
-				if (err.response.status === 401) {
-					showNotification(_titleError, err.response.data.message, 'Danger');
-				}
-			});
+		
 
 		Axios.get(`${baseURL}/getMachinesDropDown`)
 			.then((response) => {
