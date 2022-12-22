@@ -42,9 +42,9 @@ const App = () => {
 	};
 
 	useEffect(() => {
-		// if (Cookies.get('userToken') === undefined || Cookies.get('userToken') === null) {
-		// 	navigate(`../${demoPages.login.path}`, { replace: true });
-		// }
+		if (Cookies.get('userToken') === undefined || Cookies.get('userToken') === null) {
+			navigate(`../${demoPages.login.path}`, { replace: true });
+		}
 		if (darkModeStatus) {
 			document.documentElement.setAttribute('theme', 'dark');
 		}

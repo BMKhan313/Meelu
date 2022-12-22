@@ -1,12 +1,18 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-console */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
-// eslint-disable-next-line import/no-extraneous-dependencies
+// eslint-disable-next-line import/no-extraneous-dependencies, no-unused-vars
 import Cookies from 'js-cookie';
+
+import { useDispatch, useSelector } from 'react-redux';
+
 import { toast } from 'react-toastify';
 import moment from 'moment';
+import showNotification from '../../../components/extras/showNotification';
+import { _titleSuccess, _titleError } from '../../../notifyMessages/erroSuccess';
+
 import subDirForNavigation from '../../../baseDirectory/subDirForNavigation';
 import PageWrapper from '../../../layout/PageWrapper/PageWrapper';
 import Page from '../../../layout/Page/Page';
@@ -18,6 +24,7 @@ import Logo from '../../../components/Logo.png';
 import useDarkMode from '../../../hooks/useDarkMode';
 import baseURL from '../../../baseURL/baseURL';
 import Spinner from '../../../components/bootstrap/Spinner';
+import { updateCookies } from '../../allModules/redux/tableCrud/index';
 
 // eslint-disable-next-line react/prop-types
 const LoginHeader = ({ isNewUser }) => {
@@ -38,6 +45,32 @@ const LoginHeader = ({ isNewUser }) => {
 };
 
 const Login = () => {
+	const store = useSelector((state) => state.tableCrud);
+
+	useEffect(() => {
+		try {
+			if (store.cookies?.userToken !== undefined) {
+				const fetchData = async () => {
+					const data = await JSON.stringify(store.cookies.userToken);
+					const name = await JSON.stringify(store.cookies.name);
+					// eslint-disable-next-line camelcase
+					const role_name = await JSON.stringify(store.cookies.role_name);
+					// eslint-disable-next-line camelcase
+					const role_id = await JSON.stringify(store.cookies.role_id);
+					Cookies.set('userToken', data);
+					Cookies.set('name', name);
+					Cookies.set('role_name', role_name);
+					Cookies.set('role_id', role_id);
+				};
+				fetchData();
+			}
+		} catch (error) {
+			console.log(error, error.message);
+		}
+	}, [store.cookies]);
+	const dispatch = useDispatch();
+	// eslint-disable-next-line no-unused-vars
+
 	const { darkModeStatus } = useDarkMode();
 
 	// eslint-disable-next-line no-unused-vars
@@ -71,31 +104,33 @@ const Login = () => {
 				.then((res) => res.json())
 				.then((data) => {
 					setIsLoading(false);
-					console.log('lll', data);
 					if (data.status === 'ok') {
-						Cookies.set('name', data.name);
-						Cookies.set('email', data.email);
-						Cookies.set('role', data.role);
-						Cookies.set('roleId', data.role_id);
-						Cookies.set('userID', data.user_id);
-						Cookies.set('companyID', data.company_id);
-						const fetchDataRoles = async () => {
-							const dataRoles = await JSON.stringify(data.roles);
-							Cookies.set('rolesList', dataRoles);
-						};
-						fetchDataRoles();
+						dispatch(
+							updateCookies([data.token !== null ? data.token : 'null', 'userToken']),
+						);
+						dispatch(
+							updateCookies([
+								data.role.name !== null ? data.role.name : 'null',
+								'name',
+							]),
+							updateCookies([
+								data.role.role_name !== null ? data.role.role_name : 'null',
+								'role_name',
+							]),
+							updateCookies([
+								data.role.role_id !== null ? data.role.role_id : 'null',
+								'role_id',
+							]),
+						);
 
-						toast('You are Logged in Successfully!');
+						showNotification(_titleSuccess, 'Login Success', 'Success');
+
 						navigate(`${subDirForNavigation}`, { replace: true });
 						setLastSave(moment());
+					} else {
+						showNotification(_titleError, data.message, 'Danger');
 					}
-					if (data.result === 'Wrong Credentials') {
-						toast('User with the given Credentials does no exist!');
-					} else if (data.result === 'Wrong Password') {
-						toast(
-							'User with the given Credentials does no exist! Please check email and password',
-						);
-					}
+
 					setIsLoading(false);
 				})
 				.catch((err) => {
@@ -111,7 +146,7 @@ const Login = () => {
 	return (
 		<PageWrapper
 			title={isNewUser ? 'Sign Up' : 'Login'}
-			className={classNames({ 'bg-warning': !isNewUser, 'bg-info': !!isNewUser })}>
+			className={classNames({ 'bg-success': !isNewUser, 'bg-info': !!isNewUser })}>
 			<Page className='p-0'>
 				<div className='row h-100 align-items-center justify-content-center'>
 					<div className='col-xl-4 col-lg-6 col-md-8 shadow-3d-container'>
@@ -212,7 +247,7 @@ const Login = () => {
 												<Button
 													icon={isLoading ? null : 'Login'}
 													isDisable={isLoading}
-													color='warning'
+													color='success'
 													type='submit'
 													className='w-100 py-3'
 													onClick={handleOnClick}>
@@ -242,7 +277,7 @@ const Login = () => {
 									'link-light': isNewUser,
 									'link-dark': !isNewUser,
 								})}>
-								Koncept Solution
+								Koncept Solutions
 							</a>
 						</div>
 					</div>

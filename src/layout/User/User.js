@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
+import Cookies from 'js-cookie';
 import USERS from '../../common/data/userDummyData';
 import { demoPages } from '../../menu';
 import { DropdownItem, DropdownMenu } from '../../components/bootstrap/Dropdown';
@@ -10,11 +11,11 @@ import useDarkMode from '../../hooks/useDarkMode';
 import Collapse from '../../components/bootstrap/Collapse';
 import { NavigationLine } from '../Navigation/Navigation';
 import Icon from '../../components/icon/Icon';
-import useNavigationItemHandle from '../../hooks/useNavigationItemHandle';
+// import useNavigationItemHandle from '../../hooks/useNavigationItemHandle';
 
 const User = () => {
 	const navigate = useNavigate();
-	const handleItem = useNavigationItemHandle();
+	// const handleItem = useNavigationItemHandle();
 	const { darkModeStatus, setDarkModeStatus } = useDarkMode();
 
 	const [collapseStatus, setCollapseStatus] = useState(false);
@@ -38,10 +39,10 @@ const User = () => {
 				</div>
 				<div className='user-info'>
 					<div className='user-name d-flex align-items-center'>
-						{`${USERS.JOHN.name} ${USERS.JOHN.surname}`}
+						{`${Cookies.get('name')} `}
 						<Icon icon='Verified' className='ms-1' color='info' />
 					</div>
-					<div className='user-sub-title'>{USERS.JOHN.position}</div>
+					<div className='user-sub-title'>{Cookies.get('role_name')}</div>
 				</div>
 			</div>
 			<DropdownMenu>
@@ -69,7 +70,7 @@ const User = () => {
 			<Collapse isOpen={collapseStatus} className='user-menu'>
 				<nav aria-label='aside-bottom-user-menu'>
 					<div className='navigation'>
-						<div
+						{/* <div
 							role='presentation'
 							className='navigation-item cursor-pointer'
 							onClick={() =>
@@ -84,8 +85,8 @@ const User = () => {
 									<span className='navigation-text'>{t('menu:Profile')}</span>
 								</span>
 							</span>
-						</div>
-						<div
+						</div> */}
+						{/* <div
 							role='presentation'
 							className='navigation-item cursor-pointer'
 							onClick={() => {
@@ -104,7 +105,7 @@ const User = () => {
 									</span>
 								</span>
 							</span>
-						</div>
+						</div> */}
 					</div>
 				</nav>
 				<NavigationLine />
@@ -113,7 +114,13 @@ const User = () => {
 						<div
 							role='presentation'
 							className='navigation-item cursor-pointer'
-							onClick={() => navigate(`../${demoPages.login.path}`)}>
+							onClick={() => {
+								Cookies.remove('userToken');
+								Cookies.remove('name');
+								Cookies.remove('role_name');
+								Cookies.remove('role_id');
+								navigate(`../${demoPages.login.path}`);
+							}}>
 							<span className='navigation-link navigation-link-pill'>
 								<span className='navigation-link-info'>
 									<Icon icon='Logout' className='navigation-icon' />
