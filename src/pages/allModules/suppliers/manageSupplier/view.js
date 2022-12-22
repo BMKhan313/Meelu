@@ -149,10 +149,12 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 			<CardBody className='table-responsive'>
 				<table className='table table-modern'>
 					<thead>
-						<tr>
+					<tr>
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
 							<th>Name</th>
+							<th>Store Type</th>
+							<th>Address</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -184,6 +186,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										</td>
 										<td>{index + 1}</td>
 										<td>{item.name}</td>
+										<td>{item.store_tpye.name}</td>
+										<td>{item.address}</td>
 
 										<td>
 											<ButtonGroup>
@@ -236,8 +240,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 														<DropdownItem isHeader>
 															Actions
 														</DropdownItem>
+														
 													</DropdownMenu>
 												</Dropdown>
+												
 											</ButtonGroup>
 										</td>
 									</tr>
