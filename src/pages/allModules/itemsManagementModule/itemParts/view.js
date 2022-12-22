@@ -36,6 +36,7 @@ import Card, {
 	CardFooterRight,
 } from '../../../../components/bootstrap/Card';
 import Edit from './edit';
+import Viewnew from './viewnew';
 
 const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	// const navigate = useNavigate();
@@ -49,7 +50,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 	const [editingItem, setEditingItem] = useState({});
 	const [itemId, setItemId] = useState('');
+	
 	const [deleteLoading, setDeleteLoading] = useState(false);
+	const [viewItem, setViewItem] = useState(false);
+
 
 	// Edit
 	const [stateEdit, setStateEdit] = useState(false);
@@ -62,6 +66,25 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 	const [headerCloseStatusEdit, setHeaderCloseStatusEdit] = useState(true);
 
+	const [stateView, setStateView] = useState(false);
+
+	const [staticBackdropStatusView, setStaticBackdropStatusView] = useState(true);
+	const [scrollableStatusView, setScrollableStatusView] = useState(false);
+	const [centeredStatusView, setCenteredStatusView] = useState(false);
+	const [fullScreenStatusView, setFullScreenStatusView] = useState(null);
+	const [animationStatusView, setAnimationStatusView] = useState(true);
+
+	const [headerCloseStatusView, setHeaderCloseStatusView] = useState(true);
+	const initialStatusView = () => {
+		setStaticBackdropStatusView(true);
+		setScrollableStatusView(false);
+		setCenteredStatusView(false);
+		setFullScreenStatusView(false);
+		setAnimationStatusView(true);
+		setHeaderCloseStatusView(true);
+	
+	};
+
 	const initialStatusEdit = () => {
 		setStaticBackdropStatusEdit(true);
 		setScrollableStatusEdit(false);
@@ -69,7 +92,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setFullScreenStatusEdit(false);
 		setAnimationStatusEdit(true);
 		setHeaderCloseStatusEdit(true);
+	
 	};
+	
+
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
 		Axios.get(`${baseURL}/editModelItemOem?id=${idd}`)
@@ -248,8 +274,29 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 														<DropdownItem isHeader>
 															Actions
 														</DropdownItem>
+														<Button
+													// isDisable={item.isApproved === 1}
+													onClick={() => {
+														console.log(item)
+														setItemId(item.id);
+														setViewItem(item)
+														initialStatusView();
+														setStateView(true);
+														setStaticBackdropStatusView(true);
+													}}
+													isOutline
+													color='primary'
+													className={classNames('text-nowrap', {
+														'border-light': true,
+													})}
+													icon='Edit'>
+													View
+												</Button>
+														
 													</DropdownMenu>
 												</Dropdown>
+												
+
 											</ButtonGroup>
 										</td>
 									</tr>
@@ -376,18 +423,54 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<ModalBody>
 					<div className='row g-4'>
 						<div className='col-12'>
-							{editingItemLoading ? (
+						{editingItemLoading ? (
 								<div className='d-flex justify-content-center'>
 									<Spinner color='primary' size='5rem' />
 								</div>
 							) : (
 								<Edit editingItem={editingItem} handleStateEdit={handleStateEdit} />
-							)}
+								)}
 						</div>
 					</div>
 				</ModalBody>
 				{/* <ModalFooter /> */}
 			</Modal>
+
+
+			<Modal
+				isOpen={stateView}
+				setIsOpen={setStateView}
+				titleId='EditVoucher'
+				isStaticBackdrop={staticBackdropStatusView}
+				isScrollable={scrollableStatusView}
+				isCentered={centeredStatusView}
+				size='lg'
+				fullScreen={fullScreenStatusView}
+				isAnimation={animationStatusView}>
+				<ModalHeader setIsOpen={headerCloseStatusView ? setStateView : null}>
+					<ModalTitle id='editVoucher'>
+						{' '}
+						<CardHeader>
+							<CardLabel icon='Edit' iconColor='info'>
+								<CardTitle>View Item Part</CardTitle>
+								<small> Item Id: {itemId}</small>
+							</CardLabel>
+						</CardHeader>
+					</ModalTitle>
+				</ModalHeader>
+				<ModalBody>
+					<div className='row g-4'>
+						<div className='col-12'>
+{/* 							
+								// <Edit editingItem={editingItem} handleStateView={handleStateEdit} /> */}
+								<Viewnew viewItem={viewItem}/>
+						
+						</div>
+					</div>
+				</ModalBody>
+				{/* <ModalFooter /> */}
+			</Modal>
+
 		</>
 	);
 };

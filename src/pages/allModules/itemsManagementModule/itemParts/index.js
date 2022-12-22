@@ -69,7 +69,7 @@ const Categories = () => {
 			&colName=id&sort=asc&make_id=${selectedMake ? selectedMake.id : ''}&machine_id=${
 				selectedMachine ? selectedMachine.id : ''
 			}
-			&model_id=${selectedModel ? selectedModel.id : ''}&item_id=${
+			&machine_model_id=${selectedModel ? selectedModel.id : ''}&item_id=${
 				selectedName ? selectedName.id : ''
 			}&primary=${oemNo}`,
 			{},
@@ -245,6 +245,8 @@ const Categories = () => {
 												value={selectedMachine}
 												onChange={(val) => {
 													setSelectedMachine(val);
+													setSelectedModel('')
+													
 												}}
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
@@ -261,6 +263,7 @@ const Categories = () => {
 												value={selectedMake}
 												onChange={(val) => {
 													setSelectedMake(val);
+													setSelectedModel('')
 												}}
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
@@ -277,6 +280,7 @@ const Categories = () => {
 												value={selectedModel}
 												onChange={(val) => {
 													setSelectedModel(val);
+												
 												}}
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>

@@ -309,10 +309,16 @@ const Add = ({ refreshTableData }) => {
 														: null
 												}
 												onChange={(val) => {
+												
 													formik.setFieldValue(
+														
 														'machine_id',
 														val !== null && val.id,
+														formik.values.machine_model_id="",
+													
+													
 													);
+												
 												}}
 												onBlur={formik.handleBlur}
 												isValid={formik.isValid}
@@ -353,6 +359,8 @@ const Add = ({ refreshTableData }) => {
 													formik.setFieldValue(
 														'make_id',
 														val !== null && val.id,
+														formik.values.machine_model_id="",
+														
 													);
 												}}
 												onBlur={formik.handleBlur}
@@ -502,7 +510,7 @@ const Add = ({ refreshTableData }) => {
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
-												value={formik.values.name}
+												value={formik.values.nu}
 												isValid={formik.isValid}
 												isTouched={formik.touched.number1}
 												invalidFeedback={formik.errors.number1}
