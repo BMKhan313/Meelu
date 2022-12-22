@@ -47,7 +47,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		Number(store.data.inventoryManagementModule.kits.perPage),
 	);
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
-	// const { selectTable, SelectAllCheck } = useSelectTable(tableData);
+	const { selectTable, SelectAllCheck } = useSelectTable([]);
 
 	const [editingItem, setEditingItem] = useState({});
 	const [itemId, setItemId] = useState('');
