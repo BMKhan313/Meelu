@@ -32,6 +32,7 @@ import Card, {
 } from '../../../../components/bootstrap/Card';
 
 import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
+import Label from '../../../../components/bootstrap/forms/Label';
 import Input from '../../../../components/bootstrap/forms/Input';
 import Button from '../../../../components/bootstrap/Button';
 
@@ -87,7 +88,7 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	const submitForm = (myFormik) => {
-		Axios.post(`${baseURL}/addMachineModel`, myFormik.values, {
+		Axios.post(`${baseURL}/addKitInventory`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})
 			.then((res) => {
@@ -227,20 +228,6 @@ const Add = ({ refreshTableData }) => {
 												{formik.errors.kit_name}
 											</p>
 										)}
-										<FormGroup
-											id='name'
-											label='Kit Quantity'
-											className='col-md-12'>
-											<Input
-												onChange={formik.handleChange}
-												onBlur={formik.handleBlur}
-												value={formik.values.name}
-												isValid={formik.isValid}
-												isTouched={formik.touched.name}
-												invalidFeedback={formik.errors.name}
-												validFeedback='Looks good!'
-											/>
-										</FormGroup>
 										<table className='table table-modern my-3'>
 											<thead>
 												<tr>
@@ -274,6 +261,23 @@ const Add = ({ refreshTableData }) => {
 												</tbody>
 											)}
 										</table>
+										<div className='row '>
+											<FormGroup label='' className='col-md-4 mt-2 ml-5 '>
+												<Label> Kit Quantity</Label>
+											</FormGroup>
+
+											<FormGroup id='name' label='' className='col-md-8'>
+												<Input
+													onChange={formik.handleChange}
+													onBlur={formik.handleBlur}
+													value={formik.values.name}
+													isValid={formik.isValid}
+													isTouched={formik.touched.name}
+													invalidFeedback={formik.errors.name}
+													validFeedback='Looks good!'
+												/>
+											</FormGroup>
+										</div>
 									</div>
 								</div>
 							</CardBody>

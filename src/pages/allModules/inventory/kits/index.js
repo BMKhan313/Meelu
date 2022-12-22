@@ -43,44 +43,18 @@ const Categories = () => {
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getMachineModels?records=${store.data.inventoryManagementModule.kits.perPage}&pageNo=${store.data.inventoryManagementModule.kits.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getKitInventory?records=${store.data.inventoryManagementModule.kits.perPage}&pageNo=${store.data.inventoryManagementModule.kits.pageNo}&colName=id&sort=asc`,
 			{},
 		)
 			.then((response) => {
-				setTableData(response.data.machineModels.data);
-				setTableData2(response.data.machineModels);
-				// console.log('bmk::tbdata::', response.data.machineModels.data);
-				// console.log('bmk::tbdata2::', response.data.machineModels);
+				setTableData(response.data.KitInventory);
+				// setTableData2(response.data.KitInventory);
+				// console.log('bmk::tbdata::', response.data.KitInventory.data);
+				// console.log('bmk::tbdata2::', response.data.KitInventory);
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.machineModels,
-						'inventoryManagementModule',
-						'kits',
-						'tableData',
-					]),
-				);
-			})
-
-			.catch((err) => {
-				showNotification(_titleError, err.message, 'Danger');
-			});
-	};
-	const refreshTableData1 = () => {
-		setTableDataLoading(true);
-		Axios.get(
-			`${baseURL}/getMachineModels?records=${store.data.inventoryManagementModule.kits.perPage}&pageNo=${store.data.inventoryManagementModule.kits.pageNo}&colName=id&sort=asc`,
-			{},
-		)
-			.then((response) => {
-				setTableData(response.data.machineModels.data);
-				setTableData2(response.data.machineModels);
-				// console.log('bmk::tbdata::', response.data.machineModels.data);
-				// console.log('bmk::tbdata2::', response.data.machineModels);
-				setTableDataLoading(false);
-				dispatch(
-					updateSingleState([
-						response.data.machineModels,
+						response.data.KitInventory,
 						'inventoryManagementModule',
 						'kits',
 						'tableData',
@@ -117,7 +91,7 @@ const Categories = () => {
 											<Add refreshTableData={refreshTableData} />
 										</div>
 
-										<Add1 refreshTableData1={refreshTableData1} />
+										<Add1 />
 									</ButtonGroup>
 								</CardActions>
 							</CardHeader>
