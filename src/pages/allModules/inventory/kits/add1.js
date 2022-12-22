@@ -47,7 +47,7 @@ const validate = (values) => {
 	return errors;
 };
 
-const Add1 = ({ refreshTableData1 }) => {
+const Add1 = () => {
 	const [state, setState] = useState(false);
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -96,7 +96,7 @@ const Add1 = ({ refreshTableData1 }) => {
 					formik.resetForm();
 					showNotification(_titleSuccess, res.data.message, 'success');
 					setState(false);
-					refreshTableData1();
+
 					setIsLoading(false);
 				} else {
 					setIsLoading(false);
@@ -319,8 +319,8 @@ const Add1 = ({ refreshTableData1 }) => {
 		</div>
 	);
 };
-Add1.propTypes = {
-	refreshTableData1: PropTypes.func.isRequired,
-};
+// Add1.propTypes = {
+// 	refreshTableData1: PropTypes.func.isRequired,
+// };
 
 export default Add1;

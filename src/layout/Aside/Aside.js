@@ -14,6 +14,8 @@ import {
 	itemsManagementModule,
 	kitModule,
 	inventoryModule,
+	suppliersModule,
+	storesModule,
 } from '../../menu';
 import ThemeContext from '../../contexts/themeContext';
 import Card, { CardBody } from '../../components/bootstrap/Card';
@@ -65,6 +67,10 @@ const Aside = () => {
 					<Navigation menu={kitModule} id='aside-dashboard' />
 					<NavigationLine />
 					<Navigation menu={inventoryModule} id='aside-dashboard' />
+					<NavigationLine />
+					<Navigation menu={suppliersModule} id='aside-dashboard' />
+					<NavigationLine />
+					<Navigation menu={storesModule} id='aside-dashboard' />
 					<NavigationLine />
 					{/* <Navigation menu={dashboardMenu} id='aside-dashboard' /> */}
 					{doc && (

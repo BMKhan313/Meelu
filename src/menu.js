@@ -134,6 +134,50 @@ export const inventoryModule = {
 	},
 };
 
+export const suppliersModule = {
+	heading: {
+		id: 'suppliersModule',
+		text: 'Suppliers',
+		icon: 'DirectionsCar',
+	},
+	suppliersModules: {
+		id: 'supplier',
+		text: 'Suppliers',
+		path: `${subDir}suppliers`,
+		icon: 'DirectionsCar',
+		subMenu: {
+			manage: {
+				id: 'manage',
+				text: 'Manage Suppliers',
+				path: `${subDir}suppliers/manageSupplier`,
+				icon: 'ArrowBarUp',
+			},
+		},
+	},
+};
+
+export const storesModule = {
+	heading: {
+		id: 'storesModule',
+		text: 'Stores',
+		icon: 'DirectionsCar',
+	},
+	storesModules: {
+		id: 'store',
+		text: 'Stores',
+		path: `${subDir}stores`,
+		icon: 'DirectionsCar',
+		subMenu: {
+			manage: {
+				id: 'manageStore',
+				text: 'Manage Stores',
+				path: `${subDir}stores/manageStore`,
+				icon: 'ArrowBarUp',
+			},
+		},
+	},
+};
+
 export const accountsModule = {
 	accountsHeading: {
 		id: 'accountsHeading',

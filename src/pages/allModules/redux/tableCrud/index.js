@@ -93,6 +93,32 @@ export const addProjectSlice = createSlice({
 				},
 			},
 			// inventory Ends
+
+			// Suppliers
+			suppliersManagementModule: {
+				manage: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
+			},
+			// suppliers Ends
+
+			// Stores
+			storesManagementModule: {
+				manage: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
+			},
+			// stores Ends
 		},
 		cookies: {
 			userRights: [],
