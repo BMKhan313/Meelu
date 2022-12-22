@@ -4,8 +4,11 @@ import React, { useEffect, useState } from 'react';
 
 // ** Axios Imports
 import { useDispatch, useSelector } from 'react-redux';
+import ReactSelect, { createFilter } from 'react-select';
+import { useFormik } from 'formik';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
-
+import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
+import Button from '../../../../components/bootstrap/Button';
 // eslint-disable-next-line import/no-unresolved
 import { updateSingleState } from '../../redux/tableCrud/index';
 
@@ -39,12 +42,17 @@ const Categories = () => {
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
-
+	const [kitOptions, setKitOptions] = useState([]);
+	const [kitOptionsLoading, setKitOptionsLoading] = useState(false);
+	const [selectedItem, setSelectedItem] = useState({
+		id: '',
+		value: '',
+		label: '',
+	});
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getKits?records=${store.data.kitManagement.defineKit.perPage}&pageNo=${store.data.kitManagement.defineKit.pageNo}&colName=id&sort=asc`,
-			{},
+			`${baseURL}/getKits?records=${store.data.kitManagement.defineKit.perPage}&pageNo=${store.data.kitManagement.defineKit.pageNo}&colName=id&sort=asc&id=${selectedItem.id}`,
 		)
 			.then((response) => {
 				// console.log('myres::', response.data.data.data);
@@ -67,6 +75,33 @@ const Categories = () => {
 				showNotification(_titleError, err.message, 'Danger');
 			});
 	};
+	useEffect(() => {
+		Axios.get(`${baseURL}/getkitsDropdown`)
+
+			.then((response) => {
+				// console.log('bnnn::', response.data);
+				const rec = response.data.kitsDropdown.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setKitOptions(rec);
+				setKitOptionsLoading(false);
+			})
+			// eslint-disable-next-line no-console
+			.catch((err) => {});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+	const formik = useFormik({
+		initialValues: {
+			name: '',
+			kit_name: '',
+		},
+		// onSubmit: () => {
+		// 	setIsLoading(true);
+		// 	setTimeout(handleSave, 2000);
+		// },
+	});
 
 	useEffect(() => {
 		refreshTableData();
@@ -88,6 +123,35 @@ const Categories = () => {
 								</CardActions>
 							</CardHeader>
 							<CardBody>
+								<div className='row g-4 d-flex align-items-end'>
+									<div className='col-md-3'>
+										<FormGroup label='Kit Name' id='kit_name'>
+											<ReactSelect
+												className='col-md-12'
+												classNamePrefix='select'
+												options={kitOptions}
+												isLoading={kitOptionsLoading}
+												isClearable
+												value={kitOptions.find(
+													(c) => c.label === selectedItem?.label,
+												)}
+												onChange={(val) => {
+													setSelectedItem(val);
+												}}
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
+									</div>
+									<div className='col-md-2'>
+										<Button
+											color='primary'
+											onClick={() => refreshTableData()}
+											isOutline
+											isActive>
+											Search
+										</Button>
+									</div>
+								</div>
 								{/* <div className='row g-4'>
 									<FormGroup className='col-md-2' label='Category'>
 										<Select
