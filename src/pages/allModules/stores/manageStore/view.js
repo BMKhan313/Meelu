@@ -42,7 +42,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
 	const [perPage, setPerPage] = useState(
-		Number(store.data.itemsManagementModule.itemParts.perPage),
+		Number(store.data.storesManagementModule.manage.perPage),
 	);
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
 	const { selectTable, SelectAllCheck } = useSelectTable(tableData);
@@ -69,13 +69,12 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setFullScreenStatusEdit(false);
 		setAnimationStatusEdit(true);
 		setHeaderCloseStatusEdit(true);
-	
 	};
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
-		Axios.get(`${baseURL}/editModelItemOem?id=${idd}`)
+		Axios.get(`${baseURL}/editMachine?id=${idd}`)
 			.then((res) => {
-				setEditingItem(res.data.data);
+				setEditingItem(res.data.machine);
 				setEditingItemLoading(false);
 			})
 			.catch((err) => {
@@ -109,7 +108,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 
 	const deleteItem = (id) => {
-		Axios.delete(`${baseURL}/deleteMake?id=${id}`)
+		Axios.delete(`${baseURL}/deleteStore?id=${id}`)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					showNotification('Deleted', res.data.message, 'success');
@@ -133,14 +132,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 	useEffect(
 		() => {
-			dispatch(updateSingleState([perPage, 'itemsManagementModule', 'itemParts', 'perPage']));
+			dispatch(updateSingleState([perPage, 'storesManagementModule', 'manage', 'perPage']));
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[perPage],
 	);
 
 	const handlePageChange = (e) => {
-		dispatch(updateSingleState([e, 'itemsManagementModule', 'itemParts', 'pageNo']));
+		dispatch(updateSingleState([e, 'storesManagementModule', 'manage', 'pageNo']));
 	};
 
 	return (
@@ -151,12 +150,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						<tr>
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
-							<th>Machine</th>
-							<th>Make</th>
-							<th>Model</th>
 							<th>Name</th>
-							<th>Primary</th>
-							<th>Secondary</th>
+							<th>Store Type</th>
+							<th>Address</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -172,7 +168,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.itemsManagementModule.itemParts?.tableData?.data?.map(
+							{store.data.storesManagementModule.manage.tableData.data.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
@@ -187,17 +183,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 											/>
 										</td>
 										<td>{index + 1}</td>
+										<td>{item.name}</td>
+										<td>{item.store_tpye.name}</td>
+										<td>{item.address}</td>
 
-										<td>{item.machine_model.machine.name}</td>
-										<td>{item.machine_model.make.name}</td>
-										<td>{item.machine_model.name}</td>
-										<td>{item.machine_part_oem_part.machine_part.name}</td>
-										<td>
-											{item.machine_part_oem_part.oem_part_number.number1}
-										</td>
-										<td>
-											{item.machine_part_oem_part.oem_part_number.number2}
-										</td>
 										<td>
 											<ButtonGroup>
 												<Button
@@ -261,10 +250,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				</table>
 
 				<PaginationButtons
-					label='itemParts'
-					from={store.data.itemsManagementModule.itemParts.tableData?.from ?? 1}
-					to={store.data.itemsManagementModule.itemParts.tableData?.to ?? 1}
-					total={store.data.itemsManagementModule.itemParts.tableData?.total ?? 0}
+					label='make'
+					from={store.data.storesManagementModule.manage.tableData?.from ?? 1}
+					to={store.data.storesManagementModule.manage.tableData?.to ?? 1}
+					total={store.data.storesManagementModule.manage.tableData?.total ?? 0}
 					perPage={Number(perPage ?? 10)}
 					setPerPage={setPerPage}
 				/>
@@ -272,12 +261,12 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<div className='row d-flex justify-content-end'>
 					<div className='col-3'>
 						<Pagination
-							activePage={store.data.itemsManagementModule.itemParts?.pageNo ?? 1}
+							activePage={store.data.storesManagementModule.manage?.pageNo ?? 1}
 							totalItemsCount={
-								store.data.itemsManagementModule.itemParts?.tableData?.total ?? 0
+								store.data.storesManagementModule.manage?.tableData?.total ?? 0
 							}
 							itemsCountPerPage={Number(
-								store.data.itemsManagementModule.itemParts?.perPage ?? 10,
+								store.data.storesManagementModule.manage?.perPage ?? 10,
 							)}
 							onChange={(e) => handlePageChange(e)}
 							itemClass='page-item'
@@ -319,7 +308,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<Card>
 								<CardBody>
 									<h5>
-										Are you sure, you want to delete the selected Item? <br />
+										Are you sure, you want to delete the selected Store? <br />
 										This cannot be undone!
 									</h5>
 								</CardBody>
@@ -368,7 +357,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						{' '}
 						<CardHeader>
 							<CardLabel icon='Edit' iconColor='info'>
-								<CardTitle>Editing Item Part</CardTitle>
+								<CardTitle>Editing Store</CardTitle>
 								<small> Item Id: {itemId}</small>
 							</CardLabel>
 						</CardHeader>
@@ -384,6 +373,18 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							) : (
 								<Edit editingItem={editingItem} handleStateEdit={handleStateEdit} />
 							)}
+							<CardFooter>
+								<CardFooterRight>
+									<Button
+										color='info'
+										icon='cancel'
+										isOutline
+										className='border-0'
+										onClick={() => setStateEdit(false)}>
+										Cancel
+									</Button>
+								</CardFooterRight>
+							</CardFooter>
 						</div>
 					</div>
 				</ModalBody>

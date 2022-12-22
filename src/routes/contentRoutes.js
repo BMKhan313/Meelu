@@ -9,6 +9,8 @@ import {
 	itemsManagementModule,
 	kitModule,
 	inventoryModule,
+	suppliersModule,
+	storesModule,
 } from '../menu';
 import Login from '../pages/presentation/auth/Login';
 
@@ -218,6 +220,15 @@ const INVENTORYCOMPONENTS = {
 	KITS: lazy(() => import('../pages/allModules/inventory/kits/index')),
 	PURCHASEORDER: lazy(() => import('../pages/allModules/inventory/purchaseOrder/index')),
 };
+
+const SUPPLIERCOMPONENTS = {
+	MANAGE: lazy(() => import('../pages/allModules/suppliers/manageSupplier/index')),
+};
+
+const STORECOMPONENTS = {
+	MANAGESTORES: lazy(() => import('../pages/allModules/stores/manageStore/index')),
+};
+
 const dashboardRoutes = [
 	/**
 	 * Dashboard Home
@@ -310,6 +321,30 @@ const inventoryManagementRoutes = [
 	{
 		path: inventoryModule.inventoryModules.subMenu.purchaseOrder.path,
 		element: <INVENTORYCOMPONENTS.PURCHASEORDER />,
+		exact: true,
+	},
+];
+
+const suppliersManagementRoutes = [
+	/**
+	 * suppliers
+	 */
+
+	{
+		path: suppliersModule.suppliersModules.subMenu.manage.path,
+		element: <SUPPLIERCOMPONENTS.MANAGE />,
+		exact: true,
+	},
+];
+
+const storesManagementRoutes = [
+	/**
+	 * stores
+	 */
+
+	{
+		path: storesModule.storesModules.subMenu.manage.path,
+		element: <STORECOMPONENTS.MANAGESTORES />,
 		exact: true,
 	},
 ];
@@ -1072,5 +1107,16 @@ const accounts = [...accountRoutes];
 const itemsManagementR = [...itemsManagementRoutes];
 const kitManagementR = [...kitManagementRoutes];
 const inventoryMangementR = [...inventoryManagementRoutes];
+const suppliersMangementR = [...suppliersManagementRoutes];
+const storesMangementR = [...storesManagementRoutes];
 
-export { dashbord, contents, accounts, itemsManagementR, kitManagementR, inventoryMangementR };
+export {
+	dashbord,
+	contents,
+	accounts,
+	itemsManagementR,
+	kitManagementR,
+	inventoryMangementR,
+	suppliersMangementR,
+	storesMangementR,
+};

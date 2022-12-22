@@ -30,9 +30,7 @@ import showNotification from '../../../../components/extras/showNotification';
 
 const validate = (values) => {
 	const errors = {};
-	if (!values.name) {
-		errors.name = 'Required';
-	}
+
 	if (!values.number2) {
 		errors.number2 = 'Required';
 	}
@@ -52,6 +50,7 @@ const validate = (values) => {
 	if (!values.machine_part_id) {
 		errors.machine_part_id = 'Required';
 	}
+	console.log(errors)
 	return errors;
 };
 
@@ -83,6 +82,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 		machine_model_id: '',
 		brand: '',
 		machine_part_id: '',
+		rows: [],
 		validate,
 		onSubmit: () => {
 			setIsLoading(true);
@@ -91,7 +91,8 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 	});
 
 	const submitForm = (data) => {
-		Axios.post(`${baseURL}/updateMake`, data)
+		console.log('data',data)
+		Axios.post(`${baseURL}/updateModelItemOem`, data)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					formik.resetForm();
@@ -219,7 +220,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 										: null
 								}
 								onChange={(val) => {
-									formik.setFieldValue('machine_id', val !== null && val.id);
+									formik.setFieldValue('machine_id', val !== null && val.id,	formik.values.machine_model_id="",);
 								}}
 								onBlur={formik.handleBlur}
 								isValid={formik.isValid}
@@ -255,7 +256,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 										: null
 								}
 								onChange={(val) => {
-									formik.setFieldValue('make_id', val !== null && val.id);
+									formik.setFieldValue('make_id', val !== null && val.id ,	formik.values.machine_model_id="",);
 								}}
 								onBlur={formik.handleBlur}
 								isValid={formik.isValid}
@@ -388,7 +389,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 							<Input
 								onChange={formik.handleChange}
 								onBlur={formik.handleBlur}
-								value={formik.values.name}
+								value={formik.values.number1}
 								isValid={formik.isValid}
 								isTouched={formik.touched.number1}
 								invalidFeedback={formik.errors.number1}
@@ -474,13 +475,13 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 				<CardFooterRight>
 					<Button
 						className='me-3'
-						icon={isLoading ? null : 'Save'}
+						icon={isLoading ? null : 'Update'}
 						isLight
 						color='success'
 						isDisable={isLoading}
 						onClick={formik.handleSubmit}>
 						{isLoading && <Spinner isSmall inButton />}
-						{isLoading ? 'Saving' : 'Save'}
+						{isLoading ? 'Saving' : 'Update'}
 					</Button>
 				</CardFooterRight>
 			</CardFooter>
