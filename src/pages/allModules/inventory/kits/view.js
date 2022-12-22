@@ -45,7 +45,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		Number(store.data.inventoryManagementModule.kits.perPage),
 	);
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
-	const { selectTable, SelectAllCheck } = useSelectTable(tableData);
+	// const { selectTable, SelectAllCheck } = useSelectTable(tableData);
 
 	const [editingItem, setEditingItem] = useState({});
 	const [itemId, setItemId] = useState('');
@@ -166,7 +166,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.inventoryManagementModule.kits.tableData.data.map(
+							{store.data.inventoryManagementModule.kits.tableData?.KitInventory?.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
@@ -181,7 +181,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 											/>
 										</td>
 										<td>{index + 1}</td>
-										<td>{item.name}</td>
+										<td>{item.kit_parent.name}</td>
 
 										<td>
 											<ButtonGroup>

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 // ** Axios Imports
 import { useDispatch, useSelector } from 'react-redux';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
-
+import { ButtonGroup } from '../../../../components/bootstrap/Button';
 // eslint-disable-next-line import/no-unresolved
 import { updateSingleState } from '../../redux/tableCrud/index';
 
@@ -24,6 +24,7 @@ import { _titleError } from '../../../../notifyMessages/erroSuccess';
 
 import View from './view';
 import Add from './add';
+import Add1 from './add1';
 
 export const searchByOptions = [{ value: 1, text: 'Id' }];
 export const categoryOptions = [
@@ -39,22 +40,21 @@ const Categories = () => {
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
-
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getMachineModels?records=${store.data.inventoryManagementModule.kits.perPage}&pageNo=${store.data.itemsManagementModule.models.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getKitInventory?records=${store.data.inventoryManagementModule.kits.perPage}&pageNo=${store.data.inventoryManagementModule.kits.pageNo}&colName=id&sort=asc`,
 			{},
 		)
 			.then((response) => {
-				setTableData(response.data.machineModels.data);
-				setTableData2(response.data.machineModels);
-				// console.log('bmk::tbdata::', response.data.machineModels.data);
-				// console.log('bmk::tbdata2::', response.data.machineModels);
+				setTableData(response.data.KitInventory);
+				// setTableData2(response.data.KitInventory);
+				// console.log('bmk::tbdata::', response.data.KitInventory.data);
+				// console.log('bmk::tbdata2::', response.data.KitInventory);
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.machineModels,
+						response.data.KitInventory,
 						'inventoryManagementModule',
 						'kits',
 						'tableData',
@@ -86,7 +86,13 @@ const Categories = () => {
 									<CardTitle> Inventory Kits</CardTitle>
 								</CardLabel>
 								<CardActions>
-									<Add refreshTableData={refreshTableData} />
+									<ButtonGroup>
+										<div className='mx-3'>
+											<Add refreshTableData={refreshTableData} />
+										</div>
+
+										<Add1 />
+									</ButtonGroup>
 								</CardActions>
 							</CardHeader>
 							<CardBody>

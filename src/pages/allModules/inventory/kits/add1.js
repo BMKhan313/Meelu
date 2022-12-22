@@ -47,7 +47,7 @@ const validate = (values) => {
 	return errors;
 };
 
-const Add = ({ refreshTableData }) => {
+const Add1 = ({ refreshTableData1 }) => {
 	const [state, setState] = useState(false);
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -96,7 +96,7 @@ const Add = ({ refreshTableData }) => {
 					formik.resetForm();
 					showNotification(_titleSuccess, res.data.message, 'success');
 					setState(false);
-					refreshTableData();
+					refreshTableData1();
 					setIsLoading(false);
 				} else {
 					setIsLoading(false);
@@ -156,7 +156,7 @@ const Add = ({ refreshTableData }) => {
 		<div className='col-auto'>
 			<div className='col-auto'>
 				<Button
-					color='success'
+					color='danger'
 					isLight
 					icon='Add'
 					hoverShadow='default'
@@ -166,7 +166,7 @@ const Add = ({ refreshTableData }) => {
 						setState(true);
 						setStaticBackdropStatus(true);
 					}}>
-					Make New Kit
+					Break Kit
 				</Button>
 			</div>
 			<Modal
@@ -181,7 +181,7 @@ const Add = ({ refreshTableData }) => {
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
 					<CardLabel icon='Add'>
-						<ModalTitle id='exampleModalLabel'>Make New Kit</ModalTitle>
+						<ModalTitle id='exampleModalLabel'>Break Kit</ModalTitle>
 					</CardLabel>
 				</ModalHeader>
 				<ModalBody>
@@ -320,8 +320,8 @@ const Add = ({ refreshTableData }) => {
 		</div>
 	);
 };
-Add.propTypes = {
-	refreshTableData: PropTypes.func.isRequired,
+Add1.propTypes = {
+	refreshTableData1: PropTypes.func.isRequired,
 };
 
-export default Add;
+export default Add1;
