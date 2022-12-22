@@ -136,7 +136,12 @@ const Categories = () => {
 													(c) => c.label === selectedItem?.label,
 												)}
 												onChange={(val) => {
-													setSelectedItem(val);
+													if (val !== null) {
+														setSelectedItem({ id: val.id });
+													} else {
+														setSelectedItem({ id: '' });
+													}
+													// setSelectedItem(val);
 												}}
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>

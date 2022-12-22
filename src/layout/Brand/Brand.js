@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import ReactRoundedImage from 'react-rounded-image';
 import Icon from '../../components/icon/Icon';
-import Logo from '../../components/Logo';
+
+// import Logo from '../../components/Logo';
+import Logo from '../../components/logo/meelu.png';
 
 const Brand = ({ asideStatus, setAsideStatus }) => {
 	return (
@@ -10,7 +13,14 @@ const Brand = ({ asideStatus, setAsideStatus }) => {
 			<div className='brand-logo'>
 				<h1 className='brand-title '>
 					<Link to='/' aria-label='Logo' alt='Facit'>
-						<Logo height={32} />
+						<ReactRoundedImage
+							roundedColor='#66A5CC'
+							imageWidth='55'
+							imageHeight='55'
+							roundedSize='5'
+							borderRadius='45'
+							image={Logo}
+						/>
 					</Link>
 				</h1>
 			</div>
