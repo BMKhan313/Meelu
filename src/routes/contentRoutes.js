@@ -216,6 +216,7 @@ const KITMANAGEMENTCOMPONENTS = {
 const INVENTORYCOMPONENTS = {
 	PARTS: lazy(() => import('../pages/allModules/inventory/parts/index')),
 	KITS: lazy(() => import('../pages/allModules/inventory/kits/index')),
+	PURCHASEORDER: lazy(() => import('../pages/allModules/inventory/purchaseOrder/index')),
 };
 const dashboardRoutes = [
 	/**
@@ -304,6 +305,11 @@ const inventoryManagementRoutes = [
 	{
 		path: inventoryModule.inventoryModules.subMenu.kits.path,
 		element: <INVENTORYCOMPONENTS.KITS />,
+		exact: true,
+	},
+	{
+		path: inventoryModule.inventoryModules.subMenu.purchaseOrder.path,
+		element: <INVENTORYCOMPONENTS.PURCHASEORDER />,
 		exact: true,
 	},
 ];

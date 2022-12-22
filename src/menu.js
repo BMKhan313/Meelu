@@ -112,6 +112,12 @@ export const inventoryModule = {
 		path: `${subDir}inventory`,
 		icon: 'DirectionsCar',
 		subMenu: {
+			purchaseOrder: {
+				id: 'purchaseOrder',
+				text: 'Kits',
+				path: `${subDir}inventory/purchaseOrder`,
+				icon: 'ArrowBarUp',
+			},
 			parts: {
 				id: 'parts',
 				text: 'Parts',
