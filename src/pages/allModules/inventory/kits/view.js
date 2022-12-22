@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import Pagination from 'react-js-pagination';
 
