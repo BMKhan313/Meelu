@@ -108,7 +108,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 
 	const deleteItem = (id) => {
-		Axios.delete(`${baseURL}/deleteMachine?id=${id}`)
+		Axios.delete(`${baseURL}/deleteStore?id=${id}`)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					showNotification('Deleted', res.data.message, 'success');
@@ -151,6 +151,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
 							<th>Name</th>
+							<th>Store Type</th>
+							<th>Address</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -182,6 +184,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										</td>
 										<td>{index + 1}</td>
 										<td>{item.name}</td>
+										<td>{item.store_tpye.name}</td>
+										<td>{item.address}</td>
 
 										<td>
 											<ButtonGroup>
