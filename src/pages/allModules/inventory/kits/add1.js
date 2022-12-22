@@ -126,7 +126,6 @@ const Add1 = ({ refreshTableData1 }) => {
 							exisQty: 0,
 						}),
 					);
-					console.log('rec', rec);
 					setTableData(rec);
 					setTableDataLoading(false);
 				})
@@ -206,12 +205,12 @@ const Add1 = ({ refreshTableData1 }) => {
 														  )
 														: null
 												}
-												onChange={(val) => {
+												onChange={(val) =>
 													formik.setFieldValue(
 														'kit_name',
 														val !== null && val.id,
-													);
-												}}
+													)
+												}
 												isValid={formik.isValid}
 												isTouched={formik.touched.kit_name}
 												invalidFeedback={formik.errors.kit_name}

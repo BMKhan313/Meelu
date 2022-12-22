@@ -201,7 +201,6 @@ const Add = ({ refreshTableData }) => {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
 			});
-		
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
@@ -233,7 +232,11 @@ const Add = ({ refreshTableData }) => {
 	useEffect(() => {
 		setModelOptionsLoading(true);
 
-		Axios.get(`${baseURL}/getMachineModelsDropDown?machine_id=${formik.values.machine_id?formik.values.machine_id:''}&make_id=${formik.values.make_id?formik.values.make_id:''}`)
+		Axios.get(
+			`${baseURL}/getMachineModelsDropDown?machine_id=${
+				formik.values.machine_id ? formik.values.machine_id : ''
+			}&make_id=${formik.values.make_id ? formik.values.make_id : ''}`,
+		)
 			.then((response) => {
 				const rec = response.data.machineModels.map(({ id, name }) => ({
 					id,
@@ -242,8 +245,6 @@ const Add = ({ refreshTableData }) => {
 				}));
 				setModelOptions(rec);
 				setModelOptionsLoading(false);
-
-			
 			})
 			// eslint-disable-next-line no-console
 			.catch((err) => {
@@ -252,8 +253,7 @@ const Add = ({ refreshTableData }) => {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
 			});
-
-	}, [formik.values.machine_id,formik.values.make_id]);
+	}, [formik.values.machine_id, formik.values.make_id]);
 	return (
 		<div className='col-auto'>
 			<div className='col-auto'>
@@ -344,7 +344,8 @@ const Add = ({ refreshTableData }) => {
 													formik.values.make_id
 														? makeOptions?.find(
 																(c) =>
-																	c.value === formik.values.make_id,
+																	c.value ===
+																	formik.values.make_id,
 														  )
 														: null
 												}

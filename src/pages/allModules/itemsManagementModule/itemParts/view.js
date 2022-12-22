@@ -153,11 +153,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<th>Machine</th>
 							<th>Make</th>
 							<th>Model</th>
-						   <th>Name</th>
+							<th>Name</th>
 							<th>Primary</th>
 							<th>Secondary</th>
 							<th>Actions</th>
-							
 						</tr>
 					</thead>
 					{tableDataLoading ? (
@@ -187,17 +186,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 											/>
 										</td>
 										<td>{index + 1}</td>
-										
-									
-										<td>
-											{item.machine_model.machine.name}
-										</td>
-										<td>
-											{item.machine_model.make.name}
-										</td>
-										<td>
-											{item.machine_model.name}
-										</td>
+
+										<td>{item.machine_model.machine.name}</td>
+										<td>{item.machine_model.make.name}</td>
+										<td>{item.machine_model.name}</td>
 										<td>{item.machine_part_oem_part.machine_part.name}</td>
 										<td>
 											{item.machine_part_oem_part.oem_part_number.number1}
@@ -391,7 +383,6 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							) : (
 								<Edit editingItem={editingItem} handleStateEdit={handleStateEdit} />
 							)}
-						
 						</div>
 					</div>
 				</ModalBody>

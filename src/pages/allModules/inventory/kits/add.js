@@ -126,7 +126,6 @@ const Add = ({ refreshTableData }) => {
 							exisQty: 0,
 						}),
 					);
-					console.log('rec', rec);
 					setTableData(rec);
 					setTableDataLoading(false);
 				})

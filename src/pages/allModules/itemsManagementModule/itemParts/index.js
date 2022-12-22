@@ -63,9 +63,15 @@ const Categories = () => {
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getModelItemOem?records=${store.data.itemsManagementModule.itemParts.perPage}&pageNo=${store.data.itemsManagementModule.itemParts.pageNo}
-			&colName=id&sort=asc&make_id=${selectedMake?selectedMake.id:''}&machine_id=${selectedMachine?selectedMachine.id:''}
-			&model_id=${selectedModel?selectedModel.id:''}&item_id=${selectedName?selectedName.id:''}&primary=${oemNo}`,
+			`${baseURL}/getModelItemOem?records=${
+				store.data.itemsManagementModule.itemParts.perPage
+			}&pageNo=${store.data.itemsManagementModule.itemParts.pageNo}
+			&colName=id&sort=asc&make_id=${selectedMake ? selectedMake.id : ''}&machine_id=${
+				selectedMachine ? selectedMachine.id : ''
+			}
+			&model_id=${selectedModel ? selectedModel.id : ''}&item_id=${
+				selectedName ? selectedName.id : ''
+			}&primary=${oemNo}`,
 			{},
 		)
 			.then((response) => {
@@ -80,36 +86,32 @@ const Categories = () => {
 						'tableData',
 					]),
 				);
-				console.log("res1",response,)
 			})
 
 			.catch((err) => {
 				showNotification(_titleError, err.message, 'Danger');
 			});
-
 	};
 	useEffect(() => {
-		
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		Axios.get(`${baseURL}/getCompaniesDropDown`)
-		.then((response) => {
-			const rec = response.data.companies.map(({ id, name }) => ({
-				id,
-				company_id: id,
-				value: id,
-				label: name,
-				
-			}));
-			setCompanyOptions(rec);
-		})
+			.then((response) => {
+				const rec = response.data.companies.map(({ id, name }) => ({
+					id,
+					company_id: id,
+					value: id,
+					label: name,
+				}));
+				setCompanyOptions(rec);
+			})
 
-		// eslint-disable-next-line no-console
-		.catch((err) => {
-			showNotification(_titleError, err.message, 'Danger');
-			if (err.response.status === 401) {
-				showNotification(_titleError, err.response.data.message, 'Danger');
-			}
-		});
+			// eslint-disable-next-line no-console
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+				if (err.response.status === 401) {
+					showNotification(_titleError, err.response.data.message, 'Danger');
+				}
+			});
 
 		Axios.get(`${baseURL}/getMachinesDropDown`)
 			.then((response) => {
@@ -119,7 +121,6 @@ const Categories = () => {
 					label: name,
 				}));
 				setMachineOptions(rec);
-			
 			})
 			// eslint-disable-next-line no-console
 			.catch((err) => {
@@ -128,7 +129,7 @@ const Categories = () => {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
 			});
-			Axios.get(`${baseURL}/getMakesDropDown`)
+		Axios.get(`${baseURL}/getMakesDropDown`)
 			.then((response) => {
 				const rec = response.data.makes.map(({ id, name }) => ({
 					id,
@@ -136,7 +137,6 @@ const Categories = () => {
 					label: name,
 				}));
 				setMakeOptions(rec);
-			
 			})
 			// eslint-disable-next-line no-console
 			.catch((err) => {
@@ -145,7 +145,7 @@ const Categories = () => {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
 			});
-			Axios.get(`${baseURL}/getMachinePartsDropDown`)
+		Axios.get(`${baseURL}/getMachinePartsDropDown`)
 			.then((response) => {
 				const rec = response.data.machine_Parts.map(({ id, name }) => ({
 					id,
@@ -161,12 +161,16 @@ const Categories = () => {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
 			});
-			
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		}, []);
+	}, []);
 	useEffect(() => {
 		setModelOptionsLoading(true);
-		Axios.get(`${baseURL}/getMachineModelsDropDown?machine_id=${selectedMachine?selectedMachine.id:''}&make_id=${selectedMake?selectedMake.id:''}`)
+		Axios.get(
+			`${baseURL}/getMachineModelsDropDown?machine_id=${
+				selectedMachine ? selectedMachine.id : ''
+			}&make_id=${selectedMake ? selectedMake.id : ''}`,
+		)
 			.then((response) => {
 				const rec = response.data.machineModels.map(({ id, name }) => ({
 					id,
@@ -183,8 +187,7 @@ const Categories = () => {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
 			});
-
-	}, [selectedMachine,selectedMake]);
+	}, [selectedMachine, selectedMake]);
 
 	useEffect(() => {
 		refreshTableData();
@@ -238,36 +241,31 @@ const Categories = () => {
 												className='col-md-12'
 												classNamePrefix='select'
 												options={machineOptions}
-											isClearable
+												isClearable
 												value={selectedMachine}
 												onChange={(val) => {
-													
-														setSelectedMachine(val);
-													
+													setSelectedMachine(val);
 												}}
-											
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
 									</div>
-									
+
 									<div className='col-md-3'>
 										<FormGroup label='Make' id='make'>
 											<Select
 												className='col-md-12'
 												classNamePrefix='select'
 												options={makeOptions}
-											isClearable
+												isClearable
 												value={selectedMake}
 												onChange={(val) => {
 													setSelectedMake(val);
-
 												}}
-												
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
-									</div> 
+									</div>
 									<div className='col-md-3'>
 										<FormGroup label='Model' id='model'>
 											<Select
@@ -275,21 +273,18 @@ const Categories = () => {
 												classNamePrefix='select'
 												options={modelOptions}
 												isLoading={modelOptionsLoading}
-											isClearable
+												isClearable
 												value={selectedModel}
 												onChange={(val) => {
-													
-						                 	setSelectedModel(val);
-													
+													setSelectedModel(val);
 												}}
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
-									</div> 
-									
 									</div>
+								</div>
 
-									<div className='row g-4 d-flex align-items-end'>
+								<div className='row g-4 d-flex align-items-end'>
 									<div className='col-md-2'>
 										<FormGroup label='OEM Num' id='oem_num'>
 											<Input
@@ -309,17 +304,15 @@ const Categories = () => {
 												className='col-md-12'
 												classNamePrefix='select'
 												options={companyOptions}
-											isClearable
+												isClearable
 												value={selectedCompany}
 												onChange={(val) => {
-													
-						                 	setSelectedCompany( val);
-													
+													setSelectedCompany(val);
 												}}
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
-									</div> 
+									</div>
 									{/* <div className='col-md-2'>
 										<FormGroup label='Name' id='searchFileNo'>
 											<Input
