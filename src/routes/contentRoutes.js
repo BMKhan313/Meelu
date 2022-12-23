@@ -212,8 +212,6 @@ const itemsManagementComponents = {
 };
 const KITMANAGEMENTCOMPONENTS = {
 	DEFINEKIT: lazy(() => import('../pages/allModules/kitManagement/defineKit/index')),
-	KITMAKING: lazy(() => import('../pages/allModules/kitManagement/kitMaking/index')),
-	KITBREAKING: lazy(() => import('../pages/allModules/kitManagement/kitBreaking/index')),
 };
 const INVENTORYCOMPONENTS = {
 	PARTS: lazy(() => import('../pages/allModules/inventory/parts/index')),
@@ -289,16 +287,6 @@ const kitManagementRoutes = [
 	{
 		path: kitModule.kitManagementModule.subMenu.defineKit.path,
 		element: <KITMANAGEMENTCOMPONENTS.DEFINEKIT />,
-		exact: true,
-	},
-	{
-		path: kitModule.kitManagementModule.subMenu.kitMaking.path,
-		element: <KITMANAGEMENTCOMPONENTS.KITMAKING />,
-		exact: true,
-	},
-	{
-		path: kitModule.kitManagementModule.subMenu.kitBreaking.path,
-		element: <KITMANAGEMENTCOMPONENTS.KITBREAKING />,
 		exact: true,
 	},
 ];

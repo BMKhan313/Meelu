@@ -84,18 +84,6 @@ export const kitModule = {
 				path: `${subDir}kitManagement/defineKit`,
 				icon: 'ArrowBarUp',
 			},
-			kitMaking: {
-				id: 'kitMaking',
-				text: 'Kit Making',
-				path: `${subDir}kitManagement/kitMaking`,
-				icon: 'ArrowBarUp',
-			},
-			kitBreaking: {
-				id: 'items',
-				text: 'Kit Breaking',
-				path: `${subDir}kitManagement/kitBreaking`,
-				icon: 'ArrowBarUp',
-			},
 		},
 	},
 };
