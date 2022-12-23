@@ -41,8 +41,8 @@ import Button from '../../../../components/bootstrap/Button';
 
 const validate = (values) => {
 	let errors = {};
-	// if (values.rows.length === 0) {
-	// 	errors.rows = <p>Insert at leat a single item!</p>;
+	// if (values.childArray.length === 0) {
+	// 	errors.childArray = <p>Insert at leat a single item!</p>;
 	// }
 	if (!values.po_no) {
 		errors.po_no = 'Required';
@@ -50,25 +50,25 @@ const validate = (values) => {
 	if (!values.supplier_id) {
 		errors.supplier_id = 'Required';
 	}
-	// if (values.rows.length === 0) {
-	// 	errors.rows = (
+	// if (values.childArray.length === 0) {
+	// 	errors.childArray = (
 	// 		<p className='col-md-7' style={{ marginTop: 4, textAlign: 'left', color: 'red' }}>
 	// 			Add at least one Item
 	// 		</p>
 	// 	);
 	// }
-	values.rows.forEach((data, index) => {
+	values.childArray.forEach((data, index) => {
 		if (!data.item_id) {
 			errors = {
 				...errors,
-				[`rows[${index}]item_id`]: 'Required!',
+				[`childArray[${index}]item_id`]: 'Required!',
 			};
 		}
 
 		if (!data.quantity > 0) {
 			errors = {
 				...errors,
-				[`rows[${index}]quantity`]: 'Required',
+				[`childArray[${index}]quantity`]: 'Required',
 			};
 		}
 	});
@@ -118,7 +118,7 @@ const Add = ({ refreshTableData }) => {
 			supplier_id: '',
 			store_id: '',
 			status: '',
-			is_received: '',
+			is_received: 0,
 			request_date: '',
 			total: 0,
 			discount: '',
@@ -129,14 +129,15 @@ const Add = ({ refreshTableData }) => {
 			remarks: '',
 			// quantity: 0,
 			// childArray: [],
-			rows: [
+			childArray: [
 				{
 					item_id: '',
 					quantity: '',
-					received_quantity: '0',
+					recived_quantity: 0,
 					purchase_price: '',
 					sale_price: '',
 					amount: '',
+					remarks: '',
 				},
 			],
 		},
@@ -152,9 +153,9 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	const removeRow = (i) => {
-		formik.setFieldValue('rows', [
-			...formik.values.rows.slice(0, i),
-			...formik.values.rows.slice(i + 1),
+		formik.setFieldValue('childArray', [
+			...formik.values.childArray.slice(0, i),
+			...formik.values.childArray.slice(i + 1),
 		]);
 	};
 	const submitForm = (myFormik) => {
@@ -427,7 +428,7 @@ const Add = ({ refreshTableData }) => {
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
-										{/* {formik.errors[`rows[${index}]quantity`] && (
+										{/* {formik.errors[`childArray[${index}]quantity`] && (
 											// <div className='invalid-feedback'>
 											<p
 												style={{
@@ -435,7 +436,7 @@ const Add = ({ refreshTableData }) => {
 													textAlign: 'left',
 													marginTop: 3,
 												}}>
-												{formik.errors[`rows[${index}]quantity`]}
+												{formik.errors[`childArray[${index}]quantity`]}
 											</p>
 										)} */}
 									</div>
@@ -587,19 +588,19 @@ const Add = ({ refreshTableData }) => {
 											<th className='col-md-1'>Remarks</th>
 											<th className='col-md-1'>Remove</th>
 										</tr>
-										{/* {formik.errors.rows && (
+										{/* {formik.errors.childArray && (
 											// <div className='invalid-feedback'>
-											<tr>{formik.errors.rows}</tr>
+											<tr>{formik.errors.childArray}</tr>
 										)} */}
 									</thead>
 									<tbody>
-										{formik.values.rows.length > 0 &&
-											formik.values.rows.map((items, index) => (
+										{formik.values.childArray.length > 0 &&
+											formik.values.childArray.map((items, index) => (
 												<tr className='row' key={items.index}>
 													<td className='col-md-2'>
 														<FormGroup
 															label=''
-															id={`rows[${index}].item_id`}>
+															id={`childArray[${index}].item_id`}>
 															<ReactSelect
 																className='col-md-12'
 																classNamePrefix='select'
@@ -607,20 +608,21 @@ const Add = ({ refreshTableData }) => {
 																isLoading={kitOptionsLoading}
 																isClearable
 																value={
-																	formik.values.rows[index]
+																	formik.values.childArray[index]
 																		.item_id
 																		? kitOptions.find(
 																				(c) =>
 																					c.value ===
 																					formik.values
-																						.rows[index]
-																						.item_id,
+																						.childArray[
+																						index
+																					].item_id,
 																		  )
 																		: null
 																}
 																onChange={(val) => {
 																	formik.setFieldValue(
-																		`rows[${index}].item_id`,
+																		`childArray[${index}].item_id`,
 																		val !== null && val.id,
 																	);
 																}}
@@ -628,7 +630,7 @@ const Add = ({ refreshTableData }) => {
 																isTouched={formik.touched.item_id}
 																invalidFeedback={
 																	formik.errors[
-																		`rows[${index}].item_id`
+																		`childArray[${index}].item_id`
 																	]
 																}
 																validFeedback='Looks good!'
@@ -637,7 +639,9 @@ const Add = ({ refreshTableData }) => {
 																})}
 															/>
 														</FormGroup>
-														{formik.errors[`rows[${index}]item_id`] && (
+														{formik.errors[
+															`childArray[${index}]item_id`
+														] && (
 															// <div className='invalid-feedback'>
 															<p
 																style={{
@@ -647,7 +651,7 @@ const Add = ({ refreshTableData }) => {
 																}}>
 																{
 																	formik.errors[
-																		`rows[${index}]item_id`
+																		`childArray[${index}]item_id`
 																	]
 																}
 															</p>
@@ -655,7 +659,7 @@ const Add = ({ refreshTableData }) => {
 													</td>
 													<td className='col-md-1'>
 														<FormGroup
-															id={`rows[${index}].quantity`}
+															id={`childArray[${index}].quantity`}
 															label=''
 															type='number'
 															className='col-md-12'>
@@ -672,7 +676,7 @@ const Add = ({ refreshTableData }) => {
 															/>
 														</FormGroup>
 														{formik.errors[
-															`rows[${index}]quantity`
+															`childArray[${index}]quantity`
 														] && (
 															// <div className='invalid-feedback'>
 															<p
@@ -683,7 +687,7 @@ const Add = ({ refreshTableData }) => {
 																}}>
 																{
 																	formik.errors[
-																		`rows[${index}]quantity`
+																		`childArray[${index}]quantity`
 																	]
 																}
 															</p>
@@ -691,26 +695,26 @@ const Add = ({ refreshTableData }) => {
 													</td>
 													<td className='col-md-1'>
 														<FormGroup
-															id={`rows[${index}].received_quantity`}
+															id={`childArray[${index}].recived_quantity`}
 															label=''
 															type='number'
 															className='col-md-12'>
 															<Input
 																onChange={formik.handleChange}
 																onBlur={formik.handleBlur}
-																value={items.received_quantity}
+																value={items.recived_quantity}
 																isValid={formik.isValid}
 																isTouched={
-																	formik.touched.received_quantity
+																	formik.touched.recived_quantity
 																}
 																invalidFeedback={
-																	formik.errors.received_quantity
+																	formik.errors.recived_quantity
 																}
 																validFeedback='Looks good!'
 															/>
 														</FormGroup>
 														{formik.errors[
-															`rows[${index}]received_quantity`
+															`childArray[${index}]recived_quantity`
 														] && (
 															// <div className='invalid-feedback'>
 															<p
@@ -721,7 +725,7 @@ const Add = ({ refreshTableData }) => {
 																}}>
 																{
 																	formik.errors[
-																		`rows[${index}]received_quantity`
+																		`childArray[${index}]recived_quantity`
 																	]
 																}
 															</p>
@@ -729,7 +733,7 @@ const Add = ({ refreshTableData }) => {
 													</td>
 													<td className='col-md-2'>
 														<FormGroup
-															id={`rows[${index}].purchase_price`}
+															id={`childArray[${index}].purchase_price`}
 															label=''
 															type='number'
 															className='col-md-12'>
@@ -748,7 +752,7 @@ const Add = ({ refreshTableData }) => {
 															/>
 														</FormGroup>
 														{formik.errors[
-															`rows[${index}]purchase_price`
+															`childArray[${index}]purchase_price`
 														] && (
 															// <div className='invalid-feedback'>
 															<p
@@ -759,7 +763,7 @@ const Add = ({ refreshTableData }) => {
 																}}>
 																{
 																	formik.errors[
-																		`rows[${index}]purchase_price`
+																		`childArray[${index}]purchase_price`
 																	]
 																}
 															</p>
@@ -767,7 +771,7 @@ const Add = ({ refreshTableData }) => {
 													</td>
 													<td className='col-md-2'>
 														<FormGroup
-															id={`rows[${index}].sale_prices`}
+															id={`childArray[${index}].sale_prices`}
 															label=''
 															type='number'
 															className='col-md-12'>
@@ -786,7 +790,7 @@ const Add = ({ refreshTableData }) => {
 															/>
 														</FormGroup>
 														{formik.errors[
-															`rows[${index}]sale_prices`
+															`childArray[${index}]sale_prices`
 														] && (
 															// <div className='invalid-feedback'>
 															<p
@@ -797,7 +801,7 @@ const Add = ({ refreshTableData }) => {
 																}}>
 																{
 																	formik.errors[
-																		`rows[${index}]sale_prices`
+																		`childArray[${index}]sale_prices`
 																	]
 																}
 															</p>
@@ -805,7 +809,7 @@ const Add = ({ refreshTableData }) => {
 													</td>
 													<td className='col-md-2'>
 														<FormGroup
-															id={`rows[${index}].amount`}
+															id={`childArray[${index}].amount`}
 															label=''
 															type='number'
 															className='col-md-12'>
@@ -821,7 +825,9 @@ const Add = ({ refreshTableData }) => {
 																validFeedback='Looks good!'
 															/>
 														</FormGroup>
-														{formik.errors[`rows[${index}]amount`] && (
+														{formik.errors[
+															`childArray[${index}]amount`
+														] && (
 															// <div className='invalid-feedback'>
 															<p
 																style={{
@@ -831,7 +837,7 @@ const Add = ({ refreshTableData }) => {
 																}}>
 																{
 																	formik.errors[
-																		`rows[${index}]amount`
+																		`childArray[${index}]amount`
 																	]
 																}
 															</p>
@@ -839,13 +845,14 @@ const Add = ({ refreshTableData }) => {
 													</td>
 													<td className='col-md-1'>
 														<FormGroup
-															id='remarks'
+															id={`childArray[${index}].remarks`}
 															label=''
+															type='number'
 															className='col-md-12'>
 															<Input
 																onChange={formik.handleChange}
 																onBlur={formik.handleBlur}
-																value={formik.values.remarks}
+																value={items.remarks}
 																isValid={formik.isValid}
 																isTouched={formik.touched.remarks}
 																invalidFeedback={
@@ -854,12 +861,30 @@ const Add = ({ refreshTableData }) => {
 																validFeedback='Looks good!'
 															/>
 														</FormGroup>
+														{formik.errors[
+															`childArray[${index}]remarks`
+														] && (
+															// <div className='invalid-feedback'>
+															<p
+																style={{
+																	color: 'red',
+																	textAlign: 'left',
+																	marginTop: 3,
+																}}>
+																{
+																	formik.errors[
+																		`childArray[${index}]remarks`
+																	]
+																}
+															</p>
+														)}
 													</td>
 
 													<td className='col-md-1 mt-1'>
 														<Button
 															isDisable={
-																formik.values.rows.length === 1
+																formik.values.childArray.length ===
+																1
 															}
 															icon='cancel'
 															color='danger'
@@ -876,8 +901,8 @@ const Add = ({ refreshTableData }) => {
 											color='primary'
 											icon='add'
 											onClick={() => {
-												formik.setFieldValue('rows', [
-													...formik.values.rows,
+												formik.setFieldValue('childArray', [
+													...formik.values.childArray,
 													{
 														name: '',
 														quantity: '',

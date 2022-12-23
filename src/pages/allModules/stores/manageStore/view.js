@@ -184,7 +184,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										</td>
 										<td>{index + 1}</td>
 										<td>{item?.name}</td>
-										<td>{item.store_type?.name}</td>
+										<td>{item.store_tpye?.name}</td>
 										<td>{item.address}</td>
 
 										<td>
