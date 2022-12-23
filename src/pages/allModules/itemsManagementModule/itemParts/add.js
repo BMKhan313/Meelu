@@ -158,14 +158,10 @@ const Add = ({ refreshTableData }) => {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
 			});
-<<<<<<< HEAD
+
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [staterefresh]);
-	useEffect(() => {
-		
-=======
-	}, [refresh]);
->>>>>>> f5704866dd1be8ee57bc10d24dd40d0be801717d
+	
 
 	useEffect(() => {
 		Axios.get(`${baseURL}/getMachinesDropDown`)
@@ -282,10 +278,10 @@ const Add = ({ refreshTableData }) => {
 					hoverShadow='default'
 					onClick={() => {
 						initialStatus();
-<<<<<<< HEAD
+
 						setStateRefresh(!staterefresh)
-=======
->>>>>>> f5704866dd1be8ee57bc10d24dd40d0be801717d
+
+
 						setState(true);
 						setRefresh(!refresh);
 						setStaticBackdropStatus(true);
