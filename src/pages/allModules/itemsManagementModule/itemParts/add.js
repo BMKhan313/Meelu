@@ -1,3 +1,7 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable eslint-comments/no-duplicate-disable */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable prettier/prettier */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
@@ -69,7 +73,7 @@ const Add = ({ refreshTableData }) => {
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
-
+	const [refresh, setRefresh] = useState(false);
 	const [state, setState] = useState(false);
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -149,7 +153,9 @@ const Add = ({ refreshTableData }) => {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
 			});
+	}, [refresh]);
 
+	useEffect(() => {
 		Axios.get(`${baseURL}/getMachinesDropDown`)
 			.then((response) => {
 				const rec = response.data.machines.map(({ id, name }) => ({
@@ -264,8 +270,8 @@ const Add = ({ refreshTableData }) => {
 					hoverShadow='default'
 					onClick={() => {
 						initialStatus();
-
 						setState(true);
+						setRefresh(!refresh);
 						setStaticBackdropStatus(true);
 					}}>
 					Add New
@@ -309,16 +315,11 @@ const Add = ({ refreshTableData }) => {
 														: null
 												}
 												onChange={(val) => {
-												
 													formik.setFieldValue(
-														
 														'machine_id',
 														val !== null && val.id,
-														formik.values.machine_model_id="",
-													
-													
+														(formik.values.machine_model_id = ''),
 													);
-												
 												}}
 												onBlur={formik.handleBlur}
 												isValid={formik.isValid}
@@ -359,8 +360,7 @@ const Add = ({ refreshTableData }) => {
 													formik.setFieldValue(
 														'make_id',
 														val !== null && val.id,
-														formik.values.machine_model_id="",
-														
+														(formik.values.machine_model_id = ''),
 													);
 												}}
 												onBlur={formik.handleBlur}
@@ -547,7 +547,7 @@ const Add = ({ refreshTableData }) => {
 										</thead>
 
 										<tbody>
-											{formik.values.rows?.map((item, index) => (
+											{formik.values.rows.map((item, index) => (
 												<tr key={item.id}>
 													<td>{item.label}</td>
 													<td>
