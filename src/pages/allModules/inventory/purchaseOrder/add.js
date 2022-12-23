@@ -123,7 +123,7 @@ const Add = ({ refreshTableData }) => {
 			total: 0,
 			discount: '',
 			tax: '',
-			total_after_text: '',
+			total_after_tax: '',
 			tax_in_figure: '',
 			total_after_discount: '',
 			remarks: '',
@@ -133,7 +133,7 @@ const Add = ({ refreshTableData }) => {
 				{
 					item_id: '',
 					quantity: '',
-					recived_quantity: 0,
+					received_quantity: 0,
 					purchase_price: '',
 					sale_price: '',
 					amount: '',
@@ -468,16 +468,16 @@ const Add = ({ refreshTableData }) => {
 									</div>
 									<div className='col-md-2'>
 										<FormGroup
-											id='total_after_text'
+											id='total_after_tax'
 											label='Total After Taxt'
 											className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
-												value={formik.values.total_after_text}
+												value={formik.values.total_after_tax}
 												isValid={formik.isValid}
-												isTouched={formik.touched.total_after_text}
-												invalidFeedback={formik.errors.total_after_text}
+												isTouched={formik.touched.total_after_tax}
+												invalidFeedback={formik.errors.total_after_tax}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
@@ -695,26 +695,26 @@ const Add = ({ refreshTableData }) => {
 													</td>
 													<td className='col-md-1'>
 														<FormGroup
-															id={`childArray[${index}].recived_quantity`}
+															id={`childArray[${index}].received_quantity`}
 															label=''
 															type='number'
 															className='col-md-12'>
 															<Input
 																onChange={formik.handleChange}
 																onBlur={formik.handleBlur}
-																value={items.recived_quantity}
+																value={items.received_quantity}
 																isValid={formik.isValid}
 																isTouched={
-																	formik.touched.recived_quantity
+																	formik.touched.received_quantity
 																}
 																invalidFeedback={
-																	formik.errors.recived_quantity
+																	formik.errors.received_quantity
 																}
 																validFeedback='Looks good!'
 															/>
 														</FormGroup>
 														{formik.errors[
-															`childArray[${index}]recived_quantity`
+															`childArray[${index}]received_quantity`
 														] && (
 															// <div className='invalid-feedback'>
 															<p
@@ -725,7 +725,7 @@ const Add = ({ refreshTableData }) => {
 																}}>
 																{
 																	formik.errors[
-																		`childArray[${index}]recived_quantity`
+																		`childArray[${index}]received_quantity`
 																	]
 																}
 															</p>
