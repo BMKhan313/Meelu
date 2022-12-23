@@ -48,11 +48,11 @@ const Categories = () => {
 		)
 			.then((response) => {
 				setTableData(response.data.stores.data);
-				setTableData2(response.data.stores);
+				setTableData2(response.data.store);
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.stores,
+						response.data.stores.data,
 						'storesManagementModule',
 						'manage',
 						'tableData',

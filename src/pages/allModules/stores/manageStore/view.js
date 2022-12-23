@@ -168,7 +168,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.storesManagementModule.manage.tableData.data.map(
+							{store.data.storesManagementModule.manage.tableData?.data?.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
