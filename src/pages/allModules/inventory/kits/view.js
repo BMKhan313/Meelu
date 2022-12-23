@@ -152,7 +152,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						<tr>
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
-							<th>Name</th>
+							<th>Kit Name</th>
+							<th>Quantity</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -168,7 +169,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.inventoryManagementModule.kits.tableData?.KitInventory?.map(
+							{store.data.inventoryManagementModule.kits.tableData?.data?.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
@@ -184,6 +185,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										</td>
 										<td>{index + 1}</td>
 										<td>{item.kit_parent.name}</td>
+										<td>{item.total_quantity}</td>
 
 										<td>
 											<ButtonGroup>

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 
 // ** Axios Imports
 import { useDispatch, useSelector } from 'react-redux';
+import Select, { createFilter } from 'react-select';
+import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
 import { ButtonGroup } from '../../../../components/bootstrap/Button';
 // eslint-disable-next-line import/no-unresolved
@@ -40,6 +42,8 @@ const Categories = () => {
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
+	const [nameOptions, setNameOptions] = useState();
+	const [selectedName, setSelectedName] = useState('');
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
@@ -47,7 +51,7 @@ const Categories = () => {
 			{},
 		)
 			.then((response) => {
-				setTableData(response.data.KitInventory);
+				setTableData(response.data.KitInventory.data);
 				// setTableData2(response.data.KitInventory);
 				// console.log('bmk::tbdata::', response.data.KitInventory.data);
 				// console.log('bmk::tbdata2::', response.data.KitInventory);
@@ -69,6 +73,23 @@ const Categories = () => {
 
 	useEffect(() => {
 		refreshTableData();
+		Axios.get(`${baseURL}/getStoreTypeDropDown`)
+			.then((response) => {
+				const rec = response.data.storeType.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setNameOptions(rec);
+			})
+
+			// eslint-disable-next-line no-console
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+				if (err.response.status === 401) {
+					showNotification(_titleError, err.response.data.message, 'Danger');
+				}
+			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
 		store.data.inventoryManagementModule.kits.perPage,
@@ -96,21 +117,38 @@ const Categories = () => {
 								</CardActions>
 							</CardHeader>
 							<CardBody>
-								{/* <div className='row g-4'>
-									<FormGroup className='col-md-2' label='Category'>
-										<Select
-											ariaLabel='Default select example'
-											placeholder='Open this select menu'
-											onChange={(e) => {
-												setCategoryOptionsSelected({
-													value: e.target.value,
-												});
-											}}
-											value={categoryOptionsSelected.value}
-											list={categoryOptions}
-										/>
-									</FormGroup>
-								</div> */}
+								<div className='row g-4'>
+									<div className='col-md-3'>
+										<FormGroup label='Store Type' id='type'>
+											<Select
+												className='col-md-12'
+												classNamePrefix='select'
+												options={nameOptions}
+												isClearable
+												value={selectedName}
+												onChange={(val) => {
+													setSelectedName(val);
+												}}
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
+									</div>
+									<div className='col-md-3'>
+										<FormGroup label='Name' id='name'>
+											<Select
+												className='col-md-12'
+												classNamePrefix='select'
+												options={nameOptions}
+												isClearable
+												value={selectedName}
+												onChange={(val) => {
+													setSelectedName(val);
+												}}
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
+									</div>
+								</div>
 								<br />
 
 								<br />
