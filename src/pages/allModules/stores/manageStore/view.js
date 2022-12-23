@@ -168,7 +168,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.storesManagementModule.manage.tableData.data.map(
+							{store.data.storesManagementModule.manage.tableData?.data?.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
@@ -183,9 +183,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 											/>
 										</td>
 										<td>{index + 1}</td>
-										<td>{item.name}</td>
-										<td>{item.store_tpye.name}</td>
-										<td>{item.address}</td>
+										<td>{item.data.name}</td>
+										<td>{item.data.store_tpye.name}</td>
+										<td>{item.data.address}</td>
 
 										<td>
 											<ButtonGroup>
