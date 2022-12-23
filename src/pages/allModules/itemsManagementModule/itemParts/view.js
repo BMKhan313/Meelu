@@ -134,7 +134,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 
 	const deleteItem = (id) => {
-		Axios.delete(`${baseURL}/deleteMake?id=${id}`)
+		Axios.delete(`${baseURL}/deleteModelItemOem?id=${id}`)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					showNotification('Deleted', res.data.message, 'success');
@@ -179,6 +179,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<th>Machine</th>
 							<th>Make</th>
 							<th>Model</th>
+						<th>company</th>
 							<th>Name</th>
 							<th>Primary</th>
 							<th>Secondary</th>
@@ -216,6 +217,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										<td>{item.machine_model.machine.name}</td>
 										<td>{item.machine_model.make.name}</td>
 										<td>{item.machine_model.name}</td>
+									
 										<td>{item.machine_part_oem_part.machine_part.name}</td>
 										<td>
 											{item.machine_part_oem_part.oem_part_number.number1}
@@ -305,7 +307,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					)}
 				</table>
-
+				
 				<PaginationButtons
 					label='itemParts'
 					from={store.data.itemsManagementModule.itemParts.tableData?.from ?? 1}

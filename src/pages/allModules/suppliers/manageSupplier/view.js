@@ -72,7 +72,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
-		Axios.get(`${baseURL}/editMachine?id=${idd}`)
+		Axios.get(`${baseURL}/editSupplier?id=${idd}`)
 			.then((res) => {
 				setEditingItem(res.data.machine);
 				setEditingItemLoading(false);
@@ -108,7 +108,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 
 	const deleteItem = (id) => {
-		Axios.delete(`${baseURL}/deleteMachine?id=${id}`)
+		Axios.delete(`${baseURL}/deleteSupplier?id=${id}`)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					showNotification('Deleted', res.data.message, 'success');
@@ -153,8 +153,13 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
 							<th>Name</th>
-							<th>Store Type</th>
+							<th> Type</th>
 							<th>Address</th>
+							<th>Email</th>
+							<th>Cnic</th>
+							<th>phoneno</th>
+							<th>gst</th>
+							<th>ntn</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -170,7 +175,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.suppliersManagementModule.manage.tableData.data.map(
+							{store.data.suppliersManagementModule.manage.tableData?.data?.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
@@ -186,9 +191,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										</td>
 										<td>{index + 1}</td>
 										<td>{item.name}</td>
-										<td>{item.store_tpye.name}</td>
+										<td>{item.type}</td>
 										<td>{item.address}</td>
-
+										<td>{item.email}</td>
+										<td>{item.cnic}</td>
+										<td>{item.phone_no}</td>
+										<td>{item.gst}</td>
+										<td>{item.ntn}</td>
+									
 										<td>
 											<ButtonGroup>
 												<Button

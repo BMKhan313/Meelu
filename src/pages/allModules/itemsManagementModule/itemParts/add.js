@@ -71,6 +71,9 @@ const Add = ({ refreshTableData }) => {
 	const [tableDataLoading, setTableDataLoading] = useState(true);
 
 	const [state, setState] = useState(false);
+	
+	const [staterefresh, setStateRefresh] = useState(false);
+
 
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -129,6 +132,7 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	useEffect(() => {
+		
 		Axios.get(`${baseURL}/getCompaniesDropDown`)
 			.then((response) => {
 				const rec = response.data.companies.map(({ id, name }) => ({
@@ -140,8 +144,9 @@ const Add = ({ refreshTableData }) => {
 					number2: '',
 				}));
 				formik.setFieldValue('rows', rec);
+				console.log("exhaustive");
 			})
-
+		
 			// eslint-disable-next-line no-console
 			.catch((err) => {
 				showNotification(_titleError, err.message, 'Danger');
@@ -149,6 +154,10 @@ const Add = ({ refreshTableData }) => {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
 			});
+			// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [staterefresh]);
+	useEffect(() => {
+		
 
 		Axios.get(`${baseURL}/getMachinesDropDown`)
 			.then((response) => {
@@ -264,7 +273,7 @@ const Add = ({ refreshTableData }) => {
 					hoverShadow='default'
 					onClick={() => {
 						initialStatus();
-
+						setStateRefresh(!staterefresh)
 						setState(true);
 						setStaticBackdropStatus(true);
 					}}>

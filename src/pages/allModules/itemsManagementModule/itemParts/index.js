@@ -71,11 +71,12 @@ const Categories = () => {
 			}
 			&machine_model_id=${selectedModel ? selectedModel.id : ''}&item_id=${
 				selectedName ? selectedName.id : ''
-			}&primary=${oemNo}`,
+			}&company=${selectedCompany ? selectedCompany.id : ''}&primary=${oemNo}`,
 			{},
 		)
 			.then((response) => {
 				setTableData(response.data.data.data);
+				console.log("restab",response)
 				setTableData2(response.data.data);
 				setTableDataLoading(false);
 				dispatch(

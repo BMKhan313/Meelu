@@ -16,10 +16,13 @@ const Viewnew = ({viewItem}) => {
 						</thead>
 
 						<tbody>
-                        {viewItem.machine_part_oem_part.oem_part_number.oem_part_number_company?.map(
+                        {viewItem.machine_part_oem_part.oem_part_number.oem_part_numbercompany?.map(
 								(item) => (
                                     <tr key={item.id}>
+
                                     <td>{item.company.name}</td>
+									<td>{item.number1}</td>
+									<td>{item.number2}</td>
 
 									</tr>
 								),
