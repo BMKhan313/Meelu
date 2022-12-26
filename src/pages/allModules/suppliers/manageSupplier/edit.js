@@ -53,6 +53,9 @@ const validate = (values) => {
 	if (!values.email) {
 		errors.email = 'Required';
 	}
+	// if (!values.type) {
+	// 	errors.type = 'Required';
+	// }
 
 	return errors;
 };

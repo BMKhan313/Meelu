@@ -73,7 +73,7 @@ const Add = ({ refreshTableData }) => {
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
-	const [refresh, setRefresh] = useState(false);
+	
 	const [state, setState] = useState(false);
 
 	const [staterefresh, setStateRefresh] = useState(false);
@@ -276,7 +276,7 @@ const Add = ({ refreshTableData }) => {
 						setStateRefresh(!staterefresh);
 
 						setState(true);
-						setRefresh(!refresh);
+				
 						setStaticBackdropStatus(true);
 					}}>
 					Add New
@@ -608,10 +608,15 @@ const Add = ({ refreshTableData }) => {
 									<Button
 										type='reset'
 										color='info'
+									
 										isOutline
-										onClick={formik.resetForm}>
+										onClick={() =>	{	
+										
+											setStateRefresh(!staterefresh)
+										formik.resetForm()}} >
 										Reset
 									</Button>
+									
 								</CardFooterLeft>
 								<CardFooterRight>
 									<Button
