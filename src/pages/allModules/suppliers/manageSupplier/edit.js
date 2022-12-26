@@ -53,10 +53,8 @@ const validate = (values) => {
 	if (!values.email) {
 		errors.email = 'Required';
 	}
-	if (!values.type) {
-		errors.type = 'Required';
-	}
 
+	console.log(errors)
 	return errors;
 };
 
@@ -88,6 +86,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 	});
 
 	const submitForm = (data) => {
+		console.log('data2',data)
 		Axios.post(`${baseURL}/updateSupplier`, data)
 			.then((res) => {
 				if (res.data.status === 'ok') {

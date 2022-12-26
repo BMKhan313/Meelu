@@ -74,7 +74,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setEditingItemLoading(true);
 		Axios.get(`${baseURL}/editSupplier?id=${idd}`)
 			.then((res) => {
-				setEditingItem(res.data.machine);
+				setEditingItem(res.data.supplier);
 				setEditingItemLoading(false);
 			})
 			.catch((err) => {
