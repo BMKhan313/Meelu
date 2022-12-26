@@ -283,10 +283,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 															}}
 															isOutline
 															color='primary'
-															className={classNames('text-nowrap', {
-																'border-light': true,
-															})}
-															icon='Edit'>
+															className={classNames(
+																'text-nowrap',
+																'col-md-12',
+																{
+																	'border-light': true,
+																},
+															)}
+															icon='Preview'>
 															View
 														</Button>
 													</DropdownMenu>
