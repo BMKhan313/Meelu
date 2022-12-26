@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable no-unused-vars */
 import React, { useContext, useLayoutEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -119,7 +121,7 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 				</div>
 
 				{/* Lang Selector */}
-				<div className='col-auto'>
+				{/* <div className='col-auto'>
 					<Dropdown>
 						<DropdownToggle hasIcon={false}>
 							{typeof getLangWithKey(i18n.language)?.icon === 'undefined' ? (
@@ -153,7 +155,7 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 							))}
 						</DropdownMenu>
 					</Dropdown>
-				</div>
+				</div> */}
 
 				{/* Quick Panel */}
 				<div className='col-auto'>

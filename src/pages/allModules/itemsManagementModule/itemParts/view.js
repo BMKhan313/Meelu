@@ -214,13 +214,11 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										<td>{item.machine_model.name}</td>
 										<td>{item.machine_part_oem_part.machine_part.name}</td>
 
-									
 										<td>
 											{item.machine_part_oem_part.oem_part_number.number1}
 										</td>
 										<td>
 											{item.machine_part_oem_part.oem_part_number.number2}
-										
 										</td>
 										<td>
 											<ButtonGroup>
