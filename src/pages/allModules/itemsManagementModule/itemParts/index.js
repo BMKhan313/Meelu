@@ -76,7 +76,6 @@ const Categories = () => {
 		)
 			.then((response) => {
 				setTableData(response.data.data.data);
-				console.log("restab",response)
 				setTableData2(response.data.data);
 				setTableDataLoading(false);
 				dispatch(
@@ -246,8 +245,7 @@ const Categories = () => {
 												value={selectedMachine}
 												onChange={(val) => {
 													setSelectedMachine(val);
-													setSelectedModel('')
-													
+													setSelectedModel('');
 												}}
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
@@ -264,7 +262,7 @@ const Categories = () => {
 												value={selectedMake}
 												onChange={(val) => {
 													setSelectedMake(val);
-													setSelectedModel('')
+													setSelectedModel('');
 												}}
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
@@ -281,7 +279,6 @@ const Categories = () => {
 												value={selectedModel}
 												onChange={(val) => {
 													setSelectedModel(val);
-												
 												}}
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>

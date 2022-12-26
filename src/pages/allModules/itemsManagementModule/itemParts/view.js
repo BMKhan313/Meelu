@@ -50,10 +50,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 	const [editingItem, setEditingItem] = useState({});
 	const [itemId, setItemId] = useState('');
-	
+
 	const [deleteLoading, setDeleteLoading] = useState(false);
 	const [viewItem, setViewItem] = useState(false);
-
 
 	// Edit
 	const [stateEdit, setStateEdit] = useState(false);
@@ -82,7 +81,6 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setFullScreenStatusView(false);
 		setAnimationStatusView(true);
 		setHeaderCloseStatusView(true);
-	
 	};
 
 	const initialStatusEdit = () => {
@@ -92,9 +90,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setFullScreenStatusEdit(false);
 		setAnimationStatusEdit(true);
 		setHeaderCloseStatusEdit(true);
-	
 	};
-	
 
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
@@ -179,7 +175,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<th>Machine</th>
 							<th>Make</th>
 							<th>Model</th>
-						<th>company</th>
+							<th>company</th>
 							<th>Name</th>
 							<th>Primary</th>
 							<th>Secondary</th>
@@ -217,7 +213,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										<td>{item.machine_model.machine.name}</td>
 										<td>{item.machine_model.make.name}</td>
 										<td>{item.machine_model.name}</td>
-									
+
 										<td>{item.machine_part_oem_part.machine_part.name}</td>
 										<td>
 											{item.machine_part_oem_part.oem_part_number.number1}
@@ -277,28 +273,24 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 															Actions
 														</DropdownItem>
 														<Button
-													// isDisable={item.isApproved === 1}
-													onClick={() => {
-														console.log(item)
-														setItemId(item.id);
-														setViewItem(item)
-														initialStatusView();
-														setStateView(true);
-														setStaticBackdropStatusView(true);
-													}}
-													isOutline
-													color='primary'
-													className={classNames('text-nowrap', {
-														'border-light': true,
-													})}
-													icon='Edit'>
-													View
-												</Button>
-														
+															// isDisable={item.isApproved === 1}
+															onClick={() => {
+																setItemId(item.id);
+																setViewItem(item);
+																initialStatusView();
+																setStateView(true);
+																setStaticBackdropStatusView(true);
+															}}
+															isOutline
+															color='primary'
+															className={classNames('text-nowrap', {
+																'border-light': true,
+															})}
+															icon='Edit'>
+															View
+														</Button>
 													</DropdownMenu>
 												</Dropdown>
-												
-
 											</ButtonGroup>
 										</td>
 									</tr>
@@ -307,7 +299,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					)}
 				</table>
-				
+
 				<PaginationButtons
 					label='itemParts'
 					from={store.data.itemsManagementModule.itemParts.tableData?.from ?? 1}
@@ -425,19 +417,18 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<ModalBody>
 					<div className='row g-4'>
 						<div className='col-12'>
-						{editingItemLoading ? (
+							{editingItemLoading ? (
 								<div className='d-flex justify-content-center'>
 									<Spinner color='primary' size='5rem' />
 								</div>
 							) : (
 								<Edit editingItem={editingItem} handleStateEdit={handleStateEdit} />
-								)}
+							)}
 						</div>
 					</div>
 				</ModalBody>
 				{/* <ModalFooter /> */}
 			</Modal>
-
 
 			<Modal
 				isOpen={stateView}
@@ -463,16 +454,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<ModalBody>
 					<div className='row g-4'>
 						<div className='col-12'>
-{/* 							
+							{/* 							
 								// <Edit editingItem={editingItem} handleStateView={handleStateEdit} /> */}
-								<Viewnew viewItem={viewItem}/>
-						
+							<Viewnew viewItem={viewItem} />
 						</div>
 					</div>
 				</ModalBody>
 				{/* <ModalFooter /> */}
 			</Modal>
-
 		</>
 	);
 };

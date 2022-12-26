@@ -75,9 +75,8 @@ const Add = ({ refreshTableData }) => {
 	const [tableDataLoading, setTableDataLoading] = useState(true);
 	const [refresh, setRefresh] = useState(false);
 	const [state, setState] = useState(false);
-	
-	const [staterefresh, setStateRefresh] = useState(false);
 
+	const [staterefresh, setStateRefresh] = useState(false);
 
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -136,7 +135,6 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	useEffect(() => {
-		
 		Axios.get(`${baseURL}/getCompaniesDropDown`)
 			.then((response) => {
 				const rec = response.data.companies.map(({ id, name }) => ({
@@ -148,10 +146,8 @@ const Add = ({ refreshTableData }) => {
 					number2: '',
 				}));
 				formik.setFieldValue('rows', rec);
-				console.log("exhaustive");
 			})
-		
-			// eslint-disable-next-line no-console
+
 			.catch((err) => {
 				showNotification(_titleError, err.message, 'Danger');
 				if (err.response.status === 401) {
@@ -159,9 +155,8 @@ const Add = ({ refreshTableData }) => {
 				}
 			});
 
-			// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [staterefresh]);
-	
 
 	useEffect(() => {
 		Axios.get(`${baseURL}/getMachinesDropDown`)
@@ -219,7 +214,6 @@ const Add = ({ refreshTableData }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	const submitForm = (myFormik) => {
-		// console.log('data', myFormik.values);
 		Axios.post(`${baseURL}/addModelItemOem`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})
@@ -279,8 +273,7 @@ const Add = ({ refreshTableData }) => {
 					onClick={() => {
 						initialStatus();
 
-						setStateRefresh(!staterefresh)
-
+						setStateRefresh(!staterefresh);
 
 						setState(true);
 						setRefresh(!refresh);

@@ -1,6 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
 
@@ -62,7 +62,6 @@ const validate = (values) => {
 		errors.type = 'Required';
 	}
 
-
 	return errors;
 };
 
@@ -95,12 +94,12 @@ const Add = ({ refreshTableData }) => {
 			name: '',
 			type: '',
 			address: '',
-			company:'',
-			phone_no:'',
-			email:'',
-			cnic:'',
-			gst:'',
-			ntn:''
+			company: '',
+			phone_no: '',
+			email: '',
+			cnic: '',
+			gst: '',
+			ntn: '',
 		},
 		validate,
 		onSubmit: () => {
@@ -143,7 +142,6 @@ const Add = ({ refreshTableData }) => {
 		// 			label: name,
 		// 		}));
 		// 		setMachineOptions(rec);
-
 		// 		setMachineOptionsLoading(false);
 		// 	})
 		// 	// eslint-disable-next-line no-console
@@ -185,7 +183,7 @@ const Add = ({ refreshTableData }) => {
 				<ModalBody>
 					<div className='col-12'>
 						<Card stretch tag='form' onSubmit={formik.handleSubmit}>
-						<CardBody>
+							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
 										{/* <FormGroup label='Type ID' id='type_id'>
@@ -226,7 +224,7 @@ const Add = ({ refreshTableData }) => {
 												{formik.errors.type_id}
 											</p>
 										)} */}
-											<FormGroup id='type' label='Type' className='col-md-12'>
+										<FormGroup id='type' label='Type' className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
@@ -248,8 +246,11 @@ const Add = ({ refreshTableData }) => {
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
-										
-										<FormGroup id='company' label='Company' className='col-md-12'>
+
+										<FormGroup
+											id='company'
+											label='Company'
+											className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
@@ -293,7 +294,10 @@ const Add = ({ refreshTableData }) => {
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
-										<FormGroup id='phone_no' label='phone_no' className='col-md-12'>
+										<FormGroup
+											id='phone_no'
+											label='phone_no'
+											className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
@@ -318,10 +322,7 @@ const Add = ({ refreshTableData }) => {
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
-										<FormGroup
-											id='cnic'
-											label='Cnic'
-											className='col-md-12'>
+										<FormGroup id='cnic' label='Cnic' className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
@@ -332,7 +333,6 @@ const Add = ({ refreshTableData }) => {
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
-										
 									</div>
 								</div>
 							</CardBody>

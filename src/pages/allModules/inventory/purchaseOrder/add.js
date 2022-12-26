@@ -1,18 +1,9 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable eslint-comments/no-duplicate-disable */
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable prettier/prettier */
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable eslint-comments/no-duplicate-disable */
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable camelcase */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable no-unused-vars */
+/* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
 
-import moment from 'moment';
 import ReactSelect, { createFilter } from 'react-select';
 import PropTypes from 'prop-types';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
@@ -31,7 +22,6 @@ import Card, {
 	CardFooter,
 	CardFooterLeft,
 	CardFooterRight,
-	CardHeader,
 	CardLabel,
 } from '../../../../components/bootstrap/Card';
 
@@ -72,8 +62,6 @@ const validate = (values) => {
 			};
 		}
 	});
-	// eslint-disable-next-line no-console
-	console.log('Errr', errors);
 	return errors;
 };
 const Add = ({ refreshTableData }) => {
@@ -88,17 +76,9 @@ const Add = ({ refreshTableData }) => {
 	const [animationStatus, setAnimationStatus] = useState(true);
 	const [kitOptions, setKitOptions] = useState([]);
 	const [kitOptionsLoading, setKitOptionsLoading] = useState(false);
-	const [makeOptions, setMakeOptions] = useState();
-	const [makeOptionsLoading, setMakeOptionsLoading] = useState(false);
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
-	const [supplierOptions, setSupplierOptions] = useState([]);
-	const [supplierOptionsLoading, setSupplierOptionsLoading] = useState(false);
-	const [branchOptions, setBranchOptions] = useState([]);
-	const [branchOptionsLoading, setBranchOptionsLoading] = useState(false);
 	const [supplierDropDown, setSupplierDropDown] = useState([]);
 	const [supplierDropDownLoading, setSupplierDropDownLoading] = useState([]);
-	const [poNo, setPoNo] = useState('');
-	const [poNoLoading, setPoNoLoading] = useState(false);
 	const [storeOptions, setStoreOptions] = useState([]);
 	const [storeLoading, setStoreLoading] = useState(false);
 
@@ -143,13 +123,11 @@ const Add = ({ refreshTableData }) => {
 		},
 		validate,
 		onSubmit: () => {
-			// console.log('formik values', formik.values);
 			setIsLoading(true);
 			setTimeout(handleSave, 2000);
 		},
 	});
 	const handleSave = () => {
-		console.log('formik values', formik.values);
 		submitForm(formik);
 	};
 	const removeRow = (i) => {
@@ -161,7 +139,6 @@ const Add = ({ refreshTableData }) => {
 	const submitForm = (myFormik) => {
 		Axios.post(`${baseURL}/addPurchaseOrder`, myFormik.values)
 			.then((res) => {
-				console.log('values', res);
 				if (res.data.status === 'ok') {
 					formik.resetForm();
 					showNotification(_titleSuccess, res.data.message, 'success');
@@ -224,7 +201,6 @@ const Add = ({ refreshTableData }) => {
 	useEffect(() => {
 		Axios.get(`${baseURL}/getStoredropdown`)
 			.then((response) => {
-				// console.log('store', response.data);
 				const rec = response.data.store.map(({ id, name }) => ({
 					id,
 					value: id,
@@ -238,9 +214,6 @@ const Add = ({ refreshTableData }) => {
 				showNotification(_titleError, err.message, 'Danger');
 				if (err.response.status === 401) {
 					showNotification(_titleError, err.response.message, 'Danger');
-
-					// Cookies.remove('userToken');
-					// navigate(`/${demoPages.login.path}`, { replace: true });
 				}
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -248,7 +221,6 @@ const Add = ({ refreshTableData }) => {
 	useEffect(() => {
 		Axios.get(`${baseURL}/kitItemDropdown`)
 			.then((response) => {
-				// console.log('bmmmmkkkk::', response.data);
 				const rec = response.data.data.map(({ id, machine_part_oem_part }) => ({
 					id,
 					value: id,
@@ -257,10 +229,9 @@ const Add = ({ refreshTableData }) => {
 				setKitOptions(rec);
 				setKitOptionsLoading(false);
 			})
-			// eslint-disable-next-line no-console
-			.catch((err) => {});
-		// eslint-disable-next-line no-console
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+			});
 	}, []);
 
 	return (
