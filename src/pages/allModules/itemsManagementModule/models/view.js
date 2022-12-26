@@ -130,14 +130,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 	useEffect(
 		() => {
-			dispatch(updateSingleState([perPage, 'itemsManagementModule', 'model', 'perPage']));
+			dispatch(updateSingleState([perPage, 'itemsManagementModule', 'models', 'perPage']));
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[perPage],
 	);
 
 	const handlePageChange = (e) => {
-		dispatch(updateSingleState([e, 'itemsManagementModule', 'model', 'pageNo']));
+		dispatch(updateSingleState([e, 'itemsManagementModule', 'models', 'pageNo']));
 	};
 
 	return (
@@ -248,7 +248,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				</table>
 
 				<PaginationButtons
-					label='make'
+					label='models'
 					from={store.data.itemsManagementModule.models.tableData?.from ?? 1}
 					to={store.data.itemsManagementModule.models.tableData?.to ?? 1}
 					total={store.data.itemsManagementModule.models.tableData?.total ?? 0}

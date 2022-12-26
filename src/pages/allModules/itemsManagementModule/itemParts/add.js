@@ -14,9 +14,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 
-// eslint-disable-next-line import/no-unresolved
-import { updateSingleState } from '../../redux/tableCrud/index';
-
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
 import Spinner from '../../../../components/bootstrap/Spinner';
 import Modal, {
@@ -67,13 +64,10 @@ const validate = (values) => {
 };
 
 const Add = ({ refreshTableData }) => {
-	const dispatch = useDispatch();
-	const store = useSelector((state) => state.tableCrud);
-
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
-	
+
 	const [state, setState] = useState(false);
 
 	const [staterefresh, setStateRefresh] = useState(false);
@@ -122,7 +116,8 @@ const Add = ({ refreshTableData }) => {
 			machine_model_id: '',
 			brand: '',
 			machine_part_id: '',
-
+			tertiary: '',
+			quaternary: '',
 			rows: [],
 		},
 		validate,
@@ -276,7 +271,7 @@ const Add = ({ refreshTableData }) => {
 						setStateRefresh(!staterefresh);
 
 						setState(true);
-				
+
 						setStaticBackdropStatus(true);
 					}}>
 					Add New
@@ -539,6 +534,39 @@ const Add = ({ refreshTableData }) => {
 											/>
 										</FormGroup>
 									</div>
+
+									<div className='col-md-3'>
+										<FormGroup
+											id='number1'
+											label='tertiary'
+											className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.tertiary}
+												isValid={formik.isValid}
+												isTouched={formik.touched.tertiary}
+												invalidFeedback={formik.errors.tertiary}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+									</div>
+									<div className='col-md-3'>
+										<FormGroup
+											id='number1'
+											label='Quaternary'
+											className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.quaternary}
+												isValid={formik.isValid}
+												isTouched={formik.touched.quaternary}
+												invalidFeedback={formik.errors.quaternary}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+									</div>
 								</div>
 								<br />
 								<div className='table-responsive'>
@@ -548,6 +576,8 @@ const Add = ({ refreshTableData }) => {
 												<th>Company </th>
 												<th>Primary</th>
 												<th>Secondary</th>
+												<th>Tertiary</th>
+												<th>Quaternary</th>
 											</tr>
 										</thead>
 
@@ -597,6 +627,20 @@ const Add = ({ refreshTableData }) => {
 															/>
 														</FormGroup>
 													</td>
+													<td>
+														<FormGroup
+															id='number1'
+															className='col-md-12'>
+															<Input type='text' />
+														</FormGroup>
+													</td>
+													<td>
+														<FormGroup
+															id='number1'
+															className='col-md-12'>
+															<Input type='text' />
+														</FormGroup>
+													</td>
 												</tr>
 											))}
 										</tbody>
@@ -608,15 +652,13 @@ const Add = ({ refreshTableData }) => {
 									<Button
 										type='reset'
 										color='info'
-									
 										isOutline
-										onClick={() =>	{	
-										
-											setStateRefresh(!staterefresh)
-										formik.resetForm()}} >
+										onClick={() => {
+											setStateRefresh(!staterefresh);
+											formik.resetForm();
+										}}>
 										Reset
 									</Button>
-									
 								</CardFooterLeft>
 								<CardFooterRight>
 									<Button
