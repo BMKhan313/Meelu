@@ -91,6 +91,14 @@ export const addProjectSlice = createSlice({
 					searchNo: null,
 					others: null,
 				},
+				purchase: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
 			},
 			// inventory Ends
 

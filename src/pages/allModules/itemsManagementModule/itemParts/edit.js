@@ -31,9 +31,6 @@ import showNotification from '../../../../components/extras/showNotification';
 const validate = (values) => {
 	const errors = {};
 
-	if (!values.number2) {
-		errors.number2 = 'Required';
-	}
 	if (!values.number1) {
 		errors.number1 = 'Required';
 	}
@@ -75,7 +72,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 
 	const formik = useFormik({
 		initialValues: editingItem,
-		number2: '',
+
 		number1: '',
 		machine_id: '',
 		make_id: '',
@@ -413,7 +410,6 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 								value={formik.values.number2}
 								isValid={formik.isValid}
 								isTouched={formik.touched.number2}
-								invalidFeedback={formik.errors.number2}
 								validFeedback='Looks good!'
 							/>
 						</FormGroup>

@@ -1,11 +1,11 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
 
 import moment from 'moment';
-import ReactSelect, { createFilter } from 'react-select';
+import Select, { createFilter } from 'react-select';
 import PropTypes from 'prop-types';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
 
@@ -46,18 +46,17 @@ const validate = (values) => {
 const Edit = ({ editingItem, handleStateEdit }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [lastSave, setLastSave] = useState(null);
-	const [machineOptions, setMachineOptions] = useState();
-	const [machineOptionsLoading, setMachineOptionsLoading] = useState(false);
+	const [storeTypeOptions, setStoreTypeOptions] = useState();
+	const [storeTypeOptionsLoading, setStoreTypeOptionsLoading] = useState(false);
 	// useEffect(() => {
 
 	// }, [])
 
 	const formik = useFormik({
-		initialValues: {
-			name: '',
-			type_id: '',
-			address: '',
-		},
+		initialValues: editingItem,
+		name: '',
+		type_id: '',
+		address: '',
 		validate,
 		onSubmit: () => {
 			setIsLoading(true);
@@ -65,8 +64,8 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 		},
 	});
 
-	const submitForm = (data) => {
-		Axios.post(`${baseURL}/updateStore`, data)
+	const submitForm = (myFormik) => {
+		Axios.post(`${baseURL}/updateStore`, myFormik.values)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					formik.resetForm();
@@ -93,6 +92,22 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 		submitForm(formik);
 		setLastSave(moment());
 	};
+	useEffect(() => {
+		Axios.get(`${baseURL}/getStoreTypeDropDown`)
+			.then((response) => {
+				const rec = response.data.storeType.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setStoreTypeOptions(rec);
+
+				setStoreTypeOptionsLoading(false);
+			})
+			// eslint-disable-next-line no-console
+			.catch((err) => {});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 	return (
 		<div className='col-12'>
 			<Card stretch tag='form' onSubmit={formik.handleSubmit}>
@@ -100,15 +115,15 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 					<div className='row g-2'>
 						<div className='col-md-12'>
 							<FormGroup label='Type ID' id='type_id'>
-								<ReactSelect
+								<Select
 									className='col-md-12'
 									classNamePrefix='select'
-									options={machineOptions}
-									isLoading={machineOptionsLoading}
+									options={storeTypeOptions}
+									isLoading={storeTypeOptionsLoading}
 									isClearable
 									value={
 										formik.values.type_id
-											? machineOptions.find(
+											? storeTypeOptions?.find(
 													(c) => c.value === formik.values.type_id,
 											  )
 											: null
