@@ -50,7 +50,7 @@ const validate = (values) => {
 	if (!values.machine_part_id) {
 		errors.machine_part_id = 'Required';
 	}
-	console.log(errors)
+	console.log(errors);
 	return errors;
 };
 
@@ -91,7 +91,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 	});
 
 	const submitForm = (data) => {
-		console.log('data',data)
+		console.log('data', data);
 		Axios.post(`${baseURL}/updateModelItemOem`, data)
 			.then((res) => {
 				if (res.data.status === 'ok') {
@@ -220,7 +220,11 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 										: null
 								}
 								onChange={(val) => {
-									formik.setFieldValue('machine_id', val !== null && val.id,	formik.values.machine_model_id="",);
+									formik.setFieldValue(
+										'machine_id',
+										val !== null && val.id,
+										(formik.values.machine_model_id = ''),
+									);
 								}}
 								onBlur={formik.handleBlur}
 								isValid={formik.isValid}
@@ -256,7 +260,11 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 										: null
 								}
 								onChange={(val) => {
-									formik.setFieldValue('make_id', val !== null && val.id ,	formik.values.machine_model_id="",);
+									formik.setFieldValue(
+										'make_id',
+										val !== null && val.id,
+										(formik.values.machine_model_id = ''),
+									);
 								}}
 								onBlur={formik.handleBlur}
 								isValid={formik.isValid}

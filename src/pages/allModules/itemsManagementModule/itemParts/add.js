@@ -116,8 +116,8 @@ const Add = ({ refreshTableData }) => {
 			machine_model_id: '',
 			brand: '',
 			machine_part_id: '',
-			tertiary: '',
-			quaternary: '',
+			number3: '',
+			number4: '',
 			rows: [],
 		},
 		validate,
@@ -537,32 +537,32 @@ const Add = ({ refreshTableData }) => {
 
 									<div className='col-md-3'>
 										<FormGroup
-											id='number1'
+											id='number3'
 											label='tertiary'
 											className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
-												value={formik.values.tertiary}
+												value={formik.values.number3}
 												isValid={formik.isValid}
-												isTouched={formik.touched.tertiary}
-												invalidFeedback={formik.errors.tertiary}
+												isTouched={formik.touched.number3}
+												invalidFeedback={formik.errors.number3}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
 									</div>
 									<div className='col-md-3'>
 										<FormGroup
-											id='number1'
+											id='number4'
 											label='Quaternary'
 											className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
-												value={formik.values.quaternary}
+												value={formik.values.number4}
 												isValid={formik.isValid}
-												isTouched={formik.touched.quaternary}
-												invalidFeedback={formik.errors.quaternary}
+												isTouched={formik.touched.number4}
+												invalidFeedback={formik.errors.number4}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
@@ -576,8 +576,8 @@ const Add = ({ refreshTableData }) => {
 												<th>Company </th>
 												<th>Primary</th>
 												<th>Secondary</th>
-												<th>Tertiary</th>
-												<th>Quaternary</th>
+												<th>number3</th>
+												<th>number4</th>
 											</tr>
 										</thead>
 
