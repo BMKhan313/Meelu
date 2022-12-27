@@ -74,7 +74,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setEditingItemLoading(true);
 		Axios.get(`${baseURL}/editStore?id=${idd}`)
 			.then((res) => {
-				setEditingItem(res.data.stores);
+				setEditingItem(res.data.store);
 				setEditingItemLoading(false);
 			})
 			.catch((err) => {
@@ -184,7 +184,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										</td>
 										<td>{index + 1}</td>
 										<td>{item?.name}</td>
-										<td>{item.store_type?.name}</td>
+										<td>{item.store_tpye?.name}</td>
 										<td>{item.address}</td>
 
 										<td>

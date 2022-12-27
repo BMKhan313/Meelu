@@ -52,7 +52,7 @@ const Categories = () => {
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.stores.data,
+						response.data.stores,
 						'storesManagementModule',
 						'manage',
 						'tableData',

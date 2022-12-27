@@ -149,7 +149,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 			<CardBody className='table-responsive'>
 				<table className='table table-modern'>
 					<thead>
-					<tr>
+						<tr>
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
 							<th>Name</th>
@@ -240,10 +240,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 														<DropdownItem isHeader>
 															Actions
 														</DropdownItem>
-														
 													</DropdownMenu>
 												</Dropdown>
-												
 											</ButtonGroup>
 										</td>
 									</tr>
