@@ -119,6 +119,17 @@ export const addProjectSlice = createSlice({
 				},
 			},
 			// stores Ends
+			// purchase order
+			purchaseOrderManagement: {
+				purchaseList: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
+			},
 		},
 		cookies: {
 			userRights: [],

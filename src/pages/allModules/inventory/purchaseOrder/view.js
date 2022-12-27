@@ -1,6 +1,8 @@
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import Pagination from 'react-js-pagination';
-
+import moment from 'moment';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -25,7 +27,12 @@ import PaginationButtons from '../../../../components/PaginationButtons';
 import useSelectTable from '../../../../hooks/useSelectTable';
 
 import Spinner from '../../../../components/bootstrap/Spinner';
-import Modal, { ModalBody, ModalHeader, ModalTitle } from '../../../../components/bootstrap/Modal';
+import Modal, {
+	ModalBody,
+	ModalHeader,
+	ModalTitle,
+	ModalFooter,
+} from '../../../../components/bootstrap/Modal';
 import Card, {
 	CardBody,
 	CardHeader,
@@ -41,10 +48,12 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
-	const [perPage, setPerPage] = useState(Number(store.data.kitManagement.defineKit.perPage));
+	const [perPage, setPerPage] = useState(
+		Number(store.data.purchaseOrderManagement.purchaseList.perPage),
+	);
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
 	const { selectTable, SelectAllCheck } = useSelectTable(tableData);
-
+	const [poNo, setPoNo] = useState('');
 	const [editingItem, setEditingItem] = useState({});
 	const [itemId, setItemId] = useState('');
 	const [deleteLoading, setDeleteLoading] = useState(false);
@@ -70,9 +79,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
-		Axios.get(`${baseURL}/editKits?id=${idd}`)
+		Axios.get(`${baseURL}/editPurchaseOrder?id=${idd}`)
 			.then((res) => {
-				// console.log('', res.data.data);
+				console.log('bmkkk:', res.data.data);
 				setEditingItem(res.data.data);
 				setEditingItemLoading(false);
 			})
@@ -93,8 +102,16 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	const [sizeStatusDelete, setSizeStatusDelete] = useState(null);
 	const [fullScreenStatusDelete, setFullScreenStatusDelete] = useState(null);
 	const [animationStatusDelete, setAnimationStatusDelete] = useState(true);
-
 	const [headerCloseStatusDelete, setHeaderCloseStatusDelete] = useState(true);
+	// initiate
+	const [staticBackdropStatusInitiate, setStaticBackdropStatusReceive] = useState(false);
+	const [scrollableStatusInitiate, setScrollableStatusInitiate] = useState(false);
+	const [centeredStatusInitiate, setCenteredStatusInitiate] = useState(false);
+	const [sizeStatusInitiate, setSizeStatusInitiate] = useState(null);
+	const [fullScreenStatusInitiate, setFullScreenStatusInitiate] = useState(null);
+	const [animationStatusInitiate, setAnimationStatusInitiate] = useState(true);
+	const [stateInitiate, setStateReceive] = useState(false);
+	const [headerCloseStatusInitiate, setHeaderCloseStatusInitiate] = useState(true);
 
 	const initialStatusDelete = () => {
 		setStaticBackdropStatusDelete(false);
@@ -103,11 +120,40 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setSizeStatusDelete('md');
 		setFullScreenStatusDelete(null);
 		setAnimationStatusDelete(true);
-		setHeaderCloseStatusDelete(true);
+		setHeaderCloseStatusInitiate(true);
+	};
+	const initialStatusReceive = () => {
+		setStaticBackdropStatusReceive(false);
+		setScrollableStatusInitiate(false);
+		setCenteredStatusInitiate(false);
+		setSizeStatusInitiate('md');
+		setFullScreenStatusInitiate(null);
+		setAnimationStatusInitiate(true);
+		setHeaderCloseStatusInitiate(true);
+	};
+	const [isLoading, setIsLoading] = useState(false);
+	const [lastSave, setLastSave] = useState(null);
+
+	const initiateFile = (id) => {
+		setIsLoading(true);
+		Axios.get(`${baseURL}/transferBooking?booking_transfer_id=${id}`)
+			.then((response) => {
+				showNotification('Success', response.data.message, 'success');
+				setStateReceive(false);
+				refreshTableData();
+				setIsLoading(false);
+			})
+
+			.catch((err) => {
+				console.log(err);
+				setIsLoading(false);
+
+				showNotification('Error', err.message, 'danger');
+			});
 	};
 
 	const deleteItem = (id) => {
-		Axios.delete(`${baseURL}/deletKits?id=${id}`)
+		Axios.delete(`${baseURL}/deletePurchaseOrder?id=${id}`)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					showNotification('Deleted', res.data.message, 'success');
@@ -131,14 +177,16 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 	useEffect(
 		() => {
-			dispatch(updateSingleState([perPage, 'kitManagement', 'defineKit', 'perPage']));
+			dispatch(
+				updateSingleState([perPage, 'purchaseOrderManagement', 'purchaseList', 'perPage']),
+			);
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[perPage],
 	);
 
 	const handlePageChange = (e) => {
-		dispatch(updateSingleState([e, 'kitManagement', 'defineKit', 'pageNo']));
+		dispatch(updateSingleState([e, 'purchaseOrderManagement', 'purchaseList', 'pageNo']));
 	};
 
 	return (
@@ -148,8 +196,11 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 					<thead>
 						<tr>
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
-							<th>Sr. No</th>
-							<th>Name</th>
+							<th>PO.No</th>
+							<th>Suppliers</th>
+							<th>Store</th>
+							<th>Request Date</th>
+							<th>Remarks</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -165,9 +216,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.kitManagement.defineKit.tableData.data.map(
-								(item, index) => (
-									<tr key={item.id}>
+							{store.data.purchaseOrderManagement.purchaseList.tableData.data.map(
+								(item) => (
+									<tr key={item.po_no}>
 										<td>
 											<Checks
 												id={item.id.toString()}
@@ -179,11 +230,30 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 												)}
 											/>
 										</td>
-										<td>{index + 1}</td>
-										<td>{item.name}</td>
-
+										<td>{item.po_no}</td>
+										<td>{item?.supplier?.name}</td>
+										<td>{item?.store?.name}</td>
+										<td>{moment(item.created_at).format('DD-MM-YYYY')}</td>
+										<td>{item.remarks}</td>
 										<td>
 											<ButtonGroup>
+												<Button
+													isOutline
+													color='primary'
+													className={classNames('text-nowrap', {
+														'border-light': true,
+													})}
+													// icon='Delete'
+													onClick={() => {
+														setItemId(item.id);
+
+														initialStatusDelete();
+
+														setStateDelete(true);
+														setStaticBackdropStatusDelete(false);
+													}}>
+													Delete
+												</Button>
 												<Button
 													// isDisable={item.isApproved === 1}
 													onClick={() => {
@@ -199,27 +269,45 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 													className={classNames('text-nowrap', {
 														'border-light': true,
 													})}
-													icon='Edit'>
+													// icon='Edit'
+												>
 													Edit
 												</Button>
 												<Button
-													isOutline
-													color='primary'
+													color={
+														item.is_received === 1
+															? 'success'
+															: 'warning'
+													}
+													isDisable={
+														item.confirmed1 === 0 ||
+														item.is_received === 1
+														// Cookies.get('role') !== 'Admin_'
+													}
+													// isLight={darkModeStatus}
 													className={classNames('text-nowrap', {
 														'border-light': true,
 													})}
-													icon='Delete'
+													icon={
+														item.is_received === 1
+															? 'DoneOutline'
+															: 'PendingActions'
+													}
 													onClick={() => {
 														setItemId(item.id);
 
-														initialStatusDelete();
+														setPoNo();
+														// item.booking.plot.reg_no,
 
-														setStateDelete(true);
-														setStaticBackdropStatusDelete(false);
+														initialStatusReceive();
+
+														setStateReceive(true);
+														setStaticBackdropStatusReceive(false);
 													}}>
-													Delete
+													{item.is_received === 1
+														? 'Received'
+														: 'Receive'}
 												</Button>
-
 												<Dropdown>
 													<DropdownToggle hasIcon={false}>
 														<Button
@@ -254,9 +342,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 				<PaginationButtons
 					label='make'
-					from={store.data.kitManagement.defineKit.tableData?.from ?? 1}
-					to={store.data.kitManagement.defineKit.tableData?.to ?? 1}
-					total={store.data.kitManagement.defineKit.tableData?.total ?? 0}
+					from={store.data.purchaseOrderManagement.purchaseList.tableData?.from ?? 1}
+					to={store.data.purchaseOrderManagement.purchaseList.tableData?.to ?? 1}
+					total={store.data.purchaseOrderManagement.purchaseList.tableData?.total ?? 0}
 					perPage={Number(perPage ?? 10)}
 					setPerPage={setPerPage}
 				/>
@@ -264,12 +352,15 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<div className='row d-flex justify-content-end'>
 					<div className='col-3'>
 						<Pagination
-							activePage={store.data.kitManagement.defineKit?.pageNo ?? 1}
+							activePage={
+								store.data.purchaseOrderManagement.purchaseList?.pageNo ?? 1
+							}
 							totalItemsCount={
-								store.data.kitManagement.defineKit?.tableData?.total ?? 0
+								store.data.purchaseOrderManagement.purchaseList?.tableData?.total ??
+								0
 							}
 							itemsCountPerPage={Number(
-								store.data.kitManagement.defineKit?.perPage ?? 10,
+								store.data.purchaseOrderManagement.purchaseList?.perPage ?? 10,
 							)}
 							onChange={(e) => handlePageChange(e)}
 							itemClass='page-item'
@@ -352,7 +443,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				isStaticBackdrop={staticBackdropStatusEdit}
 				isScrollable={scrollableStatusEdit}
 				isCentered={centeredStatusEdit}
-				size='lg'
+				size='xl'
 				fullScreen={fullScreenStatusEdit}
 				isAnimation={animationStatusEdit}>
 				<ModalHeader setIsOpen={headerCloseStatusEdit ? setStateEdit : null}>
@@ -392,6 +483,73 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 					</div>
 				</ModalBody>
 				{/* <ModalFooter /> */}
+			</Modal>
+			<Modal
+				isOpen={stateInitiate}
+				setIsOpen={setStateReceive}
+				titleId='exampleModalLabel'
+				isStaticBackdrop={staticBackdropStatusInitiate}
+				isScrollable={scrollableStatusInitiate}
+				isCentered={centeredStatusInitiate}
+				size={sizeStatusInitiate}
+				fullScreen={fullScreenStatusInitiate}
+				isAnimation={animationStatusInitiate}>
+				<ModalHeader setIsOpen={headerCloseStatusInitiate ? setStateReceive : null}>
+					<ModalTitle id='initiate'>
+						{' '}
+						<CardHeader>
+							<CardLabel icon='Warning' iconColor='warning'>
+								<CardTitle>
+									Receive Purchase Request <br />
+									{/* {} */}
+									<small>Purchase ID: {itemId}</small>
+								</CardTitle>
+							</CardLabel>
+						</CardHeader>
+					</ModalTitle>
+				</ModalHeader>
+				<ModalBody>
+					<div className='row g-4'>
+						<div className='col-12'>
+							<Card>
+								<CardBody>
+									<h5>
+										Are you sure you want to execute Transfer Booking Request
+										for Reg No
+										{itemId}? This cannot be undone!
+									</h5>
+								</CardBody>
+								<CardFooter>
+									<CardFooterLeft>
+										<Button
+											color='info'
+											icon='cancel'
+											isOutline
+											className='border-0'
+											onClick={() => setStateReceive(false)}>
+											Cancel
+										</Button>
+									</CardFooterLeft>
+									<CardFooterRight>
+										<Button
+											className='me-3'
+											icon={isLoading ? null : 'DoneOutline'}
+											isLight
+											color={lastSave ? 'danger' : 'danger'}
+											isDisable={isLoading}
+											onClick={() => initiateFile(itemId)}>
+											{isLoading && <Spinner isSmall inButton />}
+											{isLoading
+												? (lastSave && 'Saving') || 'Saving'
+												: (lastSave && '	Yes, Receive!') || '	Yes, Receive!'}
+										</Button>
+									</CardFooterRight>
+								</CardFooter>
+							</Card>
+						</div>
+					</div>
+				</ModalBody>
+				<ModalFooter />
 			</Modal>
 		</>
 	);
