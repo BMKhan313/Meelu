@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 
 // ** Axios Imports
 import { useDispatch, useSelector } from 'react-redux';
+import Select, { createFilter } from 'react-select';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
-
+import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
 // eslint-disable-next-line import/no-unresolved
 import { updateSingleState } from '../../redux/tableCrud/index';
 
@@ -19,7 +20,7 @@ import Card, {
 	CardTitle,
 } from '../../../../components/bootstrap/Card';
 import showNotification from '../../../../components/extras/showNotification';
-
+import Button from '../../../../components/bootstrap/Button';
 import { _titleError } from '../../../../notifyMessages/erroSuccess';
 
 import View from './view';
@@ -35,7 +36,10 @@ export const categoryOptions = [
 const Categories = () => {
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
-
+	const [makeOptions, setMakeOptions] = useState();
+	const [selectedMake, setSelectedMake] = useState('');
+	const [machineOptions, setMachineOptions] = useState();
+	const [selectedMachine, setSelectedMachine] = useState('');
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
@@ -66,7 +70,40 @@ const Categories = () => {
 				showNotification(_titleError, err.message, 'Danger');
 			});
 	};
-
+	useEffect(() => {
+		Axios.get(`${baseURL}/getMachinesDropDown`)
+			.then((response) => {
+				const rec = response.data.machines.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setMachineOptions(rec);
+			})
+			// eslint-disable-next-line no-console
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+				if (err.response.status === 401) {
+					showNotification(_titleError, err.response.data.message, 'Danger');
+				}
+			});
+		Axios.get(`${baseURL}/getMakesDropDown`)
+			.then((response) => {
+				const rec = response.data.makes.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setMakeOptions(rec);
+			})
+			// eslint-disable-next-line no-console
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+				if (err.response.status === 401) {
+					showNotification(_titleError, err.response.data.message, 'Danger');
+				}
+			});
+	}, []);
 	useEffect(() => {
 		refreshTableData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,6 +145,49 @@ const Categories = () => {
 								<br />
 
 								<br />
+								<div className='row g-4 d-flex align-items-end'>
+									<div className='col-md-3'>
+										<FormGroup label='Machine' id='machine'>
+											<Select
+												className='col-md-12'
+												classNamePrefix='select'
+												options={machineOptions}
+												isClearable
+												value={selectedMachine}
+												onChange={(val) => {
+													setSelectedMachine(val);
+												}}
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
+									</div>
+
+									<div className='col-md-3'>
+										<FormGroup label='Make' id='make'>
+											<Select
+												className='col-md-12'
+												classNamePrefix='select'
+												options={makeOptions}
+												isClearable
+												value={selectedMake}
+												onChange={(val) => {
+													setSelectedMake(val);
+												}}
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
+									</div>
+									<div className='col-md-2'>
+										<Button
+											color='primary'
+											onClick={() => refreshTableData()}
+											isOutline
+											// isDisable={landsViewLoading}
+											isActive>
+											Search
+										</Button>
+									</div>
+								</div>
 							</CardBody>
 							<View
 								tableData={tableData}

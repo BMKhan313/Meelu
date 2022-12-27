@@ -43,16 +43,16 @@ const Categories = () => {
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getMachines?records=${store.data.suppliersManagementModule.manage.perPage}&pageNo=${store.data.suppliersManagementModule.manage.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getSupplierslist?records=${store.data.suppliersManagementModule.manage.perPage}&pageNo=${store.data.suppliersManagementModule.manage.pageNo}&colName=id&sort=asc`,
 			{},
 		)
 			.then((response) => {
-				setTableData(response.data.manage.data);
-				setTableData2(response.data.manage);
+				setTableData(response.data.suppliers.data);
+				setTableData2(response.data.suppliers);
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.manage,
+						response.data.suppliers,
 						'suppliersManagementModule',
 						'manage',
 						'tableData',

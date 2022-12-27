@@ -1,6 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
 
@@ -37,6 +37,31 @@ const validate = (values) => {
 	if (!values.name) {
 		errors.name = 'Required';
 	}
+	if (!values.company) {
+		errors.company = 'Required';
+	}
+	if (!values.address) {
+		errors.address = 'Required';
+	}
+	if (!values.phone_no) {
+		errors.phone_no = 'Required';
+	}
+	if (!values.gst) {
+		errors.gst = 'Required';
+	}
+	if (!values.ntn) {
+		errors.ntn = 'Required';
+	}
+	if (!values.cnic) {
+		errors.cnic = 'Required';
+	}
+	if (!values.email) {
+		errors.email = 'Required';
+	}
+	if (!values.type) {
+		errors.type = 'Required';
+	}
+
 	return errors;
 };
 
@@ -67,8 +92,14 @@ const Add = ({ refreshTableData }) => {
 	const formik = useFormik({
 		initialValues: {
 			name: '',
-			type_id: '',
+			type: '',
 			address: '',
+			company: '',
+			phone_no: '',
+			email: '',
+			cnic: '',
+			gst: '',
+			ntn: '',
 		},
 		validate,
 		onSubmit: () => {
@@ -80,7 +111,7 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	const submitForm = (myFormik) => {
-		Axios.post(`${baseURL}/addMachine`, myFormik.values, {
+		Axios.post(`${baseURL}/addSupplier`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})
 			.then((res) => {
@@ -103,20 +134,19 @@ const Add = ({ refreshTableData }) => {
 			});
 	};
 	useEffect(() => {
-		Axios.get(`${baseURL}/getStoreTypeDropDown`)
-			.then((response) => {
-				const rec = response.data.storeType.map(({ id, name }) => ({
-					id,
-					value: id,
-					label: name,
-				}));
-				setMachineOptions(rec);
-
-				setMachineOptionsLoading(false);
-			})
-			// eslint-disable-next-line no-console
-			.catch((err) => {});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		// Axios.get(`${baseURL}/getSupplierdropdown`)
+		// 	.then((response) => {
+		// 		const rec = response.data.storeType.map(({ id, name }) => ({
+		// 			id,
+		// 			value: id,
+		// 			label: name,
+		// 		}));
+		// 		setMachineOptions(rec);
+		// 		setMachineOptionsLoading(false);
+		// 	})
+		// 	// eslint-disable-next-line no-console
+		// 	.catch((err) => {});
+		// // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
 		<div className='col-auto'>
@@ -153,10 +183,10 @@ const Add = ({ refreshTableData }) => {
 				<ModalBody>
 					<div className='col-12'>
 						<Card stretch tag='form' onSubmit={formik.handleSubmit}>
-						<CardBody>
+							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
-										<FormGroup label='Type ID' id='type_id'>
+										{/* <FormGroup label='Type ID' id='type_id'>
 											<ReactSelect
 												className='col-md-12'
 												classNamePrefix='select'
@@ -193,7 +223,18 @@ const Add = ({ refreshTableData }) => {
 												}}>
 												{formik.errors.type_id}
 											</p>
-										)}
+										)} */}
+										<FormGroup id='type' label='Type' className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.type}
+												isValid={formik.isValid}
+												isTouched={formik.touched.type}
+												invalidFeedback={formik.errors.type}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
 										<FormGroup id='name' label='Name' className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
@@ -202,6 +243,68 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.name}
 												invalidFeedback={formik.errors.name}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+
+										<FormGroup
+											id='company'
+											label='Company'
+											className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.company}
+												isValid={formik.isValid}
+												isTouched={formik.touched.company}
+												invalidFeedback={formik.errors.company}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+										<FormGroup id='email' label='email' className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.email}
+												isValid={formik.isValid}
+												isTouched={formik.touched.email}
+												invalidFeedback={formik.errors.email}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+										<FormGroup id='gst' label='gst' className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.gst}
+												isValid={formik.isValid}
+												isTouched={formik.touched.gst}
+												invalidFeedback={formik.errors.gst}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+										<FormGroup id='ntn' label='ntn' className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.ntn}
+												isValid={formik.isValid}
+												isTouched={formik.touched.ntn}
+												invalidFeedback={formik.errors.ntn}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+										<FormGroup
+											id='phone_no'
+											label='phone_no'
+											className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.phone_no}
+												isValid={formik.isValid}
+												isTouched={formik.touched.phone_no}
+												invalidFeedback={formik.errors.phone_no}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
@@ -216,6 +319,17 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.address}
 												invalidFeedback={formik.errors.address}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+										<FormGroup id='cnic' label='Cnic' className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.cnic}
+												isValid={formik.isValid}
+												isTouched={formik.touched.cnic}
+												invalidFeedback={formik.errors.cnic}
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
