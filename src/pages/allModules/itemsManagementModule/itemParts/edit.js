@@ -79,6 +79,8 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 		machine_model_id: '',
 		brand: '',
 		machine_part_id: '',
+		number3: '',
+		number4: '',
 		rows: [],
 		validate,
 		onSubmit: () => {
@@ -414,6 +416,32 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 							/>
 						</FormGroup>
 					</div>
+					<div className='col-md-3'>
+						<FormGroup id='number3' label='Tertiary' className='col-md-12'>
+							<Input
+								onChange={formik.handleChange}
+								onBlur={formik.handleBlur}
+								value={formik.values.number3}
+								isValid={formik.isValid}
+								isTouched={formik.touched.number3}
+								invalidFeedback={formik.errors.number3}
+								validFeedback='Looks good!'
+							/>
+						</FormGroup>
+					</div>
+					<div className='col-md-3'>
+						<FormGroup id='number4' label='Quaternary' className='col-md-12'>
+							<Input
+								onChange={formik.handleChange}
+								onBlur={formik.handleBlur}
+								value={formik.values.number4}
+								isValid={formik.isValid}
+								isTouched={formik.touched.number4}
+								invalidFeedback={formik.errors.number4}
+								validFeedback='Looks good!'
+							/>
+						</FormGroup>
+					</div>
 				</div>
 				<br />
 				<div className='table-responsive'>
@@ -423,6 +451,8 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 								<th>Company </th>
 								<th>Primary</th>
 								<th>Secondary</th>
+								<th>Tertiary</th>
+								<th>Quaternary</th>
 							</tr>
 						</thead>
 
@@ -462,6 +492,16 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 												}
 												value={item.number2}
 											/>
+										</FormGroup>
+									</td>
+									<td>
+										<FormGroup id='number3' className='col-md-12'>
+											<Input type='text' />
+										</FormGroup>
+									</td>
+									<td>
+										<FormGroup id='number4' className='col-md-12'>
+											<Input type='text' />
 										</FormGroup>
 									</td>
 								</tr>

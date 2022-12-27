@@ -538,7 +538,7 @@ const Add = ({ refreshTableData }) => {
 									<div className='col-md-3'>
 										<FormGroup
 											id='number3'
-											label='tertiary'
+											label='Tertiary'
 											className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
@@ -576,8 +576,8 @@ const Add = ({ refreshTableData }) => {
 												<th>Company </th>
 												<th>Primary</th>
 												<th>Secondary</th>
-												<th>number3</th>
-												<th>number4</th>
+												<th>Tertiary</th>
+												<th>Quaternary</th>
 											</tr>
 										</thead>
 
@@ -629,14 +629,14 @@ const Add = ({ refreshTableData }) => {
 													</td>
 													<td>
 														<FormGroup
-															id='number1'
+															id='number3'
 															className='col-md-12'>
 															<Input type='text' />
 														</FormGroup>
 													</td>
 													<td>
 														<FormGroup
-															id='number1'
+															id='number4'
 															className='col-md-12'>
 															<Input type='text' />
 														</FormGroup>
