@@ -4,10 +4,12 @@ import React, { useEffect, useState } from 'react';
 
 // ** Axios Imports
 import { useDispatch, useSelector } from 'react-redux';
+import Select, { createFilter } from 'react-select';
+import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
-
 // eslint-disable-next-line import/no-unresolved
 import { updateSingleState } from '../../redux/tableCrud/index';
+import Button from '../../../../components/bootstrap/Button';
 
 import PageWrapper from '../../../../layout/PageWrapper/PageWrapper';
 import Page from '../../../../layout/Page/Page';
@@ -38,6 +40,8 @@ const Categories = () => {
 
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
+	const [storeTypeOptions, setStoreTypeOptions] = useState();
+	const [selectedStore, setSelectedStore] = useState('');
 	const [tableDataLoading, setTableDataLoading] = useState(true);
 
 	const refreshTableData = () => {
@@ -52,7 +56,7 @@ const Categories = () => {
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.stores.data,
+						response.data.stores,
 						'storesManagementModule',
 						'manage',
 						'tableData',
@@ -67,6 +71,23 @@ const Categories = () => {
 
 	useEffect(() => {
 		refreshTableData();
+		Axios.get(`${baseURL}/getStoreTypeDropDown`)
+			.then((response) => {
+				const rec = response.data.storeType.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setStoreTypeOptions(rec);
+			})
+
+			// eslint-disable-next-line no-console
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+				if (err.response.status === 401) {
+					showNotification(_titleError, err.response.data.message, 'Danger');
+				}
+			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
 		store.data.storesManagementModule.manage.perPage,
@@ -88,21 +109,34 @@ const Categories = () => {
 								</CardActions>
 							</CardHeader>
 							<CardBody>
-								{/* <div className='row g-4'>
-									<FormGroup className='col-md-2' label='Category'>
-										<Select
-											ariaLabel='Default select example'
-											placeholder='Open this select menu'
-											onChange={(e) => {
-												setCategoryOptionsSelected({
-													value: e.target.value,
-												});
-											}}
-											value={categoryOptionsSelected.value}
-											list={categoryOptions}
-										/>
-									</FormGroup>
-								</div> */}
+								<div className='row g-4 d-flex align-items-end'>
+									<div className='col-md-3'>
+										<FormGroup label='Store Type' id='type'>
+											<Select
+												className='col-md-12'
+												classNamePrefix='select'
+												options={storeTypeOptions}
+												isClearable
+												value={selectedStore}
+												onChange={(val) => {
+													setSelectedStore(val);
+												}}
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
+									</div>
+									<div className='col-md-2'>
+										<Button
+											color='primary'
+											onClick={() => refreshTableData()}
+											isOutline
+											// isDisable={landsViewLoading}
+											isActive>
+											Search
+										</Button>
+									</div>
+								</div>
+
 								<br />
 
 								<br />

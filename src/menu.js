@@ -25,37 +25,37 @@ export const itemsManagementModule = {
 		id: 'itemsManagement',
 		text: 'Items Management',
 		path: `${subDir}itemsManagement`,
-		icon: 'DirectionsCar',
+		icon: 'AddBusiness',
 		subMenu: {
 			itemParts: {
 				id: 'itemParts',
 				text: 'itemParts',
 				path: `${subDir}itemsManagement/itemParts`,
-				icon: 'ArrowBarUp',
+				icon: 'Handyman',
 			},
 			items: {
 				id: 'items',
 				text: 'Items',
 				path: `${subDir}itemsManagement/Items`,
-				icon: 'ArrowBarUp',
+				icon: 'Basket3',
 			},
 			models: {
 				id: 'models',
 				text: 'models',
 				path: `${subDir}itemsManagement/models`,
-				icon: 'ArrowBarUp',
+				icon: 'DevicesOther',
 			},
 			machines: {
 				id: 'machines',
 				text: 'machines',
 				path: `${subDir}itemsManagement/machines`,
-				icon: 'ArrowBarUp',
+				icon: 'Construction',
 			},
 			companies: {
 				id: 'companies',
 				text: 'Companies',
 				path: `${subDir}itemsManagement/companies`,
-				icon: 'ArrowBarUp',
+				icon: 'Business',
 			},
 			make: {
 				id: 'make',
@@ -76,13 +76,13 @@ export const kitModule = {
 		id: 'kitManagementModule',
 		text: 'Kit Management',
 		path: `${subDir}kitManagement`,
-		icon: 'DirectionsCar',
+		icon: 'AddBusiness',
 		subMenu: {
 			defineKit: {
 				id: 'defineKit',
 				text: 'Define Kit',
 				path: `${subDir}kitManagement/defineKit`,
-				icon: 'ArrowBarUp',
+				icon: 'Summarize',
 			},
 		},
 	},
@@ -92,25 +92,25 @@ export const inventoryModule = {
 	heading: {
 		id: 'inventoryModule',
 		text: 'Inventory',
-		icon: 'DirectionsCar',
+		icon: 'Inventory',
 	},
 	inventoryModules: {
 		id: 'inventory',
 		text: 'Inventory',
 		path: `${subDir}inventory`,
-		icon: 'DirectionsCar',
+		icon: 'Inventory2',
 		subMenu: {
 			purchaseOrder: {
 				id: 'purchaseOrder',
 				text: 'Purchase Order',
 				path: `${subDir}inventory/purchaseOrder`,
-				icon: 'ArrowBarUp',
+				icon: 'ShoppingCart',
 			},
 			parts: {
 				id: 'parts',
 				text: 'Parts',
 				path: `${subDir}inventory/parts`,
-				icon: 'ArrowBarUp',
+				icon: 'Handyman',
 			},
 			kits: {
 				id: 'kits',
@@ -126,19 +126,19 @@ export const suppliersModule = {
 	heading: {
 		id: 'suppliersModule',
 		text: 'Suppliers',
-		icon: 'DirectionsCar',
+		icon: 'PersonPinCircle',
 	},
 	suppliersModules: {
 		id: 'supplier',
 		text: 'Suppliers',
 		path: `${subDir}suppliers`,
-		icon: 'DirectionsCar',
+		icon: 'PersonPinCircle',
 		subMenu: {
 			manage: {
 				id: 'manage',
 				text: 'Manage Suppliers',
 				path: `${subDir}suppliers/manageSupplier`,
-				icon: 'ArrowBarUp',
+				icon: 'ManageAccounts',
 			},
 		},
 	},
@@ -148,19 +148,19 @@ export const storesModule = {
 	heading: {
 		id: 'storesModule',
 		text: 'Stores',
-		icon: 'DirectionsCar',
+		icon: 'Storefront',
 	},
 	storesModules: {
 		id: 'store',
 		text: 'Stores',
 		path: `${subDir}stores`,
-		icon: 'DirectionsCar',
+		icon: 'Storefront',
 		subMenu: {
 			manage: {
 				id: 'manageStore',
 				text: 'Manage Stores',
 				path: `${subDir}stores/manageStore`,
-				icon: 'ArrowBarUp',
+				icon: 'Build',
 			},
 		},
 	},

@@ -451,7 +451,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						{' '}
 						<CardHeader>
 							<CardLabel icon='Edit' iconColor='info'>
-								<CardTitle>Editing Model</CardTitle>
+								<CardTitle>Editing Purchase Order</CardTitle>
 								<small> Item Id: {itemId}</small>
 							</CardLabel>
 						</CardHeader>

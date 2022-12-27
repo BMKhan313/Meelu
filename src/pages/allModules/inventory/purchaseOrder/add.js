@@ -276,7 +276,7 @@ const Add = ({ refreshTableData }) => {
 									<div className='col-md-2'>
 										<FormGroup id='po_no' label='PO NO' className='col-md-12'>
 											<Input
-												readOnly
+												type='number'
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
 												value={formik.values.po_no}
