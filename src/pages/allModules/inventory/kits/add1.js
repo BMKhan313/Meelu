@@ -176,7 +176,7 @@ const Add1 = () => {
 				isStaticBackdrop={staticBackdropStatus}
 				isScrollable={scrollableStatus}
 				isCentered={centeredStatus}
-				size='lg'
+				size='md'
 				fullScreen={fullScreenStatus}
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
@@ -206,12 +206,13 @@ const Add1 = () => {
 														  )
 														: null
 												}
-												onChange={(val) =>
+												onChange={(val) => {
 													formik.setFieldValue(
 														'kit_id',
 														val !== null && val.id,
-													)
-												}
+													);
+													setTableData('');
+												}}
 												isValid={formik.isValid}
 												isTouched={formik.touched.kit_id}
 												invalidFeedback={formik.errors.kit_id}

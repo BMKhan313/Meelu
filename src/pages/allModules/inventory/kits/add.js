@@ -122,7 +122,7 @@ const Add = ({ refreshTableData }) => {
 						({ id, quantity, item_oem_part_modeles }) => ({
 							id,
 							value: id,
-							name: `${item_oem_part_modeles.machine_part_oem_part.oem_part_number.number1}-${item_oem_part_modeles.machine_part_oem_part.machine_part.name}`,
+							// name: `${item_oem_part_modeles.machine_part_oem_part.oem_part_number.number1}-${item_oem_part_modeles.machine_part_oem_part.machine_part.name}`,
 							reqQty: quantity,
 							exisQty: 0,
 						}),
@@ -176,7 +176,7 @@ const Add = ({ refreshTableData }) => {
 				isStaticBackdrop={staticBackdropStatus}
 				isScrollable={scrollableStatus}
 				isCentered={centeredStatus}
-				size='lg'
+				size='md'
 				fullScreen={fullScreenStatus}
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
@@ -211,6 +211,7 @@ const Add = ({ refreshTableData }) => {
 														'kit_id',
 														val !== null && val.id,
 													);
+													setTableData('');
 												}}
 												isValid={formik.isValid}
 												isTouched={formik.touched.kit_id}
@@ -253,7 +254,7 @@ const Add = ({ refreshTableData }) => {
 												<tbody>
 													{tableData.map((item) => (
 														<tr key={item.id}>
-															<td>{item.name}</td>
+															{/* <td>{item.name}</td> */}
 															<td>{item.reqQty}</td>
 															<td>{item.exisQty}</td>
 														</tr>
