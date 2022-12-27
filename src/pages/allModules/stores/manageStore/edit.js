@@ -46,8 +46,8 @@ const validate = (values) => {
 const Edit = ({ editingItem, handleStateEdit }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [lastSave, setLastSave] = useState(null);
-	const [machineOptions, setMachineOptions] = useState();
-	const [machineOptionsLoading, setMachineOptionsLoading] = useState(false);
+	const [storeTypeOptions, setStoreTypeOptions] = useState();
+	const [storeTypeOptionsLoading, setStoreTypeOptionsLoading] = useState(false);
 	// useEffect(() => {
 
 	// }, [])
@@ -64,8 +64,8 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 		},
 	});
 
-	const submitForm = (data) => {
-		Axios.post(`${baseURL}/updateStore`, data)
+	const submitForm = (myFormik) => {
+		Axios.post(`${baseURL}/updateStore`, myFormik.values)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					formik.resetForm();
@@ -93,16 +93,16 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 		setLastSave(moment());
 	};
 	useEffect(() => {
-		Axios.get(`${baseURL}/getStoredropdown`)
+		Axios.get(`${baseURL}/getStoreTypeDropDown`)
 			.then((response) => {
-				const rec = response.data.store.map(({ id, name }) => ({
+				const rec = response.data.storeType.map(({ id, name }) => ({
 					id,
 					value: id,
 					label: name,
 				}));
-				setMachineOptions(rec);
+				setStoreTypeOptions(rec);
 
-				setMachineOptionsLoading(false);
+				setStoreTypeOptionsLoading(false);
 			})
 			// eslint-disable-next-line no-console
 			.catch((err) => {});
@@ -118,12 +118,12 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 								<Select
 									className='col-md-12'
 									classNamePrefix='select'
-									options={machineOptions}
-									isLoading={machineOptionsLoading}
+									options={storeTypeOptions}
+									isLoading={storeTypeOptionsLoading}
 									isClearable
 									value={
 										formik.values.type_id
-											? machineOptions?.find(
+											? storeTypeOptions?.find(
 													(c) => c.value === formik.values.type_id,
 											  )
 											: null
