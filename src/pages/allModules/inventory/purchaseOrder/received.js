@@ -1,26 +1,34 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable eslint-comments/no-duplicate-disable */
 /* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable eslint-comments/no-duplicate-disable */
+/* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable camelcase */
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable eslint-comments/no-duplicate-disable */
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable prettier/prettier */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
-import ReactSelect, { createFilter } from 'react-select';
 import moment from 'moment';
-import PropTypes from 'prop-types';
-import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
-
 // eslint-disable-next-line import/no-unresolved
-import Spinner from '../../../../components/bootstrap/Spinner';
-import { _titleError, _titleSuccess } from '../../../../notifyMessages/erroSuccess';
+import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-unresolved
+import ReactSelect, { createFilter } from 'react-select';
 import Modal, {
 	ModalBody,
 	ModalFooter,
 	ModalHeader,
 	ModalTitle,
 } from '../../../../components/bootstrap/Modal';
+import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
+import Spinner from '../../../../components/bootstrap/Spinner';
+
 import Card, {
 	CardBody,
 	CardFooter,
@@ -29,6 +37,7 @@ import Card, {
 	CardHeader,
 	CardLabel,
 } from '../../../../components/bootstrap/Card';
+import { _titleSuccess, _titleError } from '../../../../notifyMessages/erroSuccess';
 
 import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
 import Input from '../../../../components/bootstrap/forms/Input';
@@ -36,13 +45,9 @@ import Input from '../../../../components/bootstrap/forms/Input';
 import Button from '../../../../components/bootstrap/Button';
 import showNotification from '../../../../components/extras/showNotification';
 
-const validate = (values) => {
-	const errors = {};
-	return errors;
-};
-
-// eslint-disable-next-line react/prop-types
-const Edit = ({ editingItem, handleStateEdit }) => {
+const Received = ({ editingItem, handleStateRecieved }) => {
+	// console.log('editform', editingItem, handleStateRecieved);
+	const [reload, setReload] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [lastSave, setLastSave] = useState(null);
 	const [kitEditOptions, setItemOptions] = useState([]);
@@ -55,6 +60,13 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 	const [storeOptions, setStoreOptions] = useState([]);
 	const [storeLoading, setStoreLoading] = useState(false);
 
+	const validate = (values) => {
+		const errors = {};
+		// if (!values.name) {
+		// 	errors.name = 'Required';
+		// }
+		return errors;
+	};
 	const formik = useFormik({
 		initialValues: editingItem,
 		validate,
@@ -70,13 +82,12 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 		]);
 	};
 	const submitForm = (data) => {
-		console.log('helloo update');
 		Axios.post(`${baseURL}/updatePurchaseOrder`, data)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					formik.resetForm();
 					showNotification(_titleSuccess, res.data.message, 'success');
-					handleStateEdit(false);
+					handleStateRecieved(false);
 					setIsLoading(false);
 					setLastSave(moment());
 				} else {
@@ -175,6 +186,14 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 			});
 	}, []);
 
+	useEffect(() => {
+		let t = 0;
+		formik.childArray.values.forEach((item) => {
+			t += item.quantity * item.purchase_price;
+			formik.setFieldValue('total', t);
+		});
+	}, [reload]);
+
 	return (
 		<div className='col-12'>
 			<ModalBody>
@@ -236,36 +255,36 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 									)}
 								</div>
 								{/* <div className='col-md-3'>
-										<FormGroup label='Delivery Place' id='store_id'>
-											<ReactSelect
-												className='col-md-12'
-												classNamePrefix='select'
-												options={storeOptions}
-												isLoading={storeLoading}
-												isClearable
-												value={
-													formik.values.store_id
-														? storeOptions.find(
-																(c) =>
-																	c.value ===
-																	formik.values.store_id,
-														  )
-														: null
-												}
-												onChange={(val) => {
-													formik.setFieldValue(
-														'store_id',
-														val !== null && val.id,
-													);
-												}}
-												isValid={formik.isValid}
-												isTouched={formik.touched.store_id}
-												invalidFeedback={formik.errors.store_id}
-												validFeedback='Looks good!'
-												filterOption={createFilter({ matchFrom: 'start' })}
-											/>
-										</FormGroup>
-									</div> */}
+									<FormGroup label='Delivery Place' id='store_id'>
+										<ReactSelect
+											className='col-md-12'
+											classNamePrefix='select'
+											options={storeOptions}
+											isLoading={storeLoading}
+											isClearable
+											value={
+												formik.values.store_id
+													? storeOptions.find(
+															(c) =>
+																c.value ===
+																formik.values.store_id,
+													  )
+													: null
+											}
+											onChange={(val) => {
+												formik.setFieldValue(
+													'store_id',
+													val !== null && val.id,
+												);
+											}}
+											isValid={formik.isValid}
+											isTouched={formik.touched.store_id}
+											invalidFeedback={formik.errors.store_id}
+											validFeedback='Looks good!'
+											filterOption={createFilter({ matchFrom: 'start' })}
+										/>
+									</FormGroup>
+								</div> */}
 								<div className='col-md-2'>
 									<FormGroup label='Store' id='store_id'>
 										<ReactSelect
@@ -342,23 +361,16 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 								<thead>
 									<tr className='row'>
 										<th className='col-md-2'>Items</th>
-										{/* <th className='col-md-2'>Unit</th> */}
-										{/* <th className='col-md-1'>Existing Qty</th> */}
-										<th className='col-md-1'>Quantity</th>
-										{/* <th className='col-md-1'>Received Qty</th> */}
+										<th className='col-md-1'>Received Qty</th>
 										<th className='col-md-2'>purchase_price</th>
 										<th className='col-md-2'>sale_price</th>
 										<th className='col-md-2'>amount</th>
 										<th className='col-md-1'>Remarks</th>
 										<th className='col-md-1'>Remove</th>
 									</tr>
-									{/* {formik.errors.childArray && (
-											// <div className='invalid-feedback'>
-											<tr>{formik.errors.childArray}</tr>
-										)} */}
 								</thead>
 								<tbody>
-									{formik.values.childArray.length > 0 &&
+									{formik.values.childArray?.length > 0 &&
 										formik.values.childArray.map((items, index) => (
 											<tr className='row' key={items.index}>
 												<td className='col-md-2'>
@@ -428,7 +440,21 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 														type='number'
 														className='col-md-12'>
 														<Input
-															onChange={formik.handleChange}
+															// onChange={formik.handleChange}
+															onChange={(val) => {
+																formik.setFieldValue(
+																	`childArray[${index}].quantity`,
+																	val.target.value,
+																);
+																setReload(reload + 1);
+																// formik.setFieldValue(
+																// 	`childArray[${index}].total`,
+																// 	val.target.value *
+																// 		formik.values.childArray[
+																// 			index
+																// 		].purchase_price,
+																// );
+															}}
 															onBlur={formik.handleBlur}
 															value={items.quantity}
 															isValid={formik.isValid}
@@ -456,43 +482,43 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 													)}
 												</td>
 												{/* <td className='col-md-1'>
-														<FormGroup
-															id={`childArray[${index}].received_quantity`}
-															label=''
-															type='number'
-															className='col-md-12'>
-															<Input
-																onChange={formik.handleChange}
-																onBlur={formik.handleBlur}
-																value={items.received_quantity}
-																isValid={formik.isValid}
-																isTouched={
-																	formik.touched.received_quantity
-																}
-																invalidFeedback={
-																	formik.errors.received_quantity
-																}
-																validFeedback='Looks good!'
-															/>
-														</FormGroup>
-														{formik.errors[
-															`childArray[${index}]received_quantity`
-														] && (
-															// <div className='invalid-feedback'>
-															<p
-																style={{
-																	color: 'red',
-																	textAlign: 'left',
-																	marginTop: 3,
-																}}>
-																{
-																	formik.errors[
-																		`childArray[${index}]received_quantity`
-																	]
-																}
-															</p>
-														)}
-													</td> */}
+													<FormGroup
+														id={`childArray[${index}].received_quantity`}
+														label=''
+														type='number'
+														className='col-md-12'>
+														<Input
+															onChange={formik.handleChange}
+															onBlur={formik.handleBlur}
+															value={items.received_quantity}
+															isValid={formik.isValid}
+															isTouched={
+																formik.touched.received_quantity
+															}
+															invalidFeedback={
+																formik.errors.received_quantity
+															}
+															validFeedback='Looks good!'
+														/>
+													</FormGroup>
+													{formik.errors[
+														`childArray[${index}]received_quantity`
+													] && (
+														// <div className='invalid-feedback'>
+														<p
+															style={{
+																color: 'red',
+																textAlign: 'left',
+																marginTop: 3,
+															}}>
+															{
+																formik.errors[
+																	`childArray[${index}]received_quantity`
+																]
+															}
+														</p>
+													)}
+												</td> */}
 												<td className='col-md-2'>
 													<FormGroup
 														id={`childArray[${index}].purchase_price`}
@@ -500,7 +526,22 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 														type='number'
 														className='col-md-12'>
 														<Input
-															onChange={formik.handleChange}
+															// onChange={formik.handleChange}
+															onWheel={(e) => e.target.blur()}
+															onChange={(val) => {
+																formik.setFieldValue(
+																	`childArray[${index}].purchase_price`,
+																	val.target.value,
+																);
+																setReload(reload + 1);
+																// formik.setFieldValue(
+																// 	`childArray[${index}].total`,
+																// 	val.target.value *
+																// 		formik.values.childArray[
+																// 			index
+																// 		].quantity,
+																// );
+															}}
 															onBlur={formik.handleBlur}
 															value={items.purchase_price}
 															isValid={formik.isValid}
@@ -759,23 +800,23 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 								</div>
 							</div>
 							{/* <div className='row g-4'>
-									<div className='col-md-4'>
-										<Button
-											color='primary'
-											icon='add'
-											onClick={() => {
-												formik.setFieldValue('childArray', [
-													...formik.values.childArray,
-													{
-														name: '',
-														quantity: '',
-													},
-												]);
-											}}>
-											Add
-										</Button>
-									</div>
-								</div> */}
+								<div className='col-md-4'>
+									<Button
+										color='primary'
+										icon='add'
+										onClick={() => {
+											formik.setFieldValue('childArray', [
+												...formik.values.childArray,
+												{
+													name: '',
+													quantity: '',
+												},
+											]);
+										}}>
+										Add
+									</Button>
+								</div>
+							</div> */}
 						</CardBody>
 					</Card>
 				</div>
@@ -804,10 +845,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 		</div>
 	);
 };
-Edit.propTypes = {
-	// eslint-disable-next-line react/forbid-prop-types
-	editingItem: PropTypes.object.isRequired,
-	// handleStateEdit: PropTypes.function.isRequired,
+Received.propTypes = {
+	editingItem: PropTypes.string.isRequired,
 };
-
-export default Edit;
+export default Received;

@@ -43,6 +43,7 @@ import Card, {
 	CardFooterRight,
 } from '../../../../components/bootstrap/Card';
 import Edit from './edit';
+import Received from './received';
 
 const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	// const navigate = useNavigate();
@@ -58,6 +59,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	const [itemId, setItemId] = useState('');
 	const [deleteLoading, setDeleteLoading] = useState(false);
 
+	const [recievedItemLoading, setRecievedItemLoading] = useState(false);
+	const [recievedItem, setRecievedItem] = useState({});
+	const [stateRecieve, setStateReceive] = useState(false);
 	// Edit
 	const [stateEdit, setStateEdit] = useState(false);
 
@@ -110,7 +114,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	const [sizeStatusInitiate, setSizeStatusInitiate] = useState(null);
 	const [fullScreenStatusInitiate, setFullScreenStatusInitiate] = useState(null);
 	const [animationStatusInitiate, setAnimationStatusInitiate] = useState(true);
-	const [stateInitiate, setStateReceive] = useState(false);
+
 	const [headerCloseStatusInitiate, setHeaderCloseStatusInitiate] = useState(true);
 
 	const initialStatusDelete = () => {
@@ -130,6 +134,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setFullScreenStatusInitiate(null);
 		setAnimationStatusInitiate(true);
 		setHeaderCloseStatusInitiate(true);
+	};
+	const handleStateRecieved = (status) => {
+		refreshTableData();
+		setStateReceive(status);
 	};
 	const [isLoading, setIsLoading] = useState(false);
 	const [lastSave, setLastSave] = useState(null);
@@ -196,6 +204,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 					<thead>
 						<tr>
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
+							<th>S.NO</th>
 							<th>PO.No</th>
 							<th>Suppliers</th>
 							<th>Store</th>
@@ -217,7 +226,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 					) : (
 						<tbody>
 							{store.data.purchaseOrderManagement.purchaseList.tableData.data.map(
-								(item) => (
+								(item, index) => (
 									<tr key={item.po_no}>
 										<td>
 											<Checks
@@ -230,6 +239,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 												)}
 											/>
 										</td>
+										<td>{index + 1}</td>
 										<td>{item.po_no}</td>
 										<td>{item?.supplier?.name}</td>
 										<td>{item?.store?.name}</td>
@@ -296,7 +306,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 													onClick={() => {
 														setItemId(item.id);
 
-														setPoNo();
+														setPoNo(item.po_no);
 														// item.booking.plot.reg_no,
 
 														initialStatusReceive();
@@ -402,7 +412,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<Card>
 								<CardBody>
 									<h5>
-										Are you sure, you want to delete the selected Kit? <br />
+										Are you sure, you want to delete the selected Purchase
+										Order? <br />
 										This cannot be undone!
 									</h5>
 								</CardBody>
@@ -484,26 +495,22 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				</ModalBody>
 				{/* <ModalFooter /> */}
 			</Modal>
+			{/* Recieved Modal */}
 			<Modal
-				isOpen={stateInitiate}
+				isOpen={stateRecieve}
 				setIsOpen={setStateReceive}
-				titleId='exampleModalLabel'
-				isStaticBackdrop={staticBackdropStatusInitiate}
-				isScrollable={scrollableStatusInitiate}
-				isCentered={centeredStatusInitiate}
-				size={sizeStatusInitiate}
-				fullScreen={fullScreenStatusInitiate}
-				isAnimation={animationStatusInitiate}>
-				<ModalHeader setIsOpen={headerCloseStatusInitiate ? setStateReceive : null}>
-					<ModalTitle id='initiate'>
+				titleId='ReceivedPurchaseOrder'
+				size='xl'
+				isAnimation={animationStatusEdit}
+				isStaticBackdrop={staticBackdropStatusEdit}
+				isScrollable={scrollableStatusEdit}
+				isCentered={centeredStatusEdit}>
+				<ModalHeader setIsOpen={headerCloseStatusEdit ? setStateReceive : null}>
+					<ModalTitle id='ReceivedPurchaseOrder'>
 						{' '}
 						<CardHeader>
-							<CardLabel icon='Warning' iconColor='warning'>
-								<CardTitle>
-									Receive Purchase Request <br />
-									{/* {} */}
-									<small>Purchase ID: {itemId}</small>
-								</CardTitle>
+							<CardLabel icon='Edit' iconColor='info'>
+								<CardTitle>Receive Order {poNo}</CardTitle>
 							</CardLabel>
 						</CardHeader>
 					</ModalTitle>
@@ -511,41 +518,28 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<ModalBody>
 					<div className='row g-4'>
 						<div className='col-12'>
-							<Card>
-								<CardBody>
-									<h5>
-										Are you sure you want to execute Transfer Booking Request
-										for Reg No
-										{itemId}? This cannot be undone!
-									</h5>
-								</CardBody>
-								<CardFooter>
-									<CardFooterLeft>
-										<Button
-											color='info'
-											icon='cancel'
-											isOutline
-											className='border-0'
-											onClick={() => setStateReceive(false)}>
-											Cancel
-										</Button>
-									</CardFooterLeft>
-									<CardFooterRight>
-										<Button
-											className='me-3'
-											icon={isLoading ? null : 'DoneOutline'}
-											isLight
-											color={lastSave ? 'danger' : 'danger'}
-											isDisable={isLoading}
-											onClick={() => initiateFile(itemId)}>
-											{isLoading && <Spinner isSmall inButton />}
-											{isLoading
-												? (lastSave && 'Saving') || 'Saving'
-												: (lastSave && '	Yes, Receive!') || '	Yes, Receive!'}
-										</Button>
-									</CardFooterRight>
-								</CardFooter>
-							</Card>
+							{editingItemLoading ? (
+								<div className='d-flex justify-content-center'>
+									<Spinner color='primary' size='5rem' />
+								</div>
+							) : (
+								<Received
+									editingItem={editingItem}
+									handleStateRecieved={handleStateRecieved}
+								/>
+							)}
+							<CardFooter>
+								<CardFooterLeft>
+									<Button
+										color='info'
+										icon='cancel'
+										isOutline
+										className='border-0'
+										onClick={() => setStateReceive(false)}>
+										Cancel
+									</Button>
+								</CardFooterLeft>
+							</CardFooter>
 						</div>
 					</div>
 				</ModalBody>

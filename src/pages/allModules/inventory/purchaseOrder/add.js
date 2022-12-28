@@ -325,37 +325,7 @@ const Add = ({ refreshTableData }) => {
 											</p>
 										)}
 									</div>
-									{/* <div className='col-md-3'>
-										<FormGroup label='Delivery Place' id='store_id'>
-											<ReactSelect
-												className='col-md-12'
-												classNamePrefix='select'
-												options={storeOptions}
-												isLoading={storeLoading}
-												isClearable
-												value={
-													formik.values.store_id
-														? storeOptions.find(
-																(c) =>
-																	c.value ===
-																	formik.values.store_id,
-														  )
-														: null
-												}
-												onChange={(val) => {
-													formik.setFieldValue(
-														'store_id',
-														val !== null && val.id,
-													);
-												}}
-												isValid={formik.isValid}
-												isTouched={formik.touched.store_id}
-												invalidFeedback={formik.errors.store_id}
-												validFeedback='Looks good!'
-												filterOption={createFilter({ matchFrom: 'start' })}
-											/>
-										</FormGroup>
-									</div> */}
+
 									<div className='col-md-2'>
 										<FormGroup label='Store' id='store_id'>
 											<ReactSelect
@@ -390,98 +360,6 @@ const Add = ({ refreshTableData }) => {
 								</div>
 								<div className='row g-2 mt-2  d-flex justify-content-start'>
 									<div className='col-md-2'>
-										<FormGroup id='total' label='Total' className='col-md-12'>
-											<Input
-												onChange={formik.handleChange}
-												onBlur={formik.handleBlur}
-												value={formik.values.total}
-												isValid={formik.isValid}
-												isTouched={formik.touched.total}
-												invalidFeedback={formik.errors.total}
-												validFeedback='Looks good!'
-											/>
-										</FormGroup>
-									</div>
-									<div className='col-md-2'>
-										<FormGroup id='tax' label='Tax' className='col-md-12'>
-											<Input
-												onChange={formik.handleChange}
-												onBlur={formik.handleBlur}
-												value={formik.values.tax}
-												isValid={formik.isValid}
-												isTouched={formik.touched.tax}
-												invalidFeedback={formik.errors.tax}
-												validFeedback='Looks good!'
-											/>
-										</FormGroup>
-									</div>
-									<div className='col-md-2'>
-										<FormGroup
-											id='total_after_tax'
-											label='Total After Taxt'
-											className='col-md-12'>
-											<Input
-												onChange={formik.handleChange}
-												onBlur={formik.handleBlur}
-												value={formik.values.total_after_tax}
-												isValid={formik.isValid}
-												isTouched={formik.touched.total_after_tax}
-												invalidFeedback={formik.errors.total_after_tax}
-												validFeedback='Looks good!'
-											/>
-										</FormGroup>
-									</div>
-									<div className='col-md-2'>
-										<FormGroup
-											id='tax_in_figure'
-											label='Tax in figure'
-											className='col-md-12'>
-											<Input
-												onChange={formik.handleChange}
-												onBlur={formik.handleBlur}
-												value={formik.values.tax_in_figure}
-												isValid={formik.isValid}
-												isTouched={formik.touched.tax_in_figure}
-												invalidFeedback={formik.errors.tax_in_figure}
-												validFeedback='Looks good!'
-											/>
-										</FormGroup>
-									</div>
-								</div>
-								<div className='row g-2 mt-2  d-flex justify-content-start'>
-									<div className='col-md-2'>
-										<FormGroup
-											id='discount'
-											label='Discount'
-											className='col-md-12'>
-											<Input
-												onChange={formik.handleChange}
-												onBlur={formik.handleBlur}
-												value={formik.values.discount}
-												isValid={formik.isValid}
-												isTouched={formik.touched.discount}
-												invalidFeedback={formik.errors.discount}
-												validFeedback='Looks good!'
-											/>
-										</FormGroup>
-									</div>
-									<div className='col-md-2'>
-										<FormGroup
-											id='total_after_discount'
-											label='Total after discount'
-											className='col-md-12'>
-											<Input
-												onChange={formik.handleChange}
-												onBlur={formik.handleBlur}
-												value={formik.values.total_after_discount}
-												isValid={formik.isValid}
-												isTouched={formik.touched.total_after_discount}
-												invalidFeedback={formik.errors.total_after_discount}
-												validFeedback='Looks good!'
-											/>
-										</FormGroup>
-									</div>
-									<div className='col-md-2'>
 										<FormGroup id='request_date' label='Request Date'>
 											<Input
 												type='date'
@@ -511,7 +389,6 @@ const Add = ({ refreshTableData }) => {
 											/>
 										</FormGroup>
 										{formik.errors.remarks && (
-											// <div className='invalid-feedback'>
 											<p
 												style={{
 													color: 'red',
@@ -527,20 +404,13 @@ const Add = ({ refreshTableData }) => {
 									<thead>
 										<tr className='row'>
 											<th className='col-md-2'>Items</th>
-											{/* <th className='col-md-2'>Unit</th> */}
-											{/* <th className='col-md-1'>Existing Qty</th> */}
 											<th className='col-md-1'>Quantity</th>
-											{/* <th className='col-md-1'>Received Qty</th> */}
-											<th className='col-md-2'>purchase_price</th>
-											<th className='col-md-2'>sale_price</th>
-											<th className='col-md-2'>amount</th>
+											<th className='col-md-2'>Purchase price</th>
+											<th className='col-md-2'>Sale price</th>
+											<th className='col-md-2'>Amount</th>
 											<th className='col-md-1'>Remarks</th>
 											<th className='col-md-1'>Remove</th>
 										</tr>
-										{/* {formik.errors.childArray && (
-											// <div className='invalid-feedback'>
-											<tr>{formik.errors.childArray}</tr>
-										)} */}
 									</thead>
 									<tbody>
 										{formik.values.childArray.length > 0 &&
@@ -860,6 +730,100 @@ const Add = ({ refreshTableData }) => {
 											}}>
 											Add
 										</Button>
+									</div>
+								</div>
+								<hr />
+								<div className='row g-2  d-flex justify-content-start mt-2'>
+									<div className='col-md-2'>
+										<FormGroup id='total' label='Total' className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.total}
+												isValid={formik.isValid}
+												isTouched={formik.touched.total}
+												invalidFeedback={formik.errors.total}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+									</div>
+									<div className='col-md-2'>
+										<FormGroup id='tax' label='Tax(%)' className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.tax}
+												isValid={formik.isValid}
+												isTouched={formik.touched.tax}
+												invalidFeedback={formik.errors.tax}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+									</div>
+									<div className='col-md-2'>
+										<FormGroup
+											id='tax_in_figure'
+											label='Tax in figure'
+											className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.tax_in_figure}
+												isValid={formik.isValid}
+												isTouched={formik.touched.tax_in_figure}
+												invalidFeedback={formik.errors.tax_in_figure}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+									</div>
+									<div className='col-md-2'>
+										<FormGroup
+											id='total_after_tax'
+											label='Total After Tax'
+											className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.total_after_tax}
+												isValid={formik.isValid}
+												isTouched={formik.touched.total_after_tax}
+												invalidFeedback={formik.errors.total_after_tax}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+									</div>
+
+									<div className='col-md-2'>
+										<FormGroup
+											id='discount'
+											label='Discount'
+											className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.discount}
+												isValid={formik.isValid}
+												isTouched={formik.touched.discount}
+												invalidFeedback={formik.errors.discount}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
+									</div>
+									<div className='col-md-2'>
+										<FormGroup
+											id='total_after_discount'
+											label='Total after discount'
+											className='col-md-12'>
+											<Input
+												onChange={formik.handleChange}
+												onBlur={formik.handleBlur}
+												value={formik.values.total_after_discount}
+												isValid={formik.isValid}
+												isTouched={formik.touched.total_after_discount}
+												invalidFeedback={formik.errors.total_after_discount}
+												validFeedback='Looks good!'
+											/>
+										</FormGroup>
 									</div>
 								</div>
 							</CardBody>
