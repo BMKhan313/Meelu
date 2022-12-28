@@ -47,7 +47,6 @@ const validate = (values) => {
 	if (!values.machine_part_id) {
 		errors.machine_part_id = 'Required';
 	}
-	console.log(errors);
 	return errors;
 };
 
@@ -90,7 +89,6 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 	});
 
 	const submitForm = (data) => {
-		console.log('data', data);
 		Axios.post(`${baseURL}/updateModelItemOem`, data)
 			.then((res) => {
 				if (res.data.status === 'ok') {

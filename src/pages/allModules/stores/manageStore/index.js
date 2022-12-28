@@ -47,7 +47,11 @@ const Categories = () => {
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getStores?records=${store.data.storesManagementModule.manage.perPage}&pageNo=${store.data.storesManagementModule.manage.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getStores?records=${
+				store.data.storesManagementModule.manage.perPage
+			}&pageNo=${
+				store.data.storesManagementModule.manage.pageNo
+			}&colName=id&sort=asc&store_type_id=${selectedStore ? selectedStore.id : ''}`,
 			{},
 		)
 			.then((response) => {
@@ -71,7 +75,11 @@ const Categories = () => {
 
 	useEffect(() => {
 		refreshTableData();
-		Axios.get(`${baseURL}/getStoreTypeDropDown`)
+		Axios.get(
+			`${baseURL}/getStoreTypeDropDown?store_type_id=${
+				selectedStore ? selectedStore.id : ''
+			}`,
+		)
 			.then((response) => {
 				const rec = response.data.storeType.map(({ id, name }) => ({
 					id,

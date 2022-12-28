@@ -55,21 +55,24 @@ const Categories = () => {
 	});
 	const refreshTableData = () => {
 		setTableDataLoading(true);
+		// Axios.get(
+		// 	`${baseURL}/getKits?records=${store.data.kitManagement.defineKit.perPage}&pageNo=${store.data.kitManagement.defineKit.pageNo}&colName=id&sort=asc&id=${selectedItem.id}`,
+		// )
 		Axios.get(
-			`${baseURL}/getKits?records=${store.data.kitManagement.defineKit.perPage}&pageNo=${store.data.kitManagement.defineKit.pageNo}&colName=id&sort=asc&id=${selectedItem.id}`,
+			`${baseURL}/getPolist?records=${store.data.purchaseOrderManagement.purchaseList.perPage}&pageNo=${store.data.purchaseOrderManagement.purchaseList.pageNo}&colName=id&sort=asc&id=${selectedItem.id}`,
 		)
 			.then((response) => {
-				// console.log('myres::', response.data.data.data);
-				setTableData(response.data.data.data);
-				setTableData2(response.data.data);
+				// console.log('myres::', response.data.purchaseorderlist);
+				setTableData(response.data.purchaseorderlist.data);
+				setTableData2(response.data.purchaseorderlist);
 				// console.log('bmk::tbdata::', response.data.data.data);
 				// console.log('bmk::tbdata2::', response.data.data);
 				setTableDataLoading(false);
 				dispatch(
 					updateSingleState([
-						response.data.data,
-						'kitManagement',
-						'defineKit',
+						response.data.purchaseorderlist,
+						'purchaseOrderManagement',
+						'purchaseList',
 						'tableData',
 					]),
 				);
@@ -110,7 +113,10 @@ const Categories = () => {
 	useEffect(() => {
 		refreshTableData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [store.data.kitManagement.defineKit.perPage, store.data.kitManagement.defineKit.pageNo]);
+	}, [
+		store.data.purchaseOrderManagement.purchaseList.perPage,
+		store.data.purchaseOrderManagement.purchaseList.pageNo,
+	]);
 
 	return (
 		<PageWrapper>
