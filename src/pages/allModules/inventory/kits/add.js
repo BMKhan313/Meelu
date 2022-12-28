@@ -57,8 +57,8 @@ const Add = ({ refreshTableData }) => {
 	const [centeredStatus, setCenteredStatus] = useState(false);
 	const [fullScreenStatus, setFullScreenStatus] = useState(null);
 	const [animationStatus, setAnimationStatus] = useState(true);
-	const [machineOptions, setMachineOptions] = useState('');
-	const [machineOptionsLoading, setMachineOptionsLoading] = useState(false);
+	const [kitOptions, setKitOptions] = useState('');
+	const [kitOptionsLoading, setKitOptionsLoading] = useState(false);
 	const [tableDataLoading, setTableDataLoading] = useState(false);
 	const [tableData, setTableData] = useState([]);
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
@@ -143,9 +143,9 @@ const Add = ({ refreshTableData }) => {
 					value: id,
 					label: name,
 				}));
-				setMachineOptions(rec);
+				setKitOptions(rec);
 
-				setMachineOptionsLoading(false);
+				setKitOptionsLoading(false);
 			})
 			// eslint-disable-next-line no-console
 			.catch((err) => {});
@@ -194,12 +194,12 @@ const Add = ({ refreshTableData }) => {
 											<ReactSelect
 												className='col-md-12'
 												classNamePrefix='select'
-												options={machineOptions}
-												isLoading={machineOptionsLoading}
+												options={kitOptions}
+												isLoading={kitOptionsLoading}
 												isClearable
 												value={
 													formik.values.kit_id
-														? machineOptions.find(
+														? kitOptions.find(
 																(c) =>
 																	c.value ===
 																	formik.values.kit_id,
@@ -210,8 +210,8 @@ const Add = ({ refreshTableData }) => {
 													formik.setFieldValue(
 														'kit_id',
 														val !== null && val.id,
+														setTableData(['']),
 													);
-													setTableData('');
 												}}
 												isValid={formik.isValid}
 												isTouched={formik.touched.kit_id}
