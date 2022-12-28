@@ -43,7 +43,7 @@ const Categories = () => {
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getCompanies?records=${store.data.itemsManagementModule.companies.perPage}&pageNo=${store.data.itemsManagementModule.machines.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getCompanies?records=${store.data.itemsManagementModule.companies.perPage}&pageNo=${store.data.itemsManagementModule.companies.pageNo}&colName=id&sort=asc`,
 			{},
 		)
 			.then((response) => {

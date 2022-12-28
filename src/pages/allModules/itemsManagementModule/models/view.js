@@ -257,7 +257,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				/>
 
 				<div className='row d-flex justify-content-end'>
-					<div className='col-3'>
+					<div className='col-md-4'>
 						<Pagination
 							activePage={store.data.itemsManagementModule.models?.pageNo ?? 1}
 							totalItemsCount={
