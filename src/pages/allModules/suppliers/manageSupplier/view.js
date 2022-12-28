@@ -262,7 +262,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				</table>
 
 				<PaginationButtons
-					label='make'
+					label='Suppliers'
 					from={store.data.suppliersManagementModule.manage.tableData?.from ?? 1}
 					to={store.data.suppliersManagementModule.manage.tableData?.to ?? 1}
 					total={store.data.suppliersManagementModule.manage.tableData?.total ?? 0}
@@ -271,7 +271,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				/>
 
 				<div className='row d-flex justify-content-end'>
-					<div className='col-3'>
+					<div className='col-md-4'>
 						<Pagination
 							activePage={store.data.suppliersManagementModule.manage?.pageNo ?? 1}
 							totalItemsCount={
