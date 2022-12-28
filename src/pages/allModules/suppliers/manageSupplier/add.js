@@ -172,7 +172,7 @@ const Add = ({ refreshTableData }) => {
 				isStaticBackdrop={staticBackdropStatus}
 				isScrollable={scrollableStatus}
 				isCentered={centeredStatus}
-				size='lg'
+				size='md'
 				fullScreen={fullScreenStatus}
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>

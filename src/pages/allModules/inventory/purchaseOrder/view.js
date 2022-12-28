@@ -81,7 +81,6 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setEditingItemLoading(true);
 		Axios.get(`${baseURL}/editPurchaseOrder?id=${idd}`)
 			.then((res) => {
-				console.log('bmkkk:', res.data.data);
 				setEditingItem(res.data.data);
 				setEditingItemLoading(false);
 			})
@@ -145,7 +144,6 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 			})
 
 			.catch((err) => {
-				console.log(err);
 				setIsLoading(false);
 
 				showNotification('Error', err.message, 'danger');
