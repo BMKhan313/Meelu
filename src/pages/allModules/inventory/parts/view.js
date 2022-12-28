@@ -246,7 +246,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				</table>
 
 				<PaginationButtons
-					label='make'
+					label='parts'
 					from={store.data.inventoryManagementModule.parts.tableData?.from ?? 1}
 					to={store.data.inventoryManagementModule.parts.tableData?.to ?? 1}
 					total={store.data.inventoryManagementModule.parts.tableData?.total ?? 0}
@@ -255,7 +255,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				/>
 
 				<div className='row d-flex justify-content-end'>
-					<div className='col-3'>
+					<div className='col-md-4'>
 						<Pagination
 							activePage={store.data.inventoryManagementModule.parts?.pageNo ?? 1}
 							totalItemsCount={

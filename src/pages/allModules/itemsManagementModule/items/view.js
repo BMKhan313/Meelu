@@ -73,7 +73,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		Axios.get(`${baseURL}/editMachinePart?id=${idd}`)
 			.then((res) => {
 				setEditingItem(res.data.Machine_Part);
-				console.log('res',res);
+				console.log('res', res);
 				setEditingItemLoading(false);
 			})
 
@@ -255,7 +255,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				/>
 
 				<div className='row d-flex justify-content-end'>
-					<div className='col-3'>
+					<div className='col-md-4'>
 						<Pagination
 							activePage={store.data.itemsManagementModule.items?.pageNo ?? 1}
 							totalItemsCount={

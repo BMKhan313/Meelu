@@ -57,8 +57,8 @@ const Add1 = () => {
 	const [centeredStatus, setCenteredStatus] = useState(false);
 	const [fullScreenStatus, setFullScreenStatus] = useState(null);
 	const [animationStatus, setAnimationStatus] = useState(true);
-	const [machineOptions, setMachineOptions] = useState();
-	const [machineOptionsLoading, setMachineOptionsLoading] = useState(false);
+	const [kitOptions, setKitOptions] = useState();
+	const [kitOptionsLoading, setKitOptionsLoading] = useState(false);
 	const [tableDataLoading, setTableDataLoading] = useState(false);
 	const [tableData, setTableData] = useState([]);
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
@@ -122,7 +122,7 @@ const Add1 = () => {
 						({ id, quantity, item_oem_part_modeles }) => ({
 							id,
 							value: id,
-							name: `${item_oem_part_modeles.machine_part_oem_part.oem_part_number.number1}-${item_oem_part_modeles.machine_part_oem_part.machine_part.name}`,
+							// name: `${item_oem_part_modeles.machine_part_oem_part.oem_part_number.number1}-${item_oem_part_modeles.machine_part_oem_part.machine_part.name}`,
 							reqQty: quantity,
 							exisQty: 0,
 						}),
@@ -143,9 +143,9 @@ const Add1 = () => {
 					value: id,
 					label: name,
 				}));
-				setMachineOptions(rec);
+				setKitOptions(rec);
 
-				setMachineOptionsLoading(false);
+				setKitOptionsLoading(false);
 			})
 			// eslint-disable-next-line no-console
 			.catch((err) => {});
@@ -176,7 +176,7 @@ const Add1 = () => {
 				isStaticBackdrop={staticBackdropStatus}
 				isScrollable={scrollableStatus}
 				isCentered={centeredStatus}
-				size='lg'
+				size='md'
 				fullScreen={fullScreenStatus}
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
@@ -194,24 +194,25 @@ const Add1 = () => {
 											<ReactSelect
 												className='col-md-12'
 												classNamePrefix='select'
-												options={machineOptions}
-												isLoading={machineOptionsLoading}
+												options={kitOptions}
+												isLoading={kitOptionsLoading}
 												isClearable
 												value={
 													formik.values.kit_id
-														? machineOptions.find(
+														? kitOptions.find(
 																(c) =>
 																	c.value ===
 																	formik.values.kit_id,
 														  )
 														: null
 												}
-												onChange={(val) =>
+												onChange={(val) => {
 													formik.setFieldValue(
 														'kit_id',
 														val !== null && val.id,
-													)
-												}
+													);
+													setTableData(['']);
+												}}
 												isValid={formik.isValid}
 												isTouched={formik.touched.kit_id}
 												invalidFeedback={formik.errors.kit_id}
@@ -253,7 +254,7 @@ const Add1 = () => {
 												<tbody>
 													{tableData.map((item) => (
 														<tr key={item.id}>
-															<td>{item.name}</td>
+															{/* <td>{item.name}</td> */}
 															<td>{item.reqQty}</td>
 															<td>{item.exisQty}</td>
 														</tr>

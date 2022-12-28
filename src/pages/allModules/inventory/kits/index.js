@@ -50,7 +50,13 @@ const Categories = () => {
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getKitInventory?records=${store.data.inventoryManagementModule.kits.perPage}&pageNo=${store.data.inventoryManagementModule.kits.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getKitInventory?records=${
+				store.data.inventoryManagementModule.kits.perPage
+			}&pageNo=${
+				store.data.inventoryManagementModule.kits.pageNo
+			}&colName=id&sort=asc&store_type_id=${selectedStore ? selectedStore.id : ''}&store_id=${
+				selectedName ? selectedName.id : ''
+			}`,
 			{},
 		)
 			.then((response) => {
@@ -75,7 +81,9 @@ const Categories = () => {
 	};
 	useEffect(() => {
 		setNameLoading(true);
-		Axios.get(`${baseURL}/getStoredropdown?type_id=${selectedStore ? selectedStore.id : ''}`)
+		Axios.get(
+			`${baseURL}/getStoredropdown?store_type_id=${selectedStore ? selectedStore.id : ''}`,
+		)
 			.then((response) => {
 				const rec = response.data.store.map(({ id, name }) => ({
 					id,
@@ -152,6 +160,7 @@ const Categories = () => {
 												value={selectedStore}
 												onChange={(val) => {
 													setSelectedStore(val);
+													setSelectedName('');
 												}}
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>

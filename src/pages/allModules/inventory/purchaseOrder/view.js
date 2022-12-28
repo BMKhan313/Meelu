@@ -85,7 +85,6 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setEditingItemLoading(true);
 		Axios.get(`${baseURL}/editPurchaseOrder?id=${idd}`)
 			.then((res) => {
-				console.log('bmkkk:', res.data.data);
 				setEditingItem(res.data.data);
 				setEditingItemLoading(false);
 			})
@@ -153,7 +152,6 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 			})
 
 			.catch((err) => {
-				console.log(err);
 				setIsLoading(false);
 
 				showNotification('Error', err.message, 'danger');
@@ -351,7 +349,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				</table>
 
 				<PaginationButtons
-					label='make'
+					label='purchase'
 					from={store.data.purchaseOrderManagement.purchaseList.tableData?.from ?? 1}
 					to={store.data.purchaseOrderManagement.purchaseList.tableData?.to ?? 1}
 					total={store.data.purchaseOrderManagement.purchaseList.tableData?.total ?? 0}
@@ -360,7 +358,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				/>
 
 				<div className='row d-flex justify-content-end'>
-					<div className='col-3'>
+					<div className='col-md-4'>
 						<Pagination
 							activePage={
 								store.data.purchaseOrderManagement.purchaseList?.pageNo ?? 1
