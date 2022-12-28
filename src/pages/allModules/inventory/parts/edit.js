@@ -37,7 +37,7 @@ const validate = (values) => {
 
 // eslint-disable-next-line react/prop-types
 const Edit = ({ editingItem, handleStateEdit }) => {
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, d] = useState(false);
 	const [lastSave, setLastSave] = useState(null);
 
 	// useEffect(() => {
@@ -48,7 +48,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 		initialValues: editingItem,
 		validate,
 		onSubmit: () => {
-			setIsLoading(true);
+			d(true);
 			setTimeout(handleSave, 2000);
 		},
 	});
@@ -60,20 +60,20 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 					formik.resetForm();
 					showNotification(_titleSuccess, res.data.message, 'success');
 					handleStateEdit(false);
-					setIsLoading(false);
+					d(false);
 					setLastSave(moment());
 				} else {
-					setIsLoading(false);
+					d(false);
 					showNotification(_titleError, res.data.message, 'Danger');
 				}
 			})
 			.catch((err) => {
-				setIsLoading(false);
+				d(false);
 				showNotification(_titleError, err.message, 'Danger');
 				if (err.response.status === 401) {
 					showNotification(_titleError, err.response.data.message, 'Danger');
 				}
-				setIsLoading(false);
+				d(false);
 			});
 	};
 
