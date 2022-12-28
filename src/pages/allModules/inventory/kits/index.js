@@ -55,7 +55,7 @@ const Categories = () => {
 			}&pageNo=${
 				store.data.inventoryManagementModule.kits.pageNo
 			}&colName=id&sort=asc&store_type_id=${selectedStore ? selectedStore.id : ''}&store_id=${
-				selectedStore ? selectedStore.id : ''
+				selectedName ? selectedName.id : ''
 			}`,
 			{},
 		)
