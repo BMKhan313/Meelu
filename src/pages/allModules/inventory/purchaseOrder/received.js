@@ -45,8 +45,8 @@ import Input from '../../../../components/bootstrap/forms/Input';
 import Button from '../../../../components/bootstrap/Button';
 import showNotification from '../../../../components/extras/showNotification';
 
-const Received = ({ editingItem, handleStateRecieved }) => {
-	// console.log('editform', editingItem, handleStateRecieved);
+const Received = ({ recievedItem, handleStateRecieved }) => {
+	// console.log('editform', recievedItem, handleStateRecieved);
 	const [reload, setReload] = useState(0);
 	const [isLoading, setIsLoading] = useState(false);
 	const [lastSave, setLastSave] = useState(null);
@@ -68,7 +68,8 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 		return errors;
 	};
 	const formik = useFormik({
-		initialValues: editingItem,
+		initialValues: recievedItem,
+
 		validate,
 		onSubmit: () => {
 			setIsLoading(true);
@@ -82,8 +83,10 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 		]);
 	};
 	const submitForm = (data) => {
-		Axios.post(`${baseURL}/updatePurchaseOrder`, data)
+		// console.log('data:::', data);
+		Axios.post(`${baseURL}/receivePurchaseOrder`, data)
 			.then((res) => {
+				// console.log('received PO', res.data);
 				if (res.data.status === 'ok') {
 					formik.resetForm();
 					showNotification(_titleSuccess, res.data.message, 'success');
@@ -188,10 +191,11 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 
 	useEffect(() => {
 		let t = 0;
-		formik.childArray.values.forEach((item) => {
-			t += item.quantity * item.purchase_price;
-			formik.setFieldValue('total', t);
+		formik?.values.childArray?.forEach((item) => {
+			t += item.received_quantity * item.purchase_price;
+			formik.setFieldValue('total', Number(t));
 		});
+		console.log('total', t);
 	}, [reload]);
 
 	return (
@@ -214,7 +218,7 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 										/>
 									</FormGroup>
 								</div>
-								<div className='col-md-3'>
+								<div className='col-md-4'>
 									<FormGroup
 										id='supplier_id'
 										label='Supplier'
@@ -285,7 +289,7 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 										/>
 									</FormGroup>
 								</div> */}
-								<div className='col-md-2'>
+								<div className='col-md-4'>
 									<FormGroup label='Store' id='store_id'>
 										<ReactSelect
 											className='col-md-12'
@@ -318,7 +322,7 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 							</div>
 
 							<div className='row g-2 mt-2  d-flex justify-content-start'>
-								<div className='col-md-2'>
+								<div className='col-md-4'>
 									<FormGroup id='request_date' label='Request Date'>
 										<Input
 											type='date'
@@ -332,7 +336,7 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 										/>
 									</FormGroup>
 								</div>
-								<div className='col-md-3'>
+								<div className='col-md-4'>
 									<FormGroup id='remarks' label='Remarks' className='col-md-12'>
 										<Input
 											onChange={formik.handleChange}
@@ -361,10 +365,11 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 								<thead>
 									<tr className='row'>
 										<th className='col-md-2'>Items</th>
+										<th className='col-md-1'>Quantity</th>
 										<th className='col-md-1'>Received Qty</th>
-										<th className='col-md-2'>purchase_price</th>
-										<th className='col-md-2'>sale_price</th>
-										<th className='col-md-2'>amount</th>
+										<th className='col-md-2'>Purchase Price</th>
+										<th className='col-md-2'>Sale Price</th>
+										<th className='col-md-2'>Amount</th>
 										<th className='col-md-1'>Remarks</th>
 										<th className='col-md-1'>Remove</th>
 									</tr>
@@ -440,21 +445,8 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 														type='number'
 														className='col-md-12'>
 														<Input
-															// onChange={formik.handleChange}
-															onChange={(val) => {
-																formik.setFieldValue(
-																	`childArray[${index}].quantity`,
-																	val.target.value,
-																);
-																setReload(reload + 1);
-																// formik.setFieldValue(
-																// 	`childArray[${index}].total`,
-																// 	val.target.value *
-																// 		formik.values.childArray[
-																// 			index
-																// 		].purchase_price,
-																// );
-															}}
+															readOnly
+															onChange={formik.handleChange}
 															onBlur={formik.handleBlur}
 															value={items.quantity}
 															isValid={formik.isValid}
@@ -481,14 +473,28 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 														</p>
 													)}
 												</td>
-												{/* <td className='col-md-1'>
+												<td className='col-md-1'>
 													<FormGroup
 														id={`childArray[${index}].received_quantity`}
 														label=''
 														type='number'
 														className='col-md-12'>
 														<Input
-															onChange={formik.handleChange}
+															// onChange={formik.handleChange}
+															onChange={(val) => {
+																formik.setFieldValue(
+																	`childArray[${index}].received_quantity`,
+																	val.target.value,
+																);
+																formik.setFieldValue(
+																	`childArray[${index}].amount`,
+																	val.target.value *
+																		formik.values.childArray[
+																			index
+																		].purchase_price,
+																);
+																setReload(reload + 1);
+															}}
 															onBlur={formik.handleBlur}
 															value={items.received_quantity}
 															isValid={formik.isValid}
@@ -518,7 +524,7 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 															}
 														</p>
 													)}
-												</td> */}
+												</td>
 												<td className='col-md-2'>
 													<FormGroup
 														id={`childArray[${index}].purchase_price`}
@@ -533,14 +539,14 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 																	`childArray[${index}].purchase_price`,
 																	val.target.value,
 																);
+																formik.setFieldValue(
+																	`childArray[${index}].amount`,
+																	val.target.value *
+																		formik.values.childArray[
+																			index
+																		].received_quantity,
+																);
 																setReload(reload + 1);
-																// formik.setFieldValue(
-																// 	`childArray[${index}].total`,
-																// 	val.target.value *
-																// 		formik.values.childArray[
-																// 			index
-																// 		].quantity,
-																// );
 															}}
 															onBlur={formik.handleBlur}
 															value={items.purchase_price}
@@ -615,6 +621,7 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 														type='number'
 														className='col-md-12'>
 														<Input
+															readOnly
 															onChange={formik.handleChange}
 															onBlur={formik.handleBlur}
 															value={items.amount}
@@ -691,29 +698,12 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 										))}
 								</tbody>
 							</table>
-							<div className='row g-4'>
-								<div className='col-md-4'>
-									<Button
-										color='primary'
-										icon='add'
-										onClick={() => {
-											formik.setFieldValue('childArray', [
-												...formik.values.childArray,
-												{
-													name: '',
-													quantity: '',
-												},
-											]);
-										}}>
-										Add
-									</Button>
-								</div>
-							</div>
 							<hr />
 							<div className='row g-2  d-flex justify-content-start mt-2'>
 								<div className='col-md-2'>
 									<FormGroup id='total' label='Total' className='col-md-12'>
 										<Input
+											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
 											value={formik.values.total}
@@ -739,22 +729,6 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 								</div>
 								<div className='col-md-2'>
 									<FormGroup
-										id='total_after_tax'
-										label='Total After Tax'
-										className='col-md-12'>
-										<Input
-											onChange={formik.handleChange}
-											onBlur={formik.handleBlur}
-											value={formik.values.total_after_tax}
-											isValid={formik.isValid}
-											isTouched={formik.touched.total_after_tax}
-											invalidFeedback={formik.errors.total_after_tax}
-											validFeedback='Looks good!'
-										/>
-									</FormGroup>
-								</div>
-								<div className='col-md-2'>
-									<FormGroup
 										id='tax_in_figure'
 										label='Tax in figure'
 										className='col-md-12'>
@@ -769,6 +743,23 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 										/>
 									</FormGroup>
 								</div>
+								<div className='col-md-2'>
+									<FormGroup
+										id='total_after_tax'
+										label='Total After Tax'
+										className='col-md-12'>
+										<Input
+											onChange={formik.handleChange}
+											onBlur={formik.handleBlur}
+											value={formik.values.total_after_tax}
+											isValid={formik.isValid}
+											isTouched={formik.touched.total_after_tax}
+											invalidFeedback={formik.errors.total_after_tax}
+											validFeedback='Looks good!'
+										/>
+									</FormGroup>
+								</div>
+
 								<div className='col-md-2'>
 									<FormGroup id='discount' label='Discount' className='col-md-12'>
 										<Input
@@ -846,6 +837,6 @@ const Received = ({ editingItem, handleStateRecieved }) => {
 	);
 };
 Received.propTypes = {
-	editingItem: PropTypes.string.isRequired,
+	recievedItem: PropTypes.string.isRequired,
 };
 export default Received;

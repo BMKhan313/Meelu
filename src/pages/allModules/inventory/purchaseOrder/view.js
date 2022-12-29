@@ -81,17 +81,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		setAnimationStatusEdit(true);
 		setHeaderCloseStatusEdit(true);
 	};
-	const getEditingItem = (idd) => {
-		setEditingItemLoading(true);
-		Axios.get(`${baseURL}/editPurchaseOrder?id=${idd}`)
-			.then((res) => {
-				setEditingItem(res.data.data);
-				setEditingItemLoading(false);
-			})
-			.catch((err) => {
-				showNotification(_titleError, err.message, 'Danger');
-			});
-	};
+
 	const handleStateEdit = (status) => {
 		refreshTableData();
 		setStateEdit(status);
@@ -141,22 +131,46 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [lastSave, setLastSave] = useState(null);
 
-	const initiateFile = (id) => {
-		setIsLoading(true);
-		Axios.get(`${baseURL}/transferBooking?booking_transfer_id=${id}`)
-			.then((response) => {
-				showNotification('Success', response.data.message, 'success');
-				setStateReceive(false);
-				refreshTableData();
-				setIsLoading(false);
+	const getEditingItem = (idd) => {
+		setEditingItemLoading(true);
+		Axios.get(`${baseURL}/editPurchaseOrder?id=${idd}`)
+			.then((res) => {
+				setEditingItem(res.data.data);
+				setEditingItemLoading(false);
 			})
-
 			.catch((err) => {
-				setIsLoading(false);
-
-				showNotification('Error', err.message, 'danger');
+				showNotification(_titleError, err.message, 'Danger');
 			});
 	};
+	const getReceivedFunc = (idd) => {
+		setRecievedItemLoading(true);
+		Axios.get(`${baseURL}/editPurchaseOrder?id=${idd}`)
+			.then((res) => {
+				// console.log('recev state', res.data.data);
+				setRecievedItem(res.data.data);
+				setRecievedItemLoading(false);
+			})
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+			});
+	};
+	// const getReceivedFunc = (id) => {
+	// 	setIsLoading(true);
+	// 	Axios.get(`${baseURL}/editPurchaseOrder?id=${id}`)
+	// 		.then((response) => {
+	// 			showNotification('Success', response.data.message, 'success');
+	// 			setRecievedItem(response.data.data);
+	// 			setStateReceive(false);
+	// 			refreshTableData();
+	// 			setRecievedItemLoading(false);
+	// 		})
+
+	// 		.catch((err) => {
+	// 			setRecievedItemLoading(false);
+
+	// 			showNotification('Error', err.message, 'danger');
+	// 		});
+	// };
 
 	const deleteItem = (id) => {
 		Axios.delete(`${baseURL}/deletePurchaseOrder?id=${id}`)
@@ -302,11 +316,15 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 															: 'PendingActions'
 													}
 													onClick={() => {
+														getReceivedFunc(item.id);
 														setItemId(item.id);
 
 														setPoNo(item.po_no);
 														// item.booking.plot.reg_no,
-
+														// initialStatusEdit();
+														// setStateEdit(true);
+														// setStaticBackdropStatusEdit(true);
+														// getReceivedFunc();
 														initialStatusReceive();
 
 														setStateReceive(true);
@@ -522,7 +540,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 								</div>
 							) : (
 								<Received
-									editingItem={editingItem}
+									recievedItem={recievedItem}
 									handleStateRecieved={handleStateRecieved}
 								/>
 							)}

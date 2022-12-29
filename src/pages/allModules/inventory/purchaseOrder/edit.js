@@ -137,27 +137,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 				}
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [formik.values.supplier_id]);
-	useEffect(() => {
-		Axios.get(`${baseURL}/getStoredropdown`)
-			.then((response) => {
-				const rec = response.data.store.map(({ id, name }) => ({
-					id,
-					value: id,
-					label: name,
-				}));
-				setStoreOptions(rec);
-				setStoreLoading(false);
-			})
-			// eslint-disable-next-line no-console
-			.catch((err) => {
-				showNotification(_titleError, err.message, 'Danger');
-				if (err.response.status === 401) {
-					showNotification(_titleError, err.response.message, 'Danger');
-				}
-			});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [formik.values.supplier_id]);
+	}, []);
 
 	useEffect(() => {
 		Axios.get(`${baseURL}/kitItemDropdown`)
@@ -182,7 +162,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 					<Card stretch tag='form' onSubmit={formik.handleSubmit}>
 						<CardBody>
 							<div className='row g-2  d-flex justify-content-start'>
-								<div className='col-md-2'>
+								<div className='col-md-3'>
 									<FormGroup id='po_no' label='PO NO' className='col-md-12'>
 										<Input
 											readOnly
@@ -195,7 +175,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 										/>
 									</FormGroup>
 								</div>
-								<div className='col-md-3'>
+								<div className='col-md-4'>
 									<FormGroup
 										id='supplier_id'
 										label='Supplier'
@@ -235,6 +215,42 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 										</p>
 									)}
 								</div>
+								<div className='col-md-3'>
+									<FormGroup id='request_date' label='Request Date'>
+										<Input
+											type='date'
+											onChange={formik.handleChange}
+											onBlur={formik.handleBlur}
+											value={formik.values.request_date}
+											isValid={formik.isValid}
+											isTouched={formik.touched.request_date}
+											invalidFeedback={formik.errors.request_date}
+											validFeedback='Looks good!'
+										/>
+									</FormGroup>
+								</div>
+								<div className='col-md-4'>
+									<FormGroup id='remarks' label='Remarks' className='col-md-12'>
+										<Input
+											onChange={formik.handleChange}
+											onBlur={formik.handleBlur}
+											value={formik.values.remarks}
+											isValid={formik.isValid}
+											isTouched={formik.touched.remarks}
+											invalidFeedback={formik.errors.remarks}
+											validFeedback='Looks good!'
+										/>
+									</FormGroup>
+									{formik.errors.remarks && (
+										// <div className='invalid-feedback'>
+										<p
+											style={{
+												color: 'red',
+											}}>
+											{formik.errors.remarks}
+										</p>
+									)}
+								</div>
 								{/* <div className='col-md-3'>
 										<FormGroup label='Delivery Place' id='store_id'>
 											<ReactSelect
@@ -266,7 +282,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 											/>
 										</FormGroup>
 									</div> */}
-								<div className='col-md-2'>
+								{/* <div className='col-md-2'>
 									<FormGroup label='Store' id='store_id'>
 										<ReactSelect
 											className='col-md-12'
@@ -295,62 +311,17 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 											filterOption={createFilter({ matchFrom: 'start' })}
 										/>
 									</FormGroup>
-								</div>
-							</div>
-
-							<div className='row g-2 mt-2  d-flex justify-content-start'>
-								<div className='col-md-2'>
-									<FormGroup id='request_date' label='Request Date'>
-										<Input
-											type='date'
-											onChange={formik.handleChange}
-											onBlur={formik.handleBlur}
-											value={formik.values.request_date}
-											isValid={formik.isValid}
-											isTouched={formik.touched.request_date}
-											invalidFeedback={formik.errors.request_date}
-											validFeedback='Looks good!'
-										/>
-									</FormGroup>
-								</div>
-								<div className='col-md-3'>
-									<FormGroup id='remarks' label='Remarks' className='col-md-12'>
-										<Input
-											onChange={formik.handleChange}
-											onBlur={formik.handleBlur}
-											value={formik.values.remarks}
-											isValid={formik.isValid}
-											isTouched={formik.touched.remarks}
-											invalidFeedback={formik.errors.remarks}
-											validFeedback='Looks good!'
-										/>
-									</FormGroup>
-									{formik.errors.remarks && (
-										// <div className='invalid-feedback'>
-										<p
-											style={{
-												color: 'red',
-											}}>
-											{formik.errors.remarks}
-										</p>
-									)}
-								</div>
+								</div> */}
 							</div>
 							<hr />
 							{/* <CardBody className='table-responsive'> */}
 							<table className='table text-center table-modern'>
 								<thead>
 									<tr className='row'>
-										<th className='col-md-2'>Items</th>
-										{/* <th className='col-md-2'>Unit</th> */}
-										{/* <th className='col-md-1'>Existing Qty</th> */}
-										<th className='col-md-1'>Quantity</th>
-										{/* <th className='col-md-1'>Received Qty</th> */}
-										<th className='col-md-2'>purchase_price</th>
-										<th className='col-md-2'>sale_price</th>
-										<th className='col-md-2'>amount</th>
-										<th className='col-md-1'>Remarks</th>
-										<th className='col-md-1'>Remove</th>
+										<th className='col-md-4'>Items</th>
+										<th className='col-md-3'>Quantity</th>
+										<th className='col-md-3'>Remarks</th>
+										<th className='col-md-2'>Remove</th>
 									</tr>
 									{/* {formik.errors.childArray && (
 											// <div className='invalid-feedback'>
@@ -361,7 +332,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 									{formik.values.childArray.length > 0 &&
 										formik.values.childArray.map((items, index) => (
 											<tr className='row' key={items.index}>
-												<td className='col-md-2'>
+												<td className='col-md-4'>
 													<FormGroup
 														label=''
 														id={`childArray[${index}].item_id`}>
@@ -421,7 +392,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 														</p>
 													)}
 												</td>
-												<td className='col-md-1'>
+												<td className='col-md-3'>
 													<FormGroup
 														id={`childArray[${index}].quantity`}
 														label=''
@@ -493,7 +464,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 															</p>
 														)}
 													</td> */}
-												<td className='col-md-2'>
+												{/* <td className='col-md-2'>
 													<FormGroup
 														id={`childArray[${index}].purchase_price`}
 														label=''
@@ -600,8 +571,8 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 															}
 														</p>
 													)}
-												</td>
-												<td className='col-md-1'>
+												</td> */}
+												<td className='col-md-3'>
 													<FormGroup
 														id={`childArray[${index}].remarks`}
 														label=''
@@ -636,7 +607,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 													)}
 												</td>
 
-												<td className='col-md-1 mt-1'>
+												<td className='col-md-2 mt-1'>
 													<Button
 														isDisable={
 															formik.values.childArray.length === 1
@@ -659,8 +630,13 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 											formik.setFieldValue('childArray', [
 												...formik.values.childArray,
 												{
-													name: '',
+													item_id: '',
 													quantity: '',
+													received_quantity: 0,
+													purchase_price: '',
+													sale_price: '',
+													amount: '',
+													remarks: '',
 												},
 											]);
 										}}>
@@ -669,7 +645,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 								</div>
 							</div>
 							<hr />
-							<div className='row g-2  d-flex justify-content-start mt-2'>
+							{/* <div className='row g-2  d-flex justify-content-start mt-2'>
 								<div className='col-md-2'>
 									<FormGroup id='total' label='Total' className='col-md-12'>
 										<Input
@@ -757,25 +733,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 										/>
 									</FormGroup>
 								</div>
-							</div>
-							{/* <div className='row g-4'>
-									<div className='col-md-4'>
-										<Button
-											color='primary'
-											icon='add'
-											onClick={() => {
-												formik.setFieldValue('childArray', [
-													...formik.values.childArray,
-													{
-														name: '',
-														quantity: '',
-													},
-												]);
-											}}>
-											Add
-										</Button>
-									</div>
-								</div> */}
+							</div> */}
 						</CardBody>
 					</Card>
 				</div>

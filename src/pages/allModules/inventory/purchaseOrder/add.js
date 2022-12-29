@@ -79,8 +79,8 @@ const Add = ({ refreshTableData }) => {
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
 	const [supplierDropDown, setSupplierDropDown] = useState([]);
 	const [supplierDropDownLoading, setSupplierDropDownLoading] = useState([]);
-	const [storeOptions, setStoreOptions] = useState([]);
-	const [storeLoading, setStoreLoading] = useState(false);
+	// const [storeOptions, setStoreOptions] = useState([]);
+	// const [storeLoading, setStoreLoading] = useState(false);
 
 	const initialStatus = () => {
 		setStaticBackdropStatus(false);
@@ -101,23 +101,18 @@ const Add = ({ refreshTableData }) => {
 			is_approve: 0,
 			is_received: 0,
 			request_date: '',
-			total: 0,
-			discount: '',
-			tax: '',
-			total_after_tax: '',
-			tax_in_figure: '',
-			total_after_discount: '',
+			// total: 0,
+			// discount: '',
+			// tax: '',
+			// total_after_tax: '',
+			// tax_in_figure: '',
+			// total_after_discount: '',
 			remarks: '',
-			// quantity: 0,
-			// childArray: [],
 			childArray: [
 				{
 					item_id: '',
 					quantity: '',
-					received_quantity: '',
-					purchase_price: '',
-					sale_price: '',
-					amount: '',
+					received_quantity: 0,
 					remarks: '',
 				},
 			],
@@ -196,26 +191,6 @@ const Add = ({ refreshTableData }) => {
 
 					// Cookies.remove('userToken');
 					// navigate(`/${demoPages.login.path}`, { replace: true });
-				}
-			});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [formik.values.supplier_id]);
-	useEffect(() => {
-		Axios.get(`${baseURL}/getStoredropdown`)
-			.then((response) => {
-				const rec = response.data.store.map(({ id, name }) => ({
-					id,
-					value: id,
-					label: name,
-				}));
-				setStoreOptions(rec);
-				setStoreLoading(false);
-			})
-			// eslint-disable-next-line no-console
-			.catch((err) => {
-				showNotification(_titleError, err.message, 'Danger');
-				if (err.response.status === 401) {
-					showNotification(_titleError, err.response.message, 'Danger');
 				}
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -325,7 +300,7 @@ const Add = ({ refreshTableData }) => {
 											</p>
 										)}
 									</div>
-
+									{/* 
 									<div className='col-md-2'>
 										<FormGroup label='Store' id='store_id'>
 											<ReactSelect
@@ -356,9 +331,7 @@ const Add = ({ refreshTableData }) => {
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
-									</div>
-								</div>
-								<div className='row g-2 mt-2  d-flex justify-content-start'>
+									</div> */}
 									<div className='col-md-2'>
 										<FormGroup id='request_date' label='Request Date'>
 											<Input
@@ -403,12 +376,9 @@ const Add = ({ refreshTableData }) => {
 								<table className='table text-center table-modern'>
 									<thead>
 										<tr className='row'>
-											<th className='col-md-2'>Items</th>
-											<th className='col-md-1'>Quantity</th>
-											<th className='col-md-2'>Purchase price</th>
-											<th className='col-md-2'>Sale price</th>
-											<th className='col-md-2'>Amount</th>
-											<th className='col-md-1'>Remarks</th>
+											<th className='col-md-3'>Items</th>
+											<th className='col-md-2'>Quantity</th>
+											<th className='col-md-2'>Remarks</th>
 											<th className='col-md-1'>Remove</th>
 										</tr>
 									</thead>
@@ -416,7 +386,7 @@ const Add = ({ refreshTableData }) => {
 										{formik.values.childArray.length > 0 &&
 											formik.values.childArray.map((items, index) => (
 												<tr className='row' key={items.index}>
-													<td className='col-md-2'>
+													<td className='col-md-3'>
 														<FormGroup
 															label=''
 															id={`childArray[${index}].item_id`}>
@@ -476,7 +446,7 @@ const Add = ({ refreshTableData }) => {
 															</p>
 														)}
 													</td>
-													<td className='col-md-1'>
+													<td className='col-md-2'>
 														<FormGroup
 															id={`childArray[${index}].quantity`}
 															label=''
@@ -550,7 +520,7 @@ const Add = ({ refreshTableData }) => {
 															</p>
 														)}
 													</td> */}
-													<td className='col-md-2'>
+													{/* <td className='col-md-2'>
 														<FormGroup
 															id={`childArray[${index}].purchase_price`}
 															label=''
@@ -661,8 +631,8 @@ const Add = ({ refreshTableData }) => {
 																}
 															</p>
 														)}
-													</td>
-													<td className='col-md-1'>
+													</td> */}
+													<td className='col-md-2'>
 														<FormGroup
 															id={`childArray[${index}].remarks`}
 															label=''
@@ -723,8 +693,10 @@ const Add = ({ refreshTableData }) => {
 												formik.setFieldValue('childArray', [
 													...formik.values.childArray,
 													{
-														name: '',
+														item_id: '',
 														quantity: '',
+														received_quantity: 0,
+														remarks: '',
 													},
 												]);
 											}}>
@@ -733,7 +705,7 @@ const Add = ({ refreshTableData }) => {
 									</div>
 								</div>
 								<hr />
-								<div className='row g-2  d-flex justify-content-start mt-2'>
+								{/* <div className='row g-2  d-flex justify-content-start mt-2'>
 									<div className='col-md-2'>
 										<FormGroup id='total' label='Total' className='col-md-12'>
 											<Input
@@ -825,7 +797,7 @@ const Add = ({ refreshTableData }) => {
 											/>
 										</FormGroup>
 									</div>
-								</div>
+								</div> */}
 							</CardBody>
 							<CardFooter>
 								<CardFooterLeft>
