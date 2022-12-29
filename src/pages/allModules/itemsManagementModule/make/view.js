@@ -135,6 +135,13 @@ const View = ({ tableDataLoading, tableData, refreshTableData, lastRecord }) => 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[perPage],
 	);
+	useEffect(
+		() => {
+			dispatch(updateSingleState([pageNo, 'itemsManagementModule', 'make', 'pageNo']));
+		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[pageNo],
+	);
 	const handlePageChange = (e) => {
 		dispatch(updateSingleState([e, 'itemsManagementModule', 'make', 'pageNo']));
 	};
