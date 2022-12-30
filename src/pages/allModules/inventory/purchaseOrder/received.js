@@ -259,7 +259,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 			t += item.received_quantity * item.purchase_price;
 			formik.setFieldValue('total', Number(t));
 		});
-		console.log('total', t);
 	}, [reload]);
 
 	return (
@@ -560,6 +559,11 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																			index
 																		].purchase_price ?? 0),
 																);
+																formik.setFieldValue('tax', 0);
+																formik.setFieldValue(
+																	'tax_in_figure',
+																	0,
+																);
 																setReload(reload + 1);
 															}}
 															onBlur={formik.handleBlur}
@@ -600,6 +604,11 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																		(formik.values.childArray[
 																			index
 																		].received_quantity ?? 0),
+																);
+																formik.setFieldValue('tax', 0);
+																formik.setFieldValue(
+																	'tax_in_figure',
+																	0,
 																);
 																setReload(reload + 1);
 															}}
@@ -746,7 +755,13 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 								<div className='col-md-2'>
 									<FormGroup id='tax' label='Tax(%)' className='col-md-12'>
 										<Input
-											onChange={formik.handleChange}
+											// onChange={formik.handleChange}
+											onChange={(val) => {
+												formik.setFieldValue(
+													'tax_in_figure',
+													(val.target.value / 100) * formik.values.total,
+												);
+											}}
 											onBlur={formik.handleBlur}
 											value={formik.values.tax}
 											isValid={formik.isValid}
