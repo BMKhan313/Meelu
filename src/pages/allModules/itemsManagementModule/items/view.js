@@ -73,7 +73,6 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		Axios.get(`${baseURL}/editMachinePart?id=${idd}`)
 			.then((res) => {
 				setEditingItem(res.data.Machine_Part);
-				console.log('res', res);
 				setEditingItemLoading(false);
 			})
 

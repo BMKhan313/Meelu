@@ -61,10 +61,38 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 	const [storeLoading, setStoreLoading] = useState(false);
 
 	const validate = (values) => {
-		const errors = {};
-		// if (!values.name) {
-		// 	errors.name = 'Required';
-		// }
+		let errors = {};
+		if (!values.po_no) {
+			errors.po_no = 'Required';
+		}
+		if (!values.supplier_id) {
+			errors.supplier_id = 'Required';
+		}
+		if (!values.store_id) {
+			errors.store_id = 'Required';
+		}
+		if (!values.request_date) {
+			errors.request_date = 'Required';
+		}
+		if (!values.childArray.length > 0) {
+			errors.childArray = 'Choose Items In list';
+		}
+		values.childArray.forEach((data, index) => {
+			if (!data.item_id) {
+				errors = {
+					...errors,
+					[`childArray[${index}]item_id`]: 'Required!',
+				};
+			}
+
+			if (!data.quantity > 0) {
+				errors = {
+					...errors,
+					[`childArray[${index}]quantity`]: 'Required',
+				};
+			}
+		});
+		console.log(errors, 'errors');
 		return errors;
 	};
 	const formik = useFormik({
@@ -308,7 +336,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											onChange={(val) => {
 												formik.setFieldValue(
 													'store_id',
-													val !== null && val.id,
+													val !== null ? val.id : '',
 												);
 											}}
 											isValid={formik.isValid}
@@ -318,6 +346,15 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											filterOption={createFilter({ matchFrom: 'start' })}
 										/>
 									</FormGroup>
+									{formik.errors.store_id && (
+										// <div className='invalid-feedback'>
+										<p
+											style={{
+												color: 'red',
+											}}>
+											{formik.errors.store_id}
+										</p>
+									)}
 								</div>
 							</div>
 
@@ -361,7 +398,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 							</div>
 							<hr />
 							{/* <CardBody className='table-responsive'> */}
-							<table className='table text-center table-modern'>
+							<table className='table text-center '>
 								<thead>
 									<tr className='row'>
 										<th className='col-md-2'>Items</th>
@@ -489,9 +526,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																formik.setFieldValue(
 																	`childArray[${index}].amount`,
 																	val.target.value *
-																		formik.values.childArray[
+																		(formik.values.childArray[
 																			index
-																		].purchase_price,
+																		].purchase_price ?? 0),
 																);
 																setReload(reload + 1);
 															}}
