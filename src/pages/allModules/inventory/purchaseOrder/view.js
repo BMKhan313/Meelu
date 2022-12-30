@@ -260,11 +260,50 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										<td>
 											<ButtonGroup>
 												<Button
+													// isDisable={item.isApproved === 1}
+													onClick={() => {
+														getEditingItem(item.id);
+														setItemId(item.id);
+
+														initialStatusEdit();
+														setStateEdit(true);
+														setStaticBackdropStatusEdit(true);
+													}}
+													color={
+														item.is_received === 1
+															? 'success'
+															: 'warning'
+													}
+													isDisable={
+														item.confirmed1 === 0 ||
+														item.is_received === 1
+														// Cookies.get('role') !== 'Admin_'
+													}
 													isOutline
-													color='primary'
+													// color='primary'
 													className={classNames('text-nowrap', {
 														'border-light': true,
 													})}
+													// icon='Edit'
+												>
+													Edit
+												</Button>
+												<Button
+													isOutline
+													// color='primary'
+													className={classNames('text-nowrap', {
+														'border-light': true,
+													})}
+													color={
+														item.is_received === 1
+															? 'success'
+															: 'danger'
+													}
+													isDisable={
+														item.confirmed1 === 0 ||
+														item.is_received === 1
+														// Cookies.get('role') !== 'Admin_'
+													}
 													// icon='Delete'
 													onClick={() => {
 														setItemId(item.id);
@@ -276,25 +315,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 													}}>
 													Delete
 												</Button>
-												<Button
-													// isDisable={item.isApproved === 1}
-													onClick={() => {
-														getEditingItem(item.id);
-														setItemId(item.id);
 
-														initialStatusEdit();
-														setStateEdit(true);
-														setStaticBackdropStatusEdit(true);
-													}}
-													isOutline
-													color='primary'
-													className={classNames('text-nowrap', {
-														'border-light': true,
-													})}
-													// icon='Edit'
-												>
-													Edit
-												</Button>
 												<Button
 													color={
 														item.is_received === 1

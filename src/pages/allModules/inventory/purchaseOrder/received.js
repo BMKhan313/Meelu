@@ -128,7 +128,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 				};
 			}
 		});
-		console.log(errors, 'errors');
+		// console.log(errors, 'errors');
 		return errors;
 	};
 	const formik = useFormik({
@@ -259,7 +259,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 			t += item.received_quantity * item.purchase_price;
 			formik.setFieldValue('total', Number(t));
 		});
-		console.log('total', t);
 	}, [reload]);
 
 	return (
@@ -575,6 +574,26 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																				].purchase_price ??
 																					0),
 																		);
+																		formik.setFieldValue(
+																			'tax',
+																			'',
+																		);
+																		formik.setFieldValue(
+																			'tax_in_figure',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'total_after_tax',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'disount',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'total_after_discount',
+																			0,
+																		);
 																		setReload(reload + 1);
 																	}}
 																	onBlur={formik.handleBlur}
@@ -623,6 +642,26 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																				]
 																					.received_quantity ??
 																					0),
+																		);
+																		formik.setFieldValue(
+																			'tax',
+																			'',
+																		);
+																		formik.setFieldValue(
+																			'tax_in_figure',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'total_after_tax',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'disount',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'total_after_discount',
+																			0,
 																		);
 																		setReload(reload + 1);
 																	}}
@@ -775,7 +814,21 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 								<div className='col-md-2'>
 									<FormGroup id='tax' label='Tax(%)' className='col-md-12'>
 										<Input
-											onChange={formik.handleChange}
+											// onChange={formik.handleChange}
+											onChange={(val) => {
+												formik.setFieldValue('tax', val.target.value);
+												formik.setFieldValue(
+													'tax_in_figure',
+													(val.target.value / 100) * formik.values.total,
+												);
+												formik.setFieldValue(
+													'total_after_tax',
+													(val.target.value / 100) * formik.values.total +
+														formik.values.total,
+												);
+												formik.setFieldValue('discount', 0);
+												formik.setFieldValue('total_after_discount', 0);
+											}}
 											onBlur={formik.handleBlur}
 											value={formik.values.tax}
 											isValid={formik.isValid}
@@ -790,6 +843,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 										label='Tax in figure'
 										className='col-md-12'>
 										<Input
+											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
 											value={formik.values.tax_in_figure}
@@ -805,6 +859,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 										label='Total After Tax'
 										className='col-md-12'>
 										<Input
+											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
 											value={formik.values.total_after_tax}
@@ -818,7 +873,14 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 								<div className='col-md-2'>
 									<FormGroup id='discount' label='Discount' className='col-md-12'>
 										<Input
-											onChange={formik.handleChange}
+											// onChange={formik.handleChange}
+											onChange={(e) => {
+												formik.setFieldValue('discount', e.target.value);
+												formik.setFieldValue(
+													'total_after_discount',
+													formik.values.total_after_tax - e.target.value,
+												);
+											}}
 											onBlur={formik.handleBlur}
 											value={formik.values.discount}
 											isValid={formik.isValid}
@@ -833,6 +895,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 										label='Total after discount'
 										className='col-md-12'>
 										<Input
+											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
 											value={formik.values.total_after_discount}
