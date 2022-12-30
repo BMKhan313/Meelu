@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import Pagination from 'react-js-pagination';
 
@@ -150,7 +152,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						<tr>
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
+							<th>OEM </th>
 							<th>Name</th>
+							<th>Qty</th>
+							<th>Store</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -181,10 +186,24 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 											/>
 										</td>
 										<td>{index + 1}</td>
-										<td>{item.name}</td>
+										<td>
+											{
+												item.item.machine_part_oem_part.oem_part_number
+													.number1
+											}
+											<div className='small text-muted'>
+												{
+													item.item.machine_part_oem_part.oem_part_number
+														.number2
+												}
+											</div>
+										</td>
+										<td>{item.item.machine_part_oem_part.machine_part.name}</td>
+										<td>{item.quantity}</td>
+										<td>{item.store.name}</td>
 
 										<td>
-											<ButtonGroup>
+											{/* <ButtonGroup>
 												<Button
 													// isDisable={item.isApproved === 1}
 													onClick={() => {
@@ -236,7 +255,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 														</DropdownItem>
 													</DropdownMenu>
 												</Dropdown>
-											</ButtonGroup>
+											</ButtonGroup> */}
 										</td>
 									</tr>
 								),

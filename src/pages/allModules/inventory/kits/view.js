@@ -188,7 +188,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										<td>{item.total_quantity}</td>
 
 										<td>
-											<ButtonGroup>
+											{/* <ButtonGroup>
 												<Button
 													// isDisable={item.isApproved === 1}
 													onClick={() => {
@@ -240,7 +240,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 														</DropdownItem>
 													</DropdownMenu>
 												</Dropdown>
-											</ButtonGroup>
+											</ButtonGroup> */}
 										</td>
 									</tr>
 								),
