@@ -200,7 +200,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										</td>
 										<td>{item.item.machine_part_oem_part.machine_part.name}</td>
 										<td>{item.quantity}</td>
-										<td>{item.store.name}</td>
+										<td>{item.store?.name}</td>
 
 										<td>
 											{/* <ButtonGroup>

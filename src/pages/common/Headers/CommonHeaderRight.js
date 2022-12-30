@@ -67,7 +67,7 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 			<div className='row g-3'>
 				{beforeChildren}
 				{/* Tour Modal */}
-				{localStorage.getItem('tourModalStarted') === 'shown' && (
+				{/* {localStorage.getItem('tourModalStarted') === 'shown' && (
 					<div className='col-auto position-relative'>
 						<Popovers trigger='hover' desc='Start the "Facit" tour'>
 							<Button
@@ -87,7 +87,7 @@ const CommonHeaderRight = ({ beforeChildren, afterChildren }) => {
 							)}
 						/>
 					</div>
-				)}
+				)} */}
 
 				{/* Dark Mode */}
 				<div className='col-auto'>
