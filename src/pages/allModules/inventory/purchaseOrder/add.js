@@ -282,7 +282,7 @@ const Add = ({ refreshTableData }) => {
 													);
 												}}
 												invalidFeedback={formik.errors.supplier_id}
-												validFeedback='Looks good!'
+												
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
@@ -323,7 +323,7 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.store_id}
 												invalidFeedback={formik.errors.store_id}
-												validFeedback='Looks good!'
+												
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
@@ -338,7 +338,7 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.request_date}
 												invalidFeedback={formik.errors.request_date}
-												validFeedback='Looks good!'
+												
 											/>
 										</FormGroup>
 									</div>
@@ -354,7 +354,7 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.remarks}
 												invalidFeedback={formik.errors.remarks}
-												validFeedback='Looks good!'
+												
 											/>
 										</FormGroup>
 										{formik.errors.remarks && (
@@ -424,7 +424,7 @@ const Add = ({ refreshTableData }) => {
 																		`childArray[${index}].item_id`
 																	]
 																}
-																validFeedback='Looks good!'
+																
 																filterOption={createFilter({
 																	matchFrom: 'start',
 																})}
@@ -491,7 +491,7 @@ const Add = ({ refreshTableData }) => {
 																invalidFeedback={
 																	formik.errors.received_quantity
 																}
-																validFeedback='Looks good!'
+																
 															/>
 														</FormGroup>
 														{formik.errors[
@@ -529,7 +529,7 @@ const Add = ({ refreshTableData }) => {
 																invalidFeedback={
 																	formik.errors.purchase_price
 																}
-																validFeedback='Looks good!'
+																
 															/>
 														</FormGroup>
 														{formik.errors[
@@ -567,7 +567,7 @@ const Add = ({ refreshTableData }) => {
 																invalidFeedback={
 																	formik.errors.sale_price
 																}
-																validFeedback='Looks good!'
+																
 															/>
 														</FormGroup>
 														{formik.errors[
@@ -603,7 +603,7 @@ const Add = ({ refreshTableData }) => {
 																invalidFeedback={
 																	formik.errors.amount
 																}
-																validFeedback='Looks good!'
+																
 															/>
 														</FormGroup>
 														{formik.errors[
@@ -639,7 +639,7 @@ const Add = ({ refreshTableData }) => {
 																invalidFeedback={
 																	formik.errors.remarks
 																}
-																// validFeedback='Looks good!'
+																// 
 															/>
 														</FormGroup>
 														{formik.errors[
@@ -707,7 +707,7 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.total}
 												invalidFeedback={formik.errors.total}
-												validFeedback='Looks good!'
+												
 											/>
 										</FormGroup>
 									</div>
@@ -720,7 +720,7 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.tax}
 												invalidFeedback={formik.errors.tax}
-												validFeedback='Looks good!'
+												
 											/>
 										</FormGroup>
 									</div>
@@ -736,7 +736,7 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.tax_in_figure}
 												invalidFeedback={formik.errors.tax_in_figure}
-												validFeedback='Looks good!'
+												
 											/>
 										</FormGroup>
 									</div>
@@ -752,7 +752,7 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.total_after_tax}
 												invalidFeedback={formik.errors.total_after_tax}
-												validFeedback='Looks good!'
+												
 											/>
 										</FormGroup>
 									</div>
@@ -769,7 +769,7 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.discount}
 												invalidFeedback={formik.errors.discount}
-												validFeedback='Looks good!'
+												
 											/>
 										</FormGroup>
 									</div>
@@ -785,7 +785,7 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.total_after_discount}
 												invalidFeedback={formik.errors.total_after_discount}
-												validFeedback='Looks good!'
+												
 											/>
 										</FormGroup>
 									</div>

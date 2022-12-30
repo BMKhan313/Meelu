@@ -77,6 +77,24 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 		if (!values.childArray.length > 0) {
 			errors.childArray = 'Choose Items In list';
 		}
+		if (!values.total) {
+			errors.total = 'Required';
+		}
+		if (!values.tax) {
+			errors.tax = 'Required';
+		}
+		if (!values.tax_in_figure) {
+			errors.tax_in_figure = 'Required';
+		}
+		if (!values.total_after_tax) {
+			errors.total_after_tax = 'Required';
+		}
+		if (!values.discount) {
+			errors.discount = 'Required';
+		}
+		if (!values.total_after_discount) {
+			errors.total_after_discount = 'Required';
+		}
 		values.childArray.forEach((data, index) => {
 			if (!data.item_id) {
 				errors = {
@@ -89,6 +107,18 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 				errors = {
 					...errors,
 					[`childArray[${index}]quantity`]: 'Required',
+				};
+			}
+			if (!data.purchase_price) {
+				errors = {
+					...errors,
+					[`childArray[${index}]purchase_price`]: 'Required',
+				};
+			}
+			if (!data.sale_price) {
+				errors = {
+					...errors,
+					[`childArray[${index}]sale_price`]: 'Required',
 				};
 			}
 			if (!data.received_quantity > 0) {
@@ -278,7 +308,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 												);
 											}}
 											invalidFeedback={formik.errors.supplier_id}
-											validFeedback='Looks good!'
 											filterOption={createFilter({ matchFrom: 'start' })}
 										/>
 									</FormGroup>
@@ -318,7 +347,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											isValid={formik.isValid}
 											isTouched={formik.touched.store_id}
 											invalidFeedback={formik.errors.store_id}
-											validFeedback='Looks good!'
+											
 											filterOption={createFilter({ matchFrom: 'start' })}
 										/>
 									</FormGroup>
@@ -348,7 +377,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											isValid={formik.isValid}
 											isTouched={formik.touched.store_id}
 											invalidFeedback={formik.errors.store_id}
-											validFeedback='Looks good!'
 											filterOption={createFilter({ matchFrom: 'start' })}
 										/>
 									</FormGroup>
@@ -375,7 +403,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											isValid={formik.isValid}
 											isTouched={formik.touched.request_date}
 											invalidFeedback={formik.errors.request_date}
-											validFeedback='Looks good!'
 										/>
 									</FormGroup>
 								</div>
@@ -388,7 +415,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											isValid={formik.isValid}
 											isTouched={formik.touched.remarks}
 											invalidFeedback={formik.errors.remarks}
-											validFeedback='Looks good!'
 										/>
 									</FormGroup>
 									{formik.errors.remarks && (
@@ -457,7 +483,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																	`childArray[${index}].item_id`
 																]
 															}
-															validFeedback='Looks good!'
 															filterOption={createFilter({
 																matchFrom: 'start',
 															})}
@@ -495,7 +520,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															isValid={formik.isValid}
 															isTouched={formik.touched.quantity}
 															invalidFeedback={formik.errors.quantity}
-															validFeedback='Looks good!'
 														/>
 													</FormGroup>
 													{formik.errors[
@@ -550,29 +574,11 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															}
 															invalidFeedback={
 																formik.errors[
-																	`childArray[${index}]quantity`
-																]
-															}
-															validFeedback='Looks good!'
-														/>
-													</FormGroup>
-													{formik.errors[
-														`childArray[${index}]received_quantity`
-													] && (
-														// <div className='invalid-feedback'>
-														<p
-															style={{
-																color: 'red',
-																textAlign: 'left',
-																marginTop: 3,
-															}}>
-															{
-																formik.errors[
 																	`childArray[${index}]received_quantity`
 																]
 															}
-														</p>
-													)}
+														/>
+													</FormGroup>
 												</td>
 												<td className='col-md-2'>
 													<FormGroup
@@ -591,9 +597,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																formik.setFieldValue(
 																	`childArray[${index}].amount`,
 																	val.target.value *
-																		formik.values.childArray[
+																		(formik.values.childArray[
 																			index
-																		].received_quantity,
+																		].received_quantity ?? 0),
 																);
 																setReload(reload + 1);
 															}}
@@ -601,31 +607,19 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															value={items.purchase_price}
 															isValid={formik.isValid}
 															isTouched={
-																formik.touched.purchase_price
+																formik.touched.childArray
+																	? formik.touched.childArray[
+																			index
+																	  ]?.purchase_price
+																	: ''
 															}
 															invalidFeedback={
-																formik.errors.purchase_price
-															}
-															validFeedback='Looks good!'
-														/>
-													</FormGroup>
-													{formik.errors[
-														`childArray[${index}]purchase_price`
-													] && (
-														// <div className='invalid-feedback'>
-														<p
-															style={{
-																color: 'red',
-																textAlign: 'left',
-																marginTop: 3,
-															}}>
-															{
 																formik.errors[
 																	`childArray[${index}]purchase_price`
 																]
 															}
-														</p>
-													)}
+														/>
+													</FormGroup>
 												</td>
 												<td className='col-md-2'>
 													<FormGroup
@@ -638,30 +632,20 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															onBlur={formik.handleBlur}
 															value={items.sale_price}
 															isValid={formik.isValid}
-															isTouched={formik.touched.sale_price}
-															invalidFeedback={
-																formik.errors.sale_price
+															isTouched={
+																formik.touched.childArray
+																	? formik.touched.childArray[
+																			index
+																	  ]?.sale_price
+																	: ''
 															}
-															validFeedback='Looks good!'
-														/>
-													</FormGroup>
-													{formik.errors[
-														`childArray[${index}]sale_price`
-													] && (
-														// <div className='invalid-feedback'>
-														<p
-															style={{
-																color: 'red',
-																textAlign: 'left',
-																marginTop: 3,
-															}}>
-															{
+															invalidFeedback={
 																formik.errors[
 																	`childArray[${index}]sale_price`
 																]
 															}
-														</p>
-													)}
+														/>
+													</FormGroup>
 												</td>
 												<td className='col-md-2'>
 													<FormGroup
@@ -677,7 +661,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															isValid={formik.isValid}
 															isTouched={formik.touched.amount}
 															invalidFeedback={formik.errors.amount}
-															validFeedback='Looks good!'
 														/>
 													</FormGroup>
 													{formik.errors[
@@ -702,7 +685,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 													<FormGroup
 														id={`childArray[${index}].remarks`}
 														label=''
-														type='number'
 														className='col-md-12'>
 														<Input
 															onChange={formik.handleChange}
@@ -711,7 +693,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															isValid={formik.isValid}
 															isTouched={formik.touched.remarks}
 															invalidFeedback={formik.errors.remarks}
-															validFeedback='Looks good!'
 														/>
 													</FormGroup>
 													{formik.errors[
@@ -759,7 +740,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											isValid={formik.isValid}
 											isTouched={formik.touched.total}
 											invalidFeedback={formik.errors.total}
-											validFeedback='Looks good!'
 										/>
 									</FormGroup>
 								</div>
@@ -772,7 +752,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											isValid={formik.isValid}
 											isTouched={formik.touched.tax}
 											invalidFeedback={formik.errors.tax}
-											validFeedback='Looks good!'
 										/>
 									</FormGroup>
 								</div>
@@ -788,7 +767,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											isValid={formik.isValid}
 											isTouched={formik.touched.tax_in_figure}
 											invalidFeedback={formik.errors.tax_in_figure}
-											validFeedback='Looks good!'
 										/>
 									</FormGroup>
 								</div>
@@ -804,7 +782,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											isValid={formik.isValid}
 											isTouched={formik.touched.total_after_tax}
 											invalidFeedback={formik.errors.total_after_tax}
-											validFeedback='Looks good!'
 										/>
 									</FormGroup>
 								</div>
@@ -818,7 +795,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											isValid={formik.isValid}
 											isTouched={formik.touched.discount}
 											invalidFeedback={formik.errors.discount}
-											validFeedback='Looks good!'
 										/>
 									</FormGroup>
 								</div>
@@ -834,7 +810,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											isValid={formik.isValid}
 											isTouched={formik.touched.total_after_discount}
 											invalidFeedback={formik.errors.total_after_discount}
-											validFeedback='Looks good!'
 										/>
 									</FormGroup>
 								</div>
