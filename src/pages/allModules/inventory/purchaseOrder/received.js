@@ -128,7 +128,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 				};
 			}
 		});
-		console.log(errors, 'errors');
+		// console.log(errors, 'errors');
 		return errors;
 	};
 	const formik = useFormik({
@@ -574,6 +574,26 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																				].purchase_price ??
 																					0),
 																		);
+																		formik.setFieldValue(
+																			'tax',
+																			'',
+																		);
+																		formik.setFieldValue(
+																			'tax_in_figure',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'total_after_tax',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'disount',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'total_after_discount',
+																			0,
+																		);
 																		setReload(reload + 1);
 																	}}
 																	onBlur={formik.handleBlur}
@@ -597,158 +617,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 														</div>
 													</div>
 												</td>
-<<<<<<< HEAD
-												<td className='col-md-1'>
-													<FormGroup
-														id={`childArray[${index}].quantity`}
-														label=''
-														type='number'
-														className='col-md-12'>
-														<Input
-															readOnly
-															onChange={formik.handleChange}
-															onBlur={formik.handleBlur}
-															value={items.quantity}
-															isValid={formik.isValid}
-															isTouched={formik.touched.quantity}
-															invalidFeedback={formik.errors.quantity}
-														/>
-													</FormGroup>
-													{formik.errors[
-														`childArray[${index}]quantity`
-													] && (
-														// <div className='invalid-feedback'>
-														<p
-															style={{
-																color: 'red',
-																textAlign: 'left',
-																marginTop: 3,
-															}}>
-															{
-																formik.errors[
-																	`childArray[${index}]quantity`
-																]
-															}
-														</p>
-													)}
-												</td>
-												<td className='col-md-1'>
-													<FormGroup
-														id={`childArray[${index}].received_quantity`}
-														label=''
-														type='number'
-														className='col-md-12'>
-														<Input
-															// onChange={formik.handleChange}
-															onChange={(val) => {
-																formik.setFieldValue(
-																	`childArray[${index}].received_quantity`,
-																	val.target.value,
-																);
-																formik.setFieldValue(
-																	`childArray[${index}].amount`,
-																	val.target.value *
-																		(formik.values.childArray[
-																			index
-																		].purchase_price ?? 0),
-																);
-																formik.setFieldValue('tax', 0);
-																formik.setFieldValue(
-																	'tax_in_figure',
-																	0,
-																);
-																setReload(reload + 1);
-															}}
-															onBlur={formik.handleBlur}
-															value={items.received_quantity}
-															isValid={formik.isValid}
-															isTouched={
-																formik.touched.childArray
-																	? formik.touched.childArray[
-																			index
-																	  ]?.received_quantity
-																	: ''
-															}
-															invalidFeedback={
-																formik.errors[
-																	`childArray[${index}]received_quantity`
-																]
-															}
-														/>
-													</FormGroup>
-												</td>
-												<td className='col-md-2'>
-													<FormGroup
-														id={`childArray[${index}].purchase_price`}
-														label=''
-														type='number'
-														className='col-md-12'>
-														<Input
-															// onChange={formik.handleChange}
-															onWheel={(e) => e.target.blur()}
-															onChange={(val) => {
-																formik.setFieldValue(
-																	`childArray[${index}].purchase_price`,
-																	val.target.value,
-																);
-																formik.setFieldValue(
-																	`childArray[${index}].amount`,
-																	val.target.value *
-																		(formik.values.childArray[
-																			index
-																		].received_quantity ?? 0),
-																);
-																formik.setFieldValue('tax', 0);
-																formik.setFieldValue(
-																	'tax_in_figure',
-																	0,
-																);
-																setReload(reload + 1);
-															}}
-															onBlur={formik.handleBlur}
-															value={items.purchase_price}
-															isValid={formik.isValid}
-															isTouched={
-																formik.touched.childArray
-																	? formik.touched.childArray[
-																			index
-																	  ]?.purchase_price
-																	: ''
-															}
-															invalidFeedback={
-																formik.errors[
-																	`childArray[${index}]purchase_price`
-																]
-															}
-														/>
-													</FormGroup>
-												</td>
-												<td className='col-md-2'>
-													<FormGroup
-														id={`childArray[${index}].sale_price`}
-														label=''
-														type='number'
-														className='col-md-12'>
-														<Input
-															onChange={formik.handleChange}
-															onBlur={formik.handleBlur}
-															value={items.sale_price}
-															isValid={formik.isValid}
-															isTouched={
-																formik.touched.childArray
-																	? formik.touched.childArray[
-																			index
-																	  ]?.sale_price
-																	: ''
-															}
-															invalidFeedback={
-																formik.errors[
-																	`childArray[${index}]sale_price`
-																]
-															}
-														/>
-													</FormGroup>
-=======
 												<td className='col-md-4'>
 													<div className='row mt-1'>
 														<div className='col-md-6'>
@@ -774,6 +642,26 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																				]
 																					.received_quantity ??
 																					0),
+																		);
+																		formik.setFieldValue(
+																			'tax',
+																			'',
+																		);
+																		formik.setFieldValue(
+																			'tax_in_figure',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'total_after_tax',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'disount',
+																			0,
+																		);
+																		formik.setFieldValue(
+																			'total_after_discount',
+																			0,
 																		);
 																		setReload(reload + 1);
 																	}}
@@ -858,7 +746,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															</p>
 														)}
 													</div>
->>>>>>> b043ea6490c67169b4c3efd2fabc943c36563bbf
 												</td>
 												<td className='col-md-2'>
 													<FormGroup
@@ -929,10 +816,18 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 										<Input
 											// onChange={formik.handleChange}
 											onChange={(val) => {
+												formik.setFieldValue('tax', val.target.value);
 												formik.setFieldValue(
 													'tax_in_figure',
 													(val.target.value / 100) * formik.values.total,
 												);
+												formik.setFieldValue(
+													'total_after_tax',
+													(val.target.value / 100) * formik.values.total +
+														formik.values.total,
+												);
+												formik.setFieldValue('discount', 0);
+												formik.setFieldValue('total_after_discount', 0);
 											}}
 											onBlur={formik.handleBlur}
 											value={formik.values.tax}
@@ -948,6 +843,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 										label='Tax in figure'
 										className='col-md-12'>
 										<Input
+											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
 											value={formik.values.tax_in_figure}
@@ -963,6 +859,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 										label='Total After Tax'
 										className='col-md-12'>
 										<Input
+											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
 											value={formik.values.total_after_tax}
@@ -976,7 +873,14 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 								<div className='col-md-2'>
 									<FormGroup id='discount' label='Discount' className='col-md-12'>
 										<Input
-											onChange={formik.handleChange}
+											// onChange={formik.handleChange}
+											onChange={(e) => {
+												formik.setFieldValue('discount', e.target.value);
+												formik.setFieldValue(
+													'total_after_discount',
+													formik.values.total_after_tax - e.target.value,
+												);
+											}}
 											onBlur={formik.handleBlur}
 											value={formik.values.discount}
 											isValid={formik.isValid}
@@ -991,6 +895,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 										label='Total after discount'
 										className='col-md-12'>
 										<Input
+											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
 											value={formik.values.total_after_discount}

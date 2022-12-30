@@ -110,7 +110,7 @@ const Add = ({ refreshTableData }) => {
 				{
 					item_id: '',
 					quantity: '',
-					received_quantity: 0,
+					received_quantity: '',
 					remarks: '',
 				},
 			],
@@ -282,7 +282,6 @@ const Add = ({ refreshTableData }) => {
 													);
 												}}
 												invalidFeedback={formik.errors.supplier_id}
-												
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
@@ -338,7 +337,6 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.request_date}
 												invalidFeedback={formik.errors.request_date}
-												
 											/>
 										</FormGroup>
 									</div>
@@ -354,7 +352,6 @@ const Add = ({ refreshTableData }) => {
 												isValid={formik.isValid}
 												isTouched={formik.touched.remarks}
 												invalidFeedback={formik.errors.remarks}
-												
 											/>
 										</FormGroup>
 										{formik.errors.remarks && (
@@ -424,7 +421,6 @@ const Add = ({ refreshTableData }) => {
 																		`childArray[${index}].item_id`
 																	]
 																}
-																
 																filterOption={createFilter({
 																	matchFrom: 'start',
 																})}
@@ -639,7 +635,7 @@ const Add = ({ refreshTableData }) => {
 																invalidFeedback={
 																	formik.errors.remarks
 																}
-																// 
+																//
 															/>
 														</FormGroup>
 														{formik.errors[
