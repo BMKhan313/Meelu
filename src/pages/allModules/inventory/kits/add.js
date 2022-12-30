@@ -118,15 +118,14 @@ const Add = ({ refreshTableData }) => {
 				{},
 			)
 				.then((response) => {
-					const rec = response.data.kitRecipe.kitchild.map(
-						({ id, quantity, item_oem_part_modeles }) => ({
-							id,
-							value: id,
-							// name: `${item_oem_part_modeles.machine_part_oem_part.oem_part_number.number1}-${item_oem_part_modeles.machine_part_oem_part.machine_part.name}`,
-							reqQty: quantity,
-							exisQty: 0,
-						}),
-					);
+					const rec = response.data.kitRecipe.kitchild.map(({ id, quantity, item }) => ({
+						id,
+						value: id,
+						oem: `${item.machine_part_oem_part.oem_part_number.number1}`,
+						name: `${item.machine_part_oem_part.machine_part.name}`,
+						reqQty: quantity,
+						exisQty: 0,
+					}));
 					setTableData(rec);
 					setTableDataLoading(false);
 				})
@@ -232,6 +231,7 @@ const Add = ({ refreshTableData }) => {
 										<table className='table table-modern my-3'>
 											<thead>
 												<tr>
+													<th>Oem</th>
 													<th>Items</th>
 													<th>Required Quantity</th>
 													<th>Exisiting Quantity</th>
@@ -254,7 +254,8 @@ const Add = ({ refreshTableData }) => {
 												<tbody>
 													{tableData.map((item) => (
 														<tr key={item.id}>
-															{/* <td>{item.name}</td> */}
+															<td>{item.oem}</td>
+															<td>{item.name}</td>
 															<td>{item.reqQty}</td>
 															<td>{item.exisQty}</td>
 														</tr>
