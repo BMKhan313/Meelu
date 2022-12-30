@@ -91,6 +91,12 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 					[`childArray[${index}]quantity`]: 'Required',
 				};
 			}
+			if (!data.received_quantity > 0) {
+				errors = {
+					...errors,
+					[`childArray[${index}]received_quantity`]: 'Required',
+				};
+			}
 		});
 		console.log(errors, 'errors');
 		return errors;
@@ -536,10 +542,16 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															value={items.received_quantity}
 															isValid={formik.isValid}
 															isTouched={
-																formik.touched.received_quantity
+																formik.touched.childArray
+																	? formik.touched.childArray[
+																			index
+																	  ]?.received_quantity
+																	: ''
 															}
 															invalidFeedback={
-																formik.errors.received_quantity
+																formik.errors[
+																	`childArray[${index}]quantity`
+																]
 															}
 															validFeedback='Looks good!'
 														/>
