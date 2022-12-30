@@ -433,219 +433,280 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 							<table className='table text-center '>
 								<thead>
 									<tr className='row'>
-										<th className='col-md-2'>Items</th>
-										<th className='col-md-1'>Quantity</th>
-										<th className='col-md-1'>Received Qty</th>
-										<th className='col-md-2'>Purchase Price</th>
-										<th className='col-md-2'>Sale Price</th>
+										<th className='col-md-4'>Items</th>
+										{/* <th className='col-md-1'>Quantity</th>
+										<th className='col-md-1'>Received Qty</th> */}
+										<th className='col-md-4'>
+											<div className='d-flex justify-content-around'>
+												<div>Purchase Price</div>
+												<div>Sale Price</div>
+											</div>
+										</th>
+										{/* <th className='col-md-2'>Sale Price</th> */}
 										<th className='col-md-2'>Amount</th>
-										<th className='col-md-1'>Remarks</th>
+										{/* <th className='col-md-1'>Remarks</th> */}
 										<th className='col-md-1'>Remove</th>
 									</tr>
 								</thead>
 								<tbody>
 									{formik.values.childArray?.length > 0 &&
 										formik.values.childArray.map((items, index) => (
-											<tr className='row' key={items.index}>
-												<td className='col-md-2'>
-													<FormGroup
-														label=''
-														id={`childArray[${index}].item_id`}>
-														<ReactSelect
-															className='col-md-12'
-															classNamePrefix='select'
-															options={itemOptions}
-															isLoading={kitOptionsLoading}
-															isClearable
-															value={
-																formik.values.childArray[index]
-																	.item_id
-																	? itemOptions.find(
-																			(c) =>
-																				c.value ===
-																				formik.values
+											<tr className='row mt-2' key={items.index}>
+												<td className='col-md-4'>
+													<div>
+														<FormGroup
+															label=''
+															id={`childArray[${index}].item_id`}>
+															<ReactSelect
+																className='col-md-12'
+																classNamePrefix='select'
+																options={itemOptions}
+																isLoading={kitOptionsLoading}
+																isClearable
+																value={
+																	formik.values.childArray[index]
+																		.item_id
+																		? itemOptions.find(
+																				(c) =>
+																					c.value ===
+																					formik.values
+																						.childArray[
+																						index
+																					].item_id,
+																		  )
+																		: null
+																}
+																onChange={(val) => {
+																	formik.setFieldValue(
+																		`childArray[${index}].item_id`,
+																		val !== null && val.id,
+																	);
+																}}
+																isValid={formik.isValid}
+																isTouched={formik.touched.item_id}
+																invalidFeedback={
+																	formik.errors[
+																		`childArray[${index}].item_id`
+																	]
+																}
+																filterOption={createFilter({
+																	matchFrom: 'start',
+																})}
+															/>
+														</FormGroup>
+														{formik.errors[
+															`childArray[${index}]item_id`
+														] && (
+															// <div className='invalid-feedback'>
+															<div
+																style={{
+																	color: '#f35421',
+																	textAlign: 'center',
+																	fontSize: '0.875em',
+																	marginTop: '0.25rem',
+																}}>
+																{
+																	formik.errors[
+																		`childArray[${index}]item_id`
+																	]
+																}
+															</div>
+														)}
+													</div>
+
+													<div className='row mt-1'>
+														<div className='col-md-6'>
+															<FormGroup
+																id={`childArray[${index}].quantity`}
+																label='Qty'
+																type='number'
+																className='col-md-12'>
+																<Input
+																	readOnly
+																	onChange={formik.handleChange}
+																	onBlur={formik.handleBlur}
+																	value={items.quantity}
+																	isValid={formik.isValid}
+																	isTouched={
+																		formik.touched.quantity
+																	}
+																	invalidFeedback={
+																		formik.errors.quantity
+																	}
+																/>
+															</FormGroup>
+															{formik.errors[
+																`childArray[${index}]quantity`
+															] && (
+																// <div className='invalid-feedback'>
+																<p
+																	style={{
+																		color: 'red',
+																		textAlign: 'left',
+																		marginTop: 3,
+																	}}>
+																	{
+																		formik.errors[
+																			`childArray[${index}]quantity`
+																		]
+																	}
+																</p>
+															)}
+														</div>
+														<div className='col-md-6'>
+															<FormGroup
+																id={`childArray[${index}].received_quantity`}
+																label='Received Qty'
+																type='number'
+																className='col-md-12'>
+																<Input
+																	// onChange={formik.handleChange}
+																	onChange={(val) => {
+																		formik.setFieldValue(
+																			`childArray[${index}].received_quantity`,
+																			val.target.value,
+																		);
+																		formik.setFieldValue(
+																			`childArray[${index}].amount`,
+																			val.target.value *
+																				(formik.values
 																					.childArray[
 																					index
-																				].item_id,
-																	  )
-																	: null
-															}
-															onChange={(val) => {
-																formik.setFieldValue(
-																	`childArray[${index}].item_id`,
-																	val !== null && val.id,
-																);
-															}}
-															isValid={formik.isValid}
-															isTouched={formik.touched.item_id}
-															invalidFeedback={
-																formik.errors[
-																	`childArray[${index}].item_id`
-																]
-															}
-															filterOption={createFilter({
-																matchFrom: 'start',
-															})}
-														/>
-													</FormGroup>
-													{formik.errors[
-														`childArray[${index}]item_id`
-													] && (
-														// <div className='invalid-feedback'>
-														<p
-															style={{
-																color: 'red',
-																textAlign: 'left',
-																marginTop: 3,
-															}}>
-															{
-																formik.errors[
-																	`childArray[${index}]item_id`
-																]
-															}
-														</p>
-													)}
+																				].purchase_price ??
+																					0),
+																		);
+																		setReload(reload + 1);
+																	}}
+																	onBlur={formik.handleBlur}
+																	value={items.received_quantity}
+																	isValid={formik.isValid}
+																	isTouched={
+																		formik.touched.childArray
+																			? formik.touched
+																					.childArray[
+																					index
+																			  ]?.received_quantity
+																			: ''
+																	}
+																	invalidFeedback={
+																		formik.errors[
+																			`childArray[${index}]received_quantity`
+																		]
+																	}
+																/>
+															</FormGroup>
+														</div>
+													</div>
 												</td>
-												<td className='col-md-1'>
-													<FormGroup
-														id={`childArray[${index}].quantity`}
-														label=''
-														type='number'
-														className='col-md-12'>
-														<Input
-															readOnly
-															onChange={formik.handleChange}
-															onBlur={formik.handleBlur}
-															value={items.quantity}
-															isValid={formik.isValid}
-															isTouched={formik.touched.quantity}
-															invalidFeedback={formik.errors.quantity}
-														/>
-													</FormGroup>
-													{formik.errors[
-														`childArray[${index}]quantity`
-													] && (
-														// <div className='invalid-feedback'>
-														<p
-															style={{
-																color: 'red',
-																textAlign: 'left',
-																marginTop: 3,
-															}}>
-															{
-																formik.errors[
-																	`childArray[${index}]quantity`
-																]
-															}
-														</p>
-													)}
-												</td>
-												<td className='col-md-1'>
-													<FormGroup
-														id={`childArray[${index}].received_quantity`}
-														label=''
-														type='number'
-														className='col-md-12'>
-														<Input
-															// onChange={formik.handleChange}
-															onChange={(val) => {
-																formik.setFieldValue(
-																	`childArray[${index}].received_quantity`,
-																	val.target.value,
-																);
-																formik.setFieldValue(
-																	`childArray[${index}].amount`,
-																	val.target.value *
-																		(formik.values.childArray[
-																			index
-																		].purchase_price ?? 0),
-																);
-																setReload(reload + 1);
-															}}
-															onBlur={formik.handleBlur}
-															value={items.received_quantity}
-															isValid={formik.isValid}
-															isTouched={
-																formik.touched.childArray
-																	? formik.touched.childArray[
-																			index
-																	  ]?.received_quantity
-																	: ''
-															}
-															invalidFeedback={
-																formik.errors[
-																	`childArray[${index}]received_quantity`
-																]
-															}
-														/>
-													</FormGroup>
-												</td>
-												<td className='col-md-2'>
-													<FormGroup
-														id={`childArray[${index}].purchase_price`}
-														label=''
-														type='number'
-														className='col-md-12'>
-														<Input
-															// onChange={formik.handleChange}
-															onWheel={(e) => e.target.blur()}
-															onChange={(val) => {
-																formik.setFieldValue(
-																	`childArray[${index}].purchase_price`,
-																	val.target.value,
-																);
-																formik.setFieldValue(
-																	`childArray[${index}].amount`,
-																	val.target.value *
-																		(formik.values.childArray[
-																			index
-																		].received_quantity ?? 0),
-																);
-																setReload(reload + 1);
-															}}
-															onBlur={formik.handleBlur}
-															value={items.purchase_price}
-															isValid={formik.isValid}
-															isTouched={
-																formik.touched.childArray
-																	? formik.touched.childArray[
-																			index
-																	  ]?.purchase_price
-																	: ''
-															}
-															invalidFeedback={
-																formik.errors[
-																	`childArray[${index}]purchase_price`
-																]
-															}
-														/>
-													</FormGroup>
-												</td>
-												<td className='col-md-2'>
-													<FormGroup
-														id={`childArray[${index}].sale_price`}
-														label=''
-														type='number'
-														className='col-md-12'>
-														<Input
-															onChange={formik.handleChange}
-															onBlur={formik.handleBlur}
-															value={items.sale_price}
-															isValid={formik.isValid}
-															isTouched={
-																formik.touched.childArray
-																	? formik.touched.childArray[
-																			index
-																	  ]?.sale_price
-																	: ''
-															}
-															invalidFeedback={
-																formik.errors[
-																	`childArray[${index}]sale_price`
-																]
-															}
-														/>
-													</FormGroup>
+												<td className='col-md-4'>
+													<div className='row mt-1'>
+														<div className='col-md-6'>
+															<FormGroup
+																id={`childArray[${index}].purchase_price`}
+																label=''
+																type='number'
+																className='col-md-12'>
+																<Input
+																	// onChange={formik.handleChange}
+																	onWheel={(e) => e.target.blur()}
+																	onChange={(val) => {
+																		formik.setFieldValue(
+																			`childArray[${index}].purchase_price`,
+																			val.target.value,
+																		);
+																		formik.setFieldValue(
+																			`childArray[${index}].amount`,
+																			val.target.value *
+																				(formik.values
+																					.childArray[
+																					index
+																				]
+																					.received_quantity ??
+																					0),
+																		);
+																		setReload(reload + 1);
+																	}}
+																	onBlur={formik.handleBlur}
+																	value={items.purchase_price}
+																	isValid={formik.isValid}
+																	isTouched={
+																		formik.touched.childArray
+																			? formik.touched
+																					.childArray[
+																					index
+																			  ]?.purchase_price
+																			: ''
+																	}
+																	invalidFeedback={
+																		formik.errors[
+																			`childArray[${index}]purchase_price`
+																		]
+																	}
+																/>
+															</FormGroup>
+														</div>
+														<div className='col-md-6'>
+															<FormGroup
+																id={`childArray[${index}].sale_price`}
+																label=''
+																type='number'
+																className='col-md-12'>
+																<Input
+																	onChange={formik.handleChange}
+																	onBlur={formik.handleBlur}
+																	value={items.sale_price}
+																	isValid={formik.isValid}
+																	isTouched={
+																		formik.touched.childArray
+																			? formik.touched
+																					.childArray[
+																					index
+																			  ]?.sale_price
+																			: ''
+																	}
+																	invalidFeedback={
+																		formik.errors[
+																			`childArray[${index}]sale_price`
+																		]
+																	}
+																/>
+															</FormGroup>
+														</div>
+													</div>
+													<div>
+														<FormGroup
+															id={`childArray[${index}].remarks`}
+															label='Remarks'
+															className='col-md-12'>
+															<Input
+																onChange={formik.handleChange}
+																onBlur={formik.handleBlur}
+																value={items.remarks}
+																isValid={formik.isValid}
+																isTouched={formik.touched.remarks}
+																invalidFeedback={
+																	formik.errors.remarks
+																}
+															/>
+														</FormGroup>
+														{formik.errors[
+															`childArray[${index}]remarks`
+														] && (
+															// <div className='invalid-feedback'>
+															<p
+																style={{
+																	color: 'red',
+																	textAlign: 'left',
+																	marginTop: 3,
+																}}>
+																{
+																	formik.errors[
+																		`childArray[${index}]remarks`
+																	]
+																}
+															</p>
+														)}
+													</div>
 												</td>
 												<td className='col-md-2'>
 													<FormGroup
@@ -676,38 +737,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															{
 																formik.errors[
 																	`childArray[${index}]amount`
-																]
-															}
-														</p>
-													)}
-												</td>
-												<td className='col-md-1'>
-													<FormGroup
-														id={`childArray[${index}].remarks`}
-														label=''
-														className='col-md-12'>
-														<Input
-															onChange={formik.handleChange}
-															onBlur={formik.handleBlur}
-															value={items.remarks}
-															isValid={formik.isValid}
-															isTouched={formik.touched.remarks}
-															invalidFeedback={formik.errors.remarks}
-														/>
-													</FormGroup>
-													{formik.errors[
-														`childArray[${index}]remarks`
-													] && (
-														// <div className='invalid-feedback'>
-														<p
-															style={{
-																color: 'red',
-																textAlign: 'left',
-																marginTop: 3,
-															}}>
-															{
-																formik.errors[
-																	`childArray[${index}]remarks`
 																]
 															}
 														</p>
