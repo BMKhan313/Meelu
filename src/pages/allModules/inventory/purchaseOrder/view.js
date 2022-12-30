@@ -534,7 +534,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<ModalBody>
 					<div className='row g-4'>
 						<div className='col-12'>
-							{editingItemLoading ? (
+							{recievedItemLoading ? (
 								<div className='d-flex justify-content-center'>
 									<Spinner color='primary' size='5rem' />
 								</div>
