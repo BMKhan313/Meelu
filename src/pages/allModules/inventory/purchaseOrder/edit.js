@@ -37,7 +37,34 @@ import Button from '../../../../components/bootstrap/Button';
 import showNotification from '../../../../components/extras/showNotification';
 
 const validate = (values) => {
-	const errors = {};
+	let errors = {};
+	if (!values.po_no) {
+		errors.po_no = 'Required';
+	}
+	if (!values.supplier_id) {
+		errors.supplier_id = 'Required';
+	}
+	if (!values.request_date) {
+		errors.request_date = 'Required';
+	}
+	if (!values.childArray.length > 0) {
+		errors.childArray = 'Choose Items In list';
+	}
+	values.childArray.forEach((data, index) => {
+		if (!data.item_id) {
+			errors = {
+				...errors,
+				[`childArray[${index}]item_id`]: 'Required!',
+			};
+		}
+
+		if (!data.quantity > 0) {
+			errors = {
+				...errors,
+				[`childArray[${index}]quantity`]: 'Required',
+			};
+		}
+	});
 	return errors;
 };
 

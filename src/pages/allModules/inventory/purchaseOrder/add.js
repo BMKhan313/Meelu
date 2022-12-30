@@ -31,22 +31,20 @@ import Button from '../../../../components/bootstrap/Button';
 
 const validate = (values) => {
 	let errors = {};
-	// if (values.childArray.length === 0) {
-	// 	errors.childArray = <p>Insert at leat a single item!</p>;
-	// }
+
 	if (!values.po_no) {
 		errors.po_no = 'Required';
 	}
 	if (!values.supplier_id) {
 		errors.supplier_id = 'Required';
 	}
-	// if (values.childArray.length === 0) {
-	// 	errors.childArray = (
-	// 		<p className='col-md-7' style={{ marginTop: 4, textAlign: 'left', color: 'red' }}>
-	// 			Add at least one Item
-	// 		</p>
-	// 	);
-	// }
+	if (!values.request_date) {
+		errors.request_date = 'Required';
+	}
+	if (!values.childArray.length > 0) {
+		errors.childArray = 'Choose Items In list';
+	}
+
 	values.childArray.forEach((data, index) => {
 		if (!data.item_id) {
 			errors = {
@@ -131,6 +129,8 @@ const Add = ({ refreshTableData }) => {
 			...formik.values.childArray.slice(0, i),
 			...formik.values.childArray.slice(i + 1),
 		]);
+		console.log(formik.touched);
+		console.log(formik.errors);
 	};
 	const submitForm = (myFormik) => {
 		Axios.post(`${baseURL}/addPurchaseOrder`, myFormik.values)
@@ -155,22 +155,20 @@ const Add = ({ refreshTableData }) => {
 			});
 	};
 	useEffect(() => {
-		Axios.get(`${baseURL}/getLatestpono`)
-			.then((response) => {
-				formik.setFieldValue('po_no', response.data.po_no);
-			})
-			// eslint-disable-next-line no-console
-			.catch((err) => {
-				showNotification(_titleError, err.message, 'Danger');
-				if (err.response.status === 401) {
-					showNotification(_titleError, err.response.data.message, 'Danger');
-
-					// Cookies.remove('userToken');
-					// navigate(`/${demoPages.login.path}`, { replace: true });
-				}
-			});
+		if (state === true) {
+			Axios.get(`${baseURL}/getLatestpono`)
+				.then((response) => {
+					formik.setFieldValue('po_no', response.data.po_no);
+				})
+				.catch((err) => {
+					showNotification(_titleError, err.message, 'Danger');
+					if (err.response.status === 401) {
+						showNotification(_titleError, err.response.data.message, 'Danger');
+					}
+				});
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [formik.values.po_no]);
+	}, [state]);
 
 	useEffect(() => {
 		Axios.get(`${baseURL}/getSupplierdropdown`)
@@ -188,9 +186,6 @@ const Add = ({ refreshTableData }) => {
 				showNotification(_titleError, err.message, 'Danger');
 				if (err.response.status === 401) {
 					showNotification(_titleError, err.response.data.message, 'Danger');
-
-					// Cookies.remove('userToken');
-					// navigate(`/${demoPages.login.path}`, { replace: true });
 				}
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -252,6 +247,7 @@ const Add = ({ refreshTableData }) => {
 										<FormGroup id='po_no' label='PO NO' className='col-md-12'>
 											<Input
 												type='number'
+												readOnly
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
 												value={formik.values.po_no}
@@ -373,7 +369,7 @@ const Add = ({ refreshTableData }) => {
 								</div>
 								<hr />
 								{/* <CardBody className='table-responsive'> */}
-								<table className='table text-center table-modern'>
+								<table className='table text-center '>
 									<thead>
 										<tr className='row'>
 											<th className='col-md-3'>Items</th>
@@ -416,7 +412,13 @@ const Add = ({ refreshTableData }) => {
 																	);
 																}}
 																isValid={formik.isValid}
-																isTouched={formik.touched.item_id}
+																isTouched={
+																	formik.touched.childArray
+																		? formik.touched.childArray[
+																				index
+																		  ]?.item_id
+																		: ''
+																}
 																invalidFeedback={
 																	formik.errors[
 																		`childArray[${index}].item_id`
@@ -457,30 +459,20 @@ const Add = ({ refreshTableData }) => {
 																onBlur={formik.handleBlur}
 																value={items.quantity}
 																isValid={formik.isValid}
-																isTouched={formik.touched.quantity}
-																invalidFeedback={
-																	formik.errors.quantity
+																isTouched={
+																	formik.touched.childArray
+																		? formik.touched.childArray[
+																				index
+																		  ]?.quantity
+																		: ''
 																}
-																validFeedback='Looks good!'
-															/>
-														</FormGroup>
-														{formik.errors[
-															`childArray[${index}]quantity`
-														] && (
-															// <div className='invalid-feedback'>
-															<p
-																style={{
-																	color: 'red',
-																	textAlign: 'left',
-																	marginTop: 3,
-																}}>
-																{
+																invalidFeedback={
 																	formik.errors[
 																		`childArray[${index}]quantity`
 																	]
 																}
-															</p>
-														)}
+															/>
+														</FormGroup>
 													</td>
 													{/* <td className='col-md-1'>
 														<FormGroup
@@ -647,7 +639,7 @@ const Add = ({ refreshTableData }) => {
 																invalidFeedback={
 																	formik.errors.remarks
 																}
-																validFeedback='Looks good!'
+																// validFeedback='Looks good!'
 															/>
 														</FormGroup>
 														{formik.errors[
