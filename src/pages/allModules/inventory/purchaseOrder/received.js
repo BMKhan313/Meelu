@@ -92,6 +92,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 				};
 			}
 		});
+		console.log(errors, 'errors');
 		return errors;
 	};
 	const formik = useFormik({
@@ -345,6 +346,15 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											filterOption={createFilter({ matchFrom: 'start' })}
 										/>
 									</FormGroup>
+									{formik.errors.store_id && (
+										// <div className='invalid-feedback'>
+										<p
+											style={{
+												color: 'red',
+											}}>
+											{formik.errors.store_id}
+										</p>
+									)}
 								</div>
 							</div>
 
@@ -516,9 +526,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																formik.setFieldValue(
 																	`childArray[${index}].amount`,
 																	val.target.value *
-																		formik.values.childArray[
+																		(formik.values.childArray[
 																			index
-																		].purchase_price,
+																		].purchase_price ?? 0),
 																);
 																setReload(reload + 1);
 															}}
