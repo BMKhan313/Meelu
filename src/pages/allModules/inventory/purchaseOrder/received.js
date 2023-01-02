@@ -81,9 +81,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 		if (!values.total) {
 			errors.total = 'Required';
 		}
-		if (!values.tax) {
-			errors.tax = 'Required';
-		}
+		// if (!values.tax) {
+		// 	errors.tax = 'Required';
+		// }
 		// if (!values.tax_in_figure) {
 		// 	errors.tax_in_figure = 'Required';
 		// }
@@ -129,7 +129,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 				};
 			}
 		});
-		// console.log(errors, 'errors');
+		console.log(errors, 'errors');
 		return errors;
 	};
 	const formik = useFormik({
@@ -671,12 +671,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																type='number'
 																className='col-md-12'>
 																<Input
-																	onChange={(e) => {
-																		formik.setFieldValue(
-																			`childArray[${index}].sale_price`,
-																			e.target.value,
-																		);
-																	}}
+																	onChange={formik.handleChange}
 																	onBlur={formik.handleBlur}
 																	value={items.sale_price}
 																	isValid={formik.isValid}
@@ -695,6 +690,22 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																	}
 																/>
 															</FormGroup>
+															{/* {formik.errors[
+																`childArray[${index}]sale_price`
+															] && (
+																<p
+																	style={{
+																		color: 'red',
+																		textAlign: 'left',
+																		marginTop: 3,
+																	}}>
+																	{
+																		formik.errors[
+																			`childArray[${index}]sale_price`
+																		]
+																	}
+																</p>
+															)} */}
 														</div>
 													</div>
 													<div>
