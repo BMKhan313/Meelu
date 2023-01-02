@@ -1,4 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable no-undef */
+// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable camelcase */
@@ -44,6 +46,9 @@ const validate = (values) => {
 	if (!values.kit_id) {
 		errors.kit_id = 'Required';
 	}
+	if (!values.store_id) {
+		errors.store_id = 'Required';
+	}
 	return errors;
 };
 
@@ -62,6 +67,8 @@ const Add = ({ refreshTableData }) => {
 	const [tableDataLoading, setTableDataLoading] = useState(false);
 	const [tableData, setTableData] = useState([]);
 	const [headerCloseStatus, setHeaderCloseStatus] = useState(true);
+	const [storeOptions, setStoreOptions] = useState('');
+	const [storeOptionsLoading, setStoreOptionsLoading] = useState(false);
 
 	const initialStatus = () => {
 		setStaticBackdropStatus(false);
@@ -78,6 +85,7 @@ const Add = ({ refreshTableData }) => {
 			in_flow: '',
 			kit_id: '',
 			out_flow: 0,
+			store_id: '',
 		},
 		validate,
 		onSubmit: () => {
@@ -112,19 +120,22 @@ const Add = ({ refreshTableData }) => {
 			});
 	};
 	useEffect(() => {
-		if (formik.values.kit_id) {
+		if (formik.values.kit_id && formik.values.store_id) {
 			Axios.get(
-				`${baseURL}/viewKits?id=${formik.values.kit_id ? formik.values.kit_id : ''}`,
+				`${baseURL}/viewKits?id=${
+					formik.values.kit_id ? formik.values.kit_id : ''
+				}&store_id=${formik.values.store_id}`,
 				{},
 			)
 				.then((response) => {
 					const rec = response.data.kitRecipe.kitchild.map(
-						({ id, quantity, item_oem_part_modeles }) => ({
+						({ id, quantity, item, exisiting_item_inventory }) => ({
 							id,
 							value: id,
-							// name: `${item_oem_part_modeles.machine_part_oem_part.oem_part_number.number1}-${item_oem_part_modeles.machine_part_oem_part.machine_part.name}`,
+							oem: `${item.machine_part_oem_part.oem_part_number.number1}`,
+							name: `${item.machine_part_oem_part.machine_part.name}`,
 							reqQty: quantity,
-							exisQty: 0,
+							exisQty: exisiting_item_inventory.existing_quantity,
 						}),
 					);
 					setTableData(rec);
@@ -134,8 +145,28 @@ const Add = ({ refreshTableData }) => {
 					showNotification(_titleError, err.message, 'Danger');
 				});
 		}
-	}, [formik.values.kit_id]);
+	}, [formik.values.kit_id, formik.values.store_id]);
 	useEffect(() => {
+		setStoreOptionsLoading(true);
+
+		Axios.get(`${baseURL}/getStoredropdown`)
+			.then((response) => {
+				const rec = response.data.store.map(({ id, name }) => ({
+					id,
+					value: id,
+					label: name,
+				}));
+				setStoreOptions(rec);
+				setStoreOptionsLoading(false);
+			})
+
+			// eslint-disable-next-line no-console
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+				if (err.response.status === 401) {
+					showNotification(_titleError, err.response.data.message, 'Danger');
+				}
+			});
 		Axios.get(`${baseURL}/getkitsDropdown`)
 			.then((response) => {
 				const rec = response.data.kitsDropdown.map(({ id, name }) => ({
@@ -190,6 +221,43 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
+										<FormGroup label='Name' id='name'>
+											<ReactSelect
+												className='col-md-12'
+												classNamePrefix='select'
+												options={storeOptions}
+												isLoading={storeOptionsLoading}
+												isClearable
+												value={
+													formik.values.store_id
+														? storeOptions.find(
+																(c) =>
+																	c.value ===
+																	formik.values.store_id,
+														  )
+														: null
+												}
+												onChange={(val) => {
+													formik.setFieldValue(
+														'store_id',
+														val !== null && val.id,
+														setTableData(['']),
+													);
+												}}
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
+										{formik.errors.store_id && (
+											// <div className='invalid-feedback'>
+											<p
+												style={{
+													color: 'red',
+												}}>
+												{formik.errors.store_id}
+											</p>
+										)}
+									</div>
+									<div className='col-md-12'>
 										<FormGroup label='Kit Name' id='kit_id'>
 											<ReactSelect
 												className='col-md-12'
@@ -232,6 +300,7 @@ const Add = ({ refreshTableData }) => {
 										<table className='table table-modern my-3'>
 											<thead>
 												<tr>
+													<th>Oem</th>
 													<th>Items</th>
 													<th>Required Quantity</th>
 													<th>Exisiting Quantity</th>
@@ -254,7 +323,8 @@ const Add = ({ refreshTableData }) => {
 												<tbody>
 													{tableData.map((item) => (
 														<tr key={item.id}>
-															{/* <td>{item.name}</td> */}
+															<td>{item.oem}</td>
+															<td>{item.name}</td>
 															<td>{item.reqQty}</td>
 															<td>{item.exisQty}</td>
 														</tr>

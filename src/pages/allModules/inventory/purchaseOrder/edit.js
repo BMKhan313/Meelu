@@ -624,6 +624,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 													sale_price: '',
 													amount: '',
 													remarks: '',
+													id: null,
 												},
 											]);
 										}}>

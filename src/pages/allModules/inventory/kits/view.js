@@ -152,6 +152,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						<tr>
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
+							<th>Shop/ Warehouse</th>
 							<th>Kit Name</th>
 							<th>Quantity</th>
 							<th>Actions</th>
@@ -184,11 +185,17 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 											/>
 										</td>
 										<td>{index + 1}</td>
+										<td>
+											{item.store.name}
+											<div className='small text-muted'>
+												{item.store.store_type.name}
+											</div>
+										</td>
 										<td>{item.kit_parent.name}</td>
 										<td>{item.total_quantity}</td>
 
 										<td>
-											<ButtonGroup>
+											{/* <ButtonGroup>
 												<Button
 													// isDisable={item.isApproved === 1}
 													onClick={() => {
@@ -240,7 +247,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 														</DropdownItem>
 													</DropdownMenu>
 												</Dropdown>
-											</ButtonGroup>
+											</ButtonGroup> */}
 										</td>
 									</tr>
 								),
