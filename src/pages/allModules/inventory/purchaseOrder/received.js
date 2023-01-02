@@ -671,7 +671,12 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																type='number'
 																className='col-md-12'>
 																<Input
-																	onChange={formik.handleChange}
+																	onChange={(e) => {
+																		formik.setFieldValue(
+																			`childArray[${index}].sale_price`,
+																			e.target.value,
+																		);
+																	}}
 																	onBlur={formik.handleBlur}
 																	value={items.sale_price}
 																	isValid={formik.isValid}
