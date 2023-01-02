@@ -129,13 +129,13 @@ const Add = ({ refreshTableData }) => {
 			)
 				.then((response) => {
 					const rec = response.data.kitRecipe.kitchild.map(
-						({ id, quantity, item, item_inventory }) => ({
+						({ id, quantity, item, exisiting_item_inventory }) => ({
 							id,
 							value: id,
 							oem: `${item.machine_part_oem_part.oem_part_number.number1}`,
 							name: `${item.machine_part_oem_part.machine_part.name}`,
 							reqQty: quantity,
-							exisQty: item_inventory.existing_quantity,
+							exisQty: exisiting_item_inventory.existing_quantity,
 						}),
 					);
 					setTableData(rec);
