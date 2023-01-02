@@ -301,6 +301,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 										<ReactSelect
 											className='col-md-12'
 											isClearable
+											isDisabled
 											isLoading={supplierDropDownLoading}
 											options={supplierDropDown}
 											value={
