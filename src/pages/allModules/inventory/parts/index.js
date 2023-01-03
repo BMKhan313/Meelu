@@ -49,7 +49,13 @@ const Categories = () => {
 	const refreshTableData = () => {
 		setTableDataLoading(true);
 		Axios.get(
-			`${baseURL}/getItemsInventory?records=${store.data.inventoryManagementModule.parts.perPage}&pageNo=${store.data.inventoryManagementModule.parts.pageNo}&colName=id&sort=asc`,
+			`${baseURL}/getItemsInventory?records=${
+				store.data.inventoryManagementModule.parts.perPage
+			}&pageNo=${
+				store.data.inventoryManagementModule.parts.pageNo
+			}&colName=id&sort=asc&store_type_id=${selectedStore ? selectedStore.id : ''}&store_id=${
+				selectedName ? selectedName.id : ''
+			}`,
 			{},
 		)
 			.then((response) => {
