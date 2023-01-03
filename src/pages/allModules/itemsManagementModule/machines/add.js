@@ -138,7 +138,10 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
-										<FormGroup id='name' label='Name' className='col-md-12'>
+										<FormGroup
+											id='name'
+											label='Machine Name'
+											className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}

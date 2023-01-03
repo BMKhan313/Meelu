@@ -228,7 +228,7 @@ const Add = ({ refreshTableData }) => {
 												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
-										<FormGroup id='name' label='Name' className='col-md-12'>
+										<FormGroup id='name' label='Model' className='col-md-12'>
 											<Input
 												onChange={formik.handleChange}
 												onBlur={formik.handleBlur}
