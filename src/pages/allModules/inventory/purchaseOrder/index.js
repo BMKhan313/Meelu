@@ -59,7 +59,7 @@ const Categories = () => {
 		// 	`${baseURL}/getKits?records=${store.data.kitManagement.defineKit.perPage}&pageNo=${store.data.kitManagement.defineKit.pageNo}&colName=id&sort=asc&id=${selectedItem.id}`,
 		// )
 		Axios.get(
-			`${baseURL}/getPolist?records=${store.data.purchaseOrderManagement.purchaseList.perPage}&pageNo=${store.data.purchaseOrderManagement.purchaseList.pageNo}&colName=id&sort=asc&id=${selectedItem.id}`,
+			`${baseURL}/getPolist?records=${store.data.purchaseOrderManagement.purchaseList.perPage}&pageNo=${store.data.purchaseOrderManagement.purchaseList.pageNo}&colName=id&sort=desc&id=${selectedItem.id}`,
 		)
 			.then((response) => {
 				// console.log('myres::', response.data.purchaseorderlist);
