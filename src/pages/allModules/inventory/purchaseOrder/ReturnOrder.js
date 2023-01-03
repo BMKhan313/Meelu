@@ -94,7 +94,6 @@ const ReturnOrder = ({ returnData, handleStateReturn }) => {
 			...formik.values.childArray.slice(0, i),
 			...formik.values.childArray.slice(i + 1),
 		]);
-		setReload(reload + 1)
 	};
 	const submitForm = (data) => {
 		// console.log('data:::', data);
@@ -626,9 +625,7 @@ const ReturnOrder = ({ returnData, handleStateReturn }) => {
 											
 												<td className='col-md-1 mt-1'>
 													<Button
-														isDisable={
-															formik.values.childArray.length === 1
-														}
+														isDisable
 														icon='cancel'
 														color='danger'
 														onClick={() => removeRow(index)}
