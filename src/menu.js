@@ -140,6 +140,12 @@ export const suppliersModule = {
 				path: `${subDir}suppliers/manageSupplier`,
 				icon: 'ManageAccounts',
 			},
+			ledger: {
+				id: 'ledger',
+				text: 'ledger',
+				path: `${subDir}suppliers/ledger`,
+				icon: 'ManageAccounts',
+			},
 		},
 	},
 };

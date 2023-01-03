@@ -221,6 +221,7 @@ const INVENTORYCOMPONENTS = {
 
 const SUPPLIERCOMPONENTS = {
 	MANAGE: lazy(() => import('../pages/allModules/suppliers/manageSupplier/index')),
+	LEDGER: lazy(() => import('../pages/allModules/suppliers/ledger/index')),
 };
 
 const STORECOMPONENTS = {
@@ -321,6 +322,11 @@ const suppliersManagementRoutes = [
 	{
 		path: suppliersModule.suppliersModules.subMenu.manage.path,
 		element: <SUPPLIERCOMPONENTS.MANAGE />,
+		exact: true,
+	},
+	{
+		path: suppliersModule.suppliersModules.subMenu.ledger.path,
+		element: <SUPPLIERCOMPONENTS.LEDGER />,
 		exact: true,
 	},
 ];
