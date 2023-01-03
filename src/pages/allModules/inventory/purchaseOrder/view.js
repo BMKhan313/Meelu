@@ -44,6 +44,7 @@ import Card, {
 } from '../../../../components/bootstrap/Card';
 import Edit from './edit';
 import Received from './received';
+import ReturnOrder from './ReturnOrder';
 
 const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	// const navigate = useNavigate();
@@ -62,6 +63,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	const [recievedItemLoading, setRecievedItemLoading] = useState(false);
 	const [recievedItem, setRecievedItem] = useState({});
 	const [stateRecieve, setStateReceive] = useState(false);
+	const [returnData, setReturnData] = useState({});
+	const [stateReturn, setStateReturn] = useState(false);
+	const [returnItemsLoading, setReturnItemsLoading] = useState(false);
 	// Edit
 	const [stateEdit, setStateEdit] = useState(false);
 
@@ -72,6 +76,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	const [animationStatusEdit, setAnimationStatusEdit] = useState(true);
 
 	const [headerCloseStatusEdit, setHeaderCloseStatusEdit] = useState(true);
+	const [headerCloseStatusReturn, setHeaderCloseStatusReturn] = useState(true);
 
 	const initialStatusEdit = () => {
 		setStaticBackdropStatusEdit(true);
@@ -128,6 +133,15 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 		refreshTableData();
 		setStateReceive(status);
 	};
+
+	const initialStatusReturn = () => {
+		setHeaderCloseStatusReturn(true);
+	};
+
+	const handleStateReturn = (status) => {
+		refreshTableData();
+		setStateReceive(status);
+	};
 	const [isLoading, setIsLoading] = useState(false);
 	const [lastSave, setLastSave] = useState(null);
 
@@ -149,6 +163,18 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				// console.log('recev state', res.data.data);
 				setRecievedItem(res.data.data);
 				setRecievedItemLoading(false);
+			})
+			.catch((err) => {
+				showNotification(_titleError, err.message, 'Danger');
+			});
+	};
+	const getReturnFunc = (idd) => {
+		setReturnItemsLoading(true);
+		Axios.get(`${baseURL}/editPurchaseOrder?id=${idd}`)
+			.then((res) => {
+				// console.log('recev state', res.data.data);
+				setReturnData(res.data.data);
+				setReturnItemsLoading(false);
 			})
 			.catch((err) => {
 				showNotification(_titleError, err.message, 'Danger');
@@ -247,9 +273,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 												value={item.id}
 												onChange={selectTable.handleChange}
 												checked={selectTable.values.selectedList.includes(
-													item.id.toString(),
-												)}
-											/>
+													item.id.toString()
+												)} />
 										</td>
 										<td>{index + 1}</td>
 										<td>{item.po_no}</td>
@@ -268,14 +293,11 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 														initialStatusEdit();
 														setStateEdit(true);
 														setStaticBackdropStatusEdit(true);
-													}}
-													color={
-														item.is_received === 1
-															? 'success'
-															: 'warning'
-													}
-													isDisable={
-														item.confirmed1 === 0 ||
+													} }
+													color={item.is_received === 1
+														? 'success'
+														: 'warning'}
+													isDisable={item.confirmed1 === 0 ||
 														item.is_received === 1
 														// Cookies.get('role') !== 'Admin_'
 													}
@@ -283,9 +305,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 													// color='primary'
 													className={classNames('text-nowrap', {
 														'border-light': true,
-													})}
-													// icon='Edit'
-												>
+													})}>
 													Edit
 												</Button>
 												<Button
@@ -294,13 +314,10 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 													className={classNames('text-nowrap', {
 														'border-light': true,
 													})}
-													color={
-														item.is_received === 1
-															? 'success'
-															: 'danger'
-													}
-													isDisable={
-														item.confirmed1 === 0 ||
+													color={item.is_received === 1
+														? 'success'
+														: 'danger'}
+													isDisable={item.confirmed1 === 0 ||
 														item.is_received === 1
 														// Cookies.get('role') !== 'Admin_'
 													}
@@ -312,18 +329,16 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 														setStateDelete(true);
 														setStaticBackdropStatusDelete(false);
-													}}>
+													} }>
 													Delete
 												</Button>
 
 												<Button
-													color={
-														item.is_received === 1
-															? 'success'
+													color={item.is_received === 1
+														? 'success'
 															: 'warning'
 													}
-													isDisable={
-														item.confirmed1 === 0 ||
+													isDisable={item.confirmed1 === 0 ||
 														item.is_received === 1
 														// Cookies.get('role') !== 'Admin_'
 													}
@@ -331,11 +346,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 													className={classNames('text-nowrap', {
 														'border-light': true,
 													})}
-													icon={
-														item.is_received === 1
-															? 'DoneOutline'
-															: 'PendingActions'
-													}
+													icon={item.is_received === 1
+														? 'DoneOutline'
+														: 'PendingActions'}
 													onClick={() => {
 														getReceivedFunc(item.id);
 														setItemId(item.id);
@@ -350,7 +363,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 														setStateReceive(true);
 														setStaticBackdropStatusReceive(false);
-													}}>
+													} }>
 													{item.is_received === 1
 														? 'Received'
 														: 'Receive'}
@@ -361,21 +374,22 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 															color='primary'
 															isLight
 															hoverShadow='default'
-															icon='MoreVert'
-														/>
+															icon='MoreVert' />
 													</DropdownToggle>
 													<DropdownMenu isAlignmentEnd>
-														<DropdownItem isHeader>
-															Actions
+														{item.is_received === 1 ? (
+															<DropdownItem
+																onClick={() => {
+																	initialStatusReturn();
+																	setStateReturn(true);
+																	getReturnFunc(item.id);
+																}}>
+															Return
 														</DropdownItem>
-														<DropdownItem
-														// onClick={() => {
-														// 	setChildModal(true);
-														// 	getChildData(item.id);
-														// }}
-														>
-															View
-														</DropdownItem>
+														) : ( '' )
+															}
+														
+														<DropdownItem>View</DropdownItem>
 													</DropdownMenu>
 												</Dropdown>
 											</ButtonGroup>
@@ -573,6 +587,53 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										isOutline
 										className='border-0'
 										onClick={() => setStateReceive(false)}>
+										Cancel
+									</Button>
+								</CardFooterLeft>
+							</CardFooter>
+						</div>
+					</div>
+				</ModalBody>
+				<ModalFooter />
+			</Modal>
+
+			{/* Return Modal */}
+			<Modal
+				isOpen={stateReturn}
+				setIsOpen={setStateReturn}
+				titleId='ReceivedPurchaseOrder'
+				size='xl'>
+				<ModalHeader setIsOpen={headerCloseStatusReturn ? setStateReturn : null}>
+					<ModalTitle id='ReturnPurchaseOrder'>
+						{' '}
+						<CardHeader>
+							<CardLabel icon='Edit' iconColor='info'>
+								<CardTitle>Return Order {poNo}</CardTitle>
+							</CardLabel>
+						</CardHeader>
+					</ModalTitle>
+				</ModalHeader>
+				<ModalBody>
+					<div className='row g-4'>
+						<div className='col-12'>
+							{returnItemsLoading ? (
+								<div className='d-flex justify-content-center'>
+									<Spinner color='primary' size='5rem' />
+								</div>
+							) : (
+								<ReturnOrder
+									returnData={returnData}
+									handleStateReturn={handleStateReturn}
+								/>
+							)}
+							<CardFooter>
+								<CardFooterLeft>
+									<Button
+										color='info'
+										icon='cancel'
+										isOutline
+										className='border-0'
+										onClick={() => setStateReturn(false)}>
 										Cancel
 									</Button>
 								</CardFooterLeft>
