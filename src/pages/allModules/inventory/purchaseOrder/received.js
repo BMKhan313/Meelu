@@ -756,10 +756,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															readOnly
 															onChange={formik.handleChange}
 															onBlur={formik.handleBlur}
-															value={items.amount.toLocaleString(
-																undefined,
-																{ maximumFractionDigits: 2 },
-															)}
+															value={items.amount}
 															isValid={formik.isValid}
 															isTouched={formik.touched.amount}
 															invalidFeedback={formik.errors.amount}
@@ -807,9 +804,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
-											value={formik.values.total.toLocaleString(undefined, {
-												maximumFractionDigits: 2,
-											})}
+											value={formik.values.total}
 											isValid={formik.isValid}
 											isTouched={formik.touched.total}
 											invalidFeedback={formik.errors.total}
@@ -918,10 +913,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
-											value={formik.values.total_after_discount.toLocaleString(
-												undefined,
-												{ maximumFractionDigits: 2 },
-											)}
+											value={formik.values.total_after_discount}
 											isValid={formik.isValid}
 											isTouched={formik.touched.total_after_discount}
 											invalidFeedback={formik.errors.total_after_discount}
