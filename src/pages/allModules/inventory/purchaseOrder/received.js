@@ -81,9 +81,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 		if (!values.total) {
 			errors.total = 'Required';
 		}
-		if (!values.tax) {
-			errors.tax = 'Required';
-		}
+		// if (!values.tax) {
+		// 	errors.tax = 'Required';
+		// }
 		// if (!values.tax_in_figure) {
 		// 	errors.tax_in_figure = 'Required';
 		// }
@@ -129,7 +129,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 				};
 			}
 		});
-		// console.log(errors, 'errors');
+		console.log(errors, 'errors');
 		return errors;
 	};
 	const formik = useFormik({
@@ -257,7 +257,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 	useEffect(() => {
 		let t = 0;
 		formik?.values.childArray?.forEach((item) => {
-			t += item.received_quantity * item.purchase_price;
+			t += Number((item.received_quantity ??= 0)) * Number(item.purchase_price);
 			formik.setFieldValue('total', Number(t));
 			formik.setFieldValue('tax_in_figure', (formik.values.tax / 100) * Number(t));
 			formik.setFieldValue(
@@ -572,7 +572,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																type='number'
 																className='col-md-12'>
 																<Input
-																	// onChange={formik.handleChange}
+																	onFocus={(e) =>
+																		e.target.select()
+																	}
 																	onChange={(val) => {
 																		formik.setFieldValue(
 																			`childArray[${index}].received_quantity`,
@@ -621,7 +623,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																type='number'
 																className='col-md-12'>
 																<Input
-																	// onChange={formik.handleChange}
+																	onFocus={(e) =>
+																		e.target.select()
+																	}
 																	onWheel={(e) => e.target.blur()}
 																	onChange={(val) => {
 																		formik.setFieldValue(
@@ -640,7 +644,6 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																		);
 
 																		setReload(reload + 1);
-																		// setReload2(reload2 + 1);
 																	}}
 																	onBlur={formik.handleBlur}
 																	value={items.purchase_price}
@@ -687,6 +690,22 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																	}
 																/>
 															</FormGroup>
+															{/* {formik.errors[
+																`childArray[${index}]sale_price`
+															] && (
+																<p
+																	style={{
+																		color: 'red',
+																		textAlign: 'left',
+																		marginTop: 3,
+																	}}>
+																	{
+																		formik.errors[
+																			`childArray[${index}]sale_price`
+																		]
+																	}
+																</p>
+															)} */}
 														</div>
 													</div>
 													<div>
@@ -791,9 +810,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 								<div className='col-md-2'>
 									<FormGroup id='tax' label='Tax(%)' className='col-md-12'>
 										<Input
-											// onChange={formik.handleChange}
-											onChange={(val) => {
-												formik.setFieldValue('tax', val.target.value);
+											onFocus={(e) => e.target.select()}
+											onChange={(e) => {
+												formik.setFieldValue('tax', e.target.value);
 												// formik.setFieldValue(
 												// 	'tax_in_figure',
 												// 	(val.target.value / 100) * formik.values.total,
@@ -856,7 +875,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 								<div className='col-md-2'>
 									<FormGroup id='discount' label='Discount' className='col-md-12'>
 										<Input
-											// onChange={formik.handleChange}
+											onFocus={(e) => e.target.select()}
 											onChange={(e) => {
 												formik.setFieldValue('discount', e.target.value);
 												formik.setFieldValue(
