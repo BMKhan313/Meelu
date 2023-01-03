@@ -283,6 +283,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 								<div className='col-md-2'>
 									<FormGroup id='po_no' label='PO NO' className='col-md-12'>
 										<Input
+											type='number'
 											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
@@ -471,6 +472,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															id={`childArray[${index}].item_id`}>
 															<ReactSelect
 																className='col-md-12'
+																isDisabled
 																classNamePrefix='select'
 																options={itemOptions}
 																isLoading={kitOptionsLoading}
@@ -535,6 +537,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 																className='col-md-12'>
 																<Input
 																	readOnly
+																	type='number'
 																	onChange={formik.handleChange}
 																	onBlur={formik.handleBlur}
 																	value={items.quantity}
@@ -569,9 +572,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															<FormGroup
 																id={`childArray[${index}].received_quantity`}
 																label='Received Qty'
-																type='number'
 																className='col-md-12'>
 																<Input
+																	type='number'
 																	onFocus={(e) =>
 																		e.target.select()
 																	}
@@ -620,9 +623,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															<FormGroup
 																id={`childArray[${index}].purchase_price`}
 																label=''
-																type='number'
 																className='col-md-12'>
 																<Input
+																	type='number'
 																	onFocus={(e) =>
 																		e.target.select()
 																	}
@@ -668,9 +671,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															<FormGroup
 																id={`childArray[${index}].sale_price`}
 																label=''
-																type='number'
 																className='col-md-12'>
 																<Input
+																	type='number'
 																	onChange={formik.handleChange}
 																	onBlur={formik.handleBlur}
 																	value={items.sale_price}
@@ -747,9 +750,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 													<FormGroup
 														id={`childArray[${index}].amount`}
 														label=''
-														type='number'
 														className='col-md-12'>
 														<Input
+															type='number'
 															readOnly
 															onChange={formik.handleChange}
 															onBlur={formik.handleBlur}
@@ -797,6 +800,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 								<div className='col-md-2'>
 									<FormGroup id='total' label='Total' className='col-md-12'>
 										<Input
+											type='number'
 											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
@@ -810,6 +814,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 								<div className='col-md-2'>
 									<FormGroup id='tax' label='Tax(%)' className='col-md-12'>
 										<Input
+											type='number'
 											onFocus={(e) => e.target.select()}
 											onChange={(e) => {
 												formik.setFieldValue('tax', e.target.value);
@@ -875,6 +880,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 								<div className='col-md-2'>
 									<FormGroup id='discount' label='Discount' className='col-md-12'>
 										<Input
+											type='number'
 											onFocus={(e) => e.target.select()}
 											onChange={(e) => {
 												formik.setFieldValue('discount', e.target.value);
@@ -897,6 +903,7 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 										label='Total after discount'
 										className='col-md-12'>
 										<Input
+											type='number'
 											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}

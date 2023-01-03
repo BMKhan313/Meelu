@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 
 import ReactSelect, { createFilter } from 'react-select';
 import PropTypes from 'prop-types';
+// import moment from 'moment';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
 import Spinner from '../../../../components/bootstrap/Spinner';
 import Modal, {
@@ -80,6 +81,13 @@ const Add = ({ refreshTableData }) => {
 	// const [storeOptions, setStoreOptions] = useState([]);
 	// const [storeLoading, setStoreLoading] = useState(false);
 
+	let todayDate = new Date();
+	const dd = String(todayDate.getDate()).padStart(2, '0');
+	const mm = String(todayDate.getMonth() + 1).padStart(2, '0'); // January is 0!
+	const yyyy = todayDate.getFullYear();
+
+	todayDate = `${mm}-${dd}-${yyyy}`;
+
 	const initialStatus = () => {
 		setStaticBackdropStatus(false);
 		setScrollableStatus(false);
@@ -98,7 +106,7 @@ const Add = ({ refreshTableData }) => {
 			is_cancel: 0,
 			is_approve: 0,
 			is_received: 0,
-			request_date: '',
+			request_date: todayDate,
 			// total: 0,
 			// discount: '',
 			// tax: '',
@@ -129,8 +137,8 @@ const Add = ({ refreshTableData }) => {
 			...formik.values.childArray.slice(0, i),
 			...formik.values.childArray.slice(i + 1),
 		]);
-		console.log(formik.touched);
-		console.log(formik.errors);
+		// console.log(formik.touched);
+		// console.log(formik.errors);
 	};
 	const submitForm = (myFormik) => {
 		Axios.post(`${baseURL}/addPurchaseOrder`, myFormik.values)
@@ -449,9 +457,9 @@ const Add = ({ refreshTableData }) => {
 														<FormGroup
 															id={`childArray[${index}].quantity`}
 															label=''
-															type='number'
 															className='col-md-12'>
 															<Input
+																type='number'
 																onChange={formik.handleChange}
 																onBlur={formik.handleBlur}
 																value={items.quantity}
