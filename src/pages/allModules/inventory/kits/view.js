@@ -186,9 +186,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										</td>
 										<td>{index + 1}</td>
 										<td>
-											{item.store.name}
+											{/* {item.store.name} */}
 											<div className='small text-muted'>
-												{item.store.store_type.name}
+												{/* {item.store.store_type.name} */}
 											</div>
 										</td>
 										<td>{item.kit_parent.name}</td>

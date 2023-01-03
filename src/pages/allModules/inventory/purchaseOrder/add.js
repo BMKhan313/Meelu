@@ -158,6 +158,7 @@ const Add = ({ refreshTableData }) => {
 		if (state === true) {
 			Axios.get(`${baseURL}/getLatestpono`)
 				.then((response) => {
+					console.log('po', response.data.po_no);
 					formik.setFieldValue('po_no', response.data.po_no);
 				})
 				.catch((err) => {
