@@ -280,7 +280,6 @@ const Categories = () => {
 												onChange={(val) => {
 													setSelectedModel(val);
 												}}
-												filterOption={createFilter({ matchFrom: 'start' })}
 											/>
 										</FormGroup>
 									</div>
