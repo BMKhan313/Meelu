@@ -135,16 +135,14 @@ const Categories = () => {
 							<CardBody>
 								<div className='row g-4 d-flex align-items-end'>
 									<div className='col-md-3'>
-										<FormGroup label='Kit Name' id='kit_name'>
+										<FormGroup label='Filter' id='kit_name'>
 											<ReactSelect
 												className='col-md-12'
 												classNamePrefix='select'
 												options={kitOptions}
 												isLoading={kitOptionsLoading}
 												isClearable
-												value={kitOptions.find(
-													(c) => c.label === selectedItem?.label,
-												)}
+												value={null}
 												onChange={(val) => {
 													if (val !== null) {
 														// console.log('bm::', val.id);
