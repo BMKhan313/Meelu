@@ -273,8 +273,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 												value={item.id}
 												onChange={selectTable.handleChange}
 												checked={selectTable.values.selectedList.includes(
-													item.id.toString()
-												)} />
+													item.id.toString(),
+												)}
+											/>
 										</td>
 										<td>{index + 1}</td>
 										<td>{item.po_no}</td>
@@ -293,11 +294,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 														initialStatusEdit();
 														setStateEdit(true);
 														setStaticBackdropStatusEdit(true);
-													} }
-													color={item.is_received === 1
-														? 'success'
-														: 'warning'}
-													isDisable={item.confirmed1 === 0 ||
+													}}
+													color={
+														item.is_received === 1
+															? 'success'
+															: 'success'
+													}
+													isDisable={
+														item.confirmed1 === 0 ||
 														item.is_received === 1
 														// Cookies.get('role') !== 'Admin_'
 													}
@@ -314,10 +318,11 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 													className={classNames('text-nowrap', {
 														'border-light': true,
 													})}
-													color={item.is_received === 1
-														? 'success'
-														: 'danger'}
-													isDisable={item.confirmed1 === 0 ||
+													color={
+														item.is_received === 1 ? 'danger' : 'danger'
+													}
+													isDisable={
+														item.confirmed1 === 0 ||
 														item.is_received === 1
 														// Cookies.get('role') !== 'Admin_'
 													}
@@ -329,16 +334,18 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 														setStateDelete(true);
 														setStaticBackdropStatusDelete(false);
-													} }>
+													}}>
 													Delete
 												</Button>
 
 												<Button
-													color={item.is_received === 1
-														? 'success'
+													color={
+														item.is_received === 1
+															? 'success'
 															: 'warning'
 													}
-													isDisable={item.confirmed1 === 0 ||
+													isDisable={
+														item.confirmed1 === 0 ||
 														item.is_received === 1
 														// Cookies.get('role') !== 'Admin_'
 													}
@@ -346,9 +353,11 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 													className={classNames('text-nowrap', {
 														'border-light': true,
 													})}
-													icon={item.is_received === 1
-														? 'DoneOutline'
-														: 'PendingActions'}
+													icon={
+														item.is_received === 1
+															? 'DoneOutline'
+															: 'PendingActions'
+													}
 													onClick={() => {
 														getReceivedFunc(item.id);
 														setItemId(item.id);
@@ -363,7 +372,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 														setStateReceive(true);
 														setStaticBackdropStatusReceive(false);
-													} }>
+													}}>
 													{item.is_received === 1
 														? 'Received'
 														: 'Receive'}
@@ -374,7 +383,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 															color='primary'
 															isLight
 															hoverShadow='default'
-															icon='MoreVert' />
+															icon='MoreVert'
+														/>
 													</DropdownToggle>
 													<DropdownMenu isAlignmentEnd>
 														{item.is_received === 1 ? (
@@ -384,11 +394,12 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 																	setStateReturn(true);
 																	getReturnFunc(item.id);
 																}}>
-															Return
-														</DropdownItem>
-														) : ( '' )
-															}
-														
+																Return
+															</DropdownItem>
+														) : (
+															''
+														)}
+
 														<DropdownItem>View</DropdownItem>
 													</DropdownMenu>
 												</Dropdown>

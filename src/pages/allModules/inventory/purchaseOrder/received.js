@@ -756,7 +756,10 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 															readOnly
 															onChange={formik.handleChange}
 															onBlur={formik.handleBlur}
-															value={items.amount}
+															value={items.amount.toLocaleString(
+																undefined,
+																{ maximumFractionDigits: 2 },
+															)}
 															isValid={formik.isValid}
 															isTouched={formik.touched.amount}
 															invalidFeedback={formik.errors.amount}
@@ -804,7 +807,9 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
-											value={formik.values.total}
+											value={formik.values.total.toLocaleString(undefined, {
+												maximumFractionDigits: 2,
+											})}
 											isValid={formik.isValid}
 											isTouched={formik.touched.total}
 											invalidFeedback={formik.errors.total}
@@ -853,7 +858,10 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
-											value={formik.values.tax_in_figure}
+											value={formik.values.tax_in_figure.toLocaleString(
+												undefined,
+												{ maximumFractionDigits: 2 },
+											)}
 											isValid={formik.isValid}
 											isTouched={formik.touched.tax_in_figure}
 											invalidFeedback={formik.errors.tax_in_figure}
@@ -869,7 +877,10 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
-											value={formik.values.total_after_tax}
+											value={formik.values.total_after_tax.toLocaleString(
+												undefined,
+												{ maximumFractionDigits: 2 },
+											)}
 											isValid={formik.isValid}
 											isTouched={formik.touched.total_after_tax}
 											invalidFeedback={formik.errors.total_after_tax}
@@ -907,7 +918,10 @@ const Received = ({ recievedItem, handleStateRecieved }) => {
 											readOnly
 											onChange={formik.handleChange}
 											onBlur={formik.handleBlur}
-											value={formik.values.total_after_discount}
+											value={formik.values.total_after_discount.toLocaleString(
+												undefined,
+												{ maximumFractionDigits: 2 },
+											)}
 											isValid={formik.isValid}
 											isTouched={formik.touched.total_after_discount}
 											invalidFeedback={formik.errors.total_after_discount}
