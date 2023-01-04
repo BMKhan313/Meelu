@@ -4,8 +4,10 @@ import React, { useEffect, useState } from 'react';
 
 // ** Axios Imports
 import { useDispatch, useSelector } from 'react-redux';
+import Select, { createFilter } from 'react-select';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
-
+import Button from '../../../../components/bootstrap/Button';
+import FormGroup from '../../../../components/bootstrap/forms/FormGroup';
 // eslint-disable-next-line import/no-unresolved
 import { updateSingleState } from '../../redux/tableCrud/index';
 
@@ -26,16 +28,19 @@ import View from './view';
 import Add from './add';
 
 export const searchByOptions = [{ value: 1, text: 'Id' }];
-export const categoryOptions = [
-	{ value: 0, text: 'qqq' },
-	{ value: 1, text: 'www' },
-	{ value: 2, text: 'eee' },
-];
+// export const categoryOptions = [
+// 	{ value: 0, text: 'qqq' },
+// 	{ value: 1, text: 'www' },
+// 	{ value: 2, text: 'eee' },
+// ];
 
 const Categories = () => {
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
-
+	const [categoryOptions, setCategoryOptions] = useState([]);
+	const [itemOptions, setItemOptions] = useState([]);
+	const [selectedCategory, setSelectedCategory] = useState('');
+	const [selectedItem, setSelectedItem] = useState('');
 	const [tableData, setTableData] = useState([]);
 	const [tableData2, setTableData2] = useState([]);
 	const [tableDataLoading, setTableDataLoading] = useState(true);
@@ -106,6 +111,49 @@ const Categories = () => {
 								<br />
 
 								<br />
+								<div className='row g-4 d-flex align-items-end'>
+									<div className='col-md-3'>
+										<FormGroup label='Machine' id='machine'>
+											<Select
+												className='col-md-12'
+												classNamePrefix='select'
+												options={categoryOptions}
+												isClearable
+												value={selectedCategory}
+												onChange={(val) => {
+													setCategoryOptions(val);
+												}}
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
+									</div>
+
+									<div className='col-md-3'>
+										<FormGroup label='Make' id='make'>
+											<Select
+												className='col-md-12'
+												classNamePrefix='select'
+												options={itemOptions}
+												isClearable
+												value={selectedItem}
+												onChange={(val) => {
+													setItemOptions(val);
+												}}
+												filterOption={createFilter({ matchFrom: 'start' })}
+											/>
+										</FormGroup>
+									</div>
+									<div className='col-md-2'>
+										<Button
+											color='primary'
+											onClick={() => refreshTableData()}
+											isOutline
+											// isDisable={landsViewLoading}
+											isActive>
+											Search
+										</Button>
+									</div>
+								</div>
 							</CardBody>
 							<View
 								tableData={tableData}
