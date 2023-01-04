@@ -135,7 +135,7 @@ const Add = ({ refreshTableData }) => {
 							oem: `${item.machine_part_oem_part.oem_part_number.number1}`,
 							name: `${item.machine_part_oem_part.machine_part.name}`,
 							reqQty: quantity,
-							exisQty: exisiting_item_inventory.existing_quantity,
+							exisQty: exisiting_item_inventory?.existing_quantity ?? 0,
 						}),
 					);
 					setTableData(rec);
@@ -221,7 +221,7 @@ const Add = ({ refreshTableData }) => {
 							<CardBody>
 								<div className='row g-2'>
 									<div className='col-md-12'>
-										<FormGroup label='Name' id='name'>
+										<FormGroup label='Store' id='name'>
 											<ReactSelect
 												className='col-md-12'
 												classNamePrefix='select'

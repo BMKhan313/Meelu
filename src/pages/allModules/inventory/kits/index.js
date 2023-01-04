@@ -25,8 +25,8 @@ import showNotification from '../../../../components/extras/showNotification';
 import { _titleError } from '../../../../notifyMessages/erroSuccess';
 
 import View from './view';
-import Add from './add';
-import Add1 from './add1';
+import MakeKit from './makeKit';
+import BreakKit from './breakKit';
 
 export const searchByOptions = [{ value: 1, text: 'Id' }];
 export const categoryOptions = [
@@ -141,10 +141,10 @@ const Categories = () => {
 								<CardActions>
 									<ButtonGroup>
 										<div className='mx-3'>
-											<Add refreshTableData={refreshTableData} />
+											<MakeKit refreshTableData={refreshTableData} />
 										</div>
 
-										<Add1 />
+										<BreakKit refreshTableData={refreshTableData} />
 									</ButtonGroup>
 								</CardActions>
 							</CardHeader>
