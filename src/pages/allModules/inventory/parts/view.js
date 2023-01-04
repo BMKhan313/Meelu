@@ -201,9 +201,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										<td>{item.item.machine_part_oem_part.machine_part.name}</td>
 										<td>{item.quantity}</td>
 										<td>
-											{item.store.name}
+											{item.store?.name}
 											<div className='small text-muted'>
-												{item.store.store_type.name}
+												{item.store.store_type?.name}
 											</div>
 										</td>
 

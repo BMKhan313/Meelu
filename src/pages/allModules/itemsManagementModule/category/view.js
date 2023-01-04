@@ -41,7 +41,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	// const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const store = useSelector((state) => state.tableCrud);
-	const [perPage, setPerPage] = useState(Number(store.data.itemsManagementModule.items.perPage));
+	const [perPage, setPerPage] = useState(
+		Number(store.data.itemsManagementModule.category.perPage),
+	);
 	const [editingItemLoading, setEditingItemLoading] = useState(false);
 	const { selectTable, SelectAllCheck } = useSelectTable(tableData);
 
@@ -70,10 +72,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 	const getEditingItem = (idd) => {
 		setEditingItemLoading(true);
-		Axios.get(`${baseURL}/editMachinePart?id=${idd}`)
+		Axios.get(`${baseURL}/editCategory?id=${idd}`)
 			.then((res) => {
-				console.log('editmachinecat', res.data);
-				setEditingItem(res.data.Machine_Part);
+				setEditingItem(res.data.Category);
 				setEditingItemLoading(false);
 			})
 
@@ -108,7 +109,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 	};
 
 	const deleteItem = (id) => {
-		Axios.delete(`${baseURL}/deleteMachinePart?id=${id}`)
+		Axios.delete(`${baseURL}/deleteCategory?id=${id}`)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					showNotification('Deleted', res.data.message, 'success');
@@ -132,14 +133,14 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 	useEffect(
 		() => {
-			dispatch(updateSingleState([perPage, 'itemsManagementModule', 'items', 'perPage']));
+			dispatch(updateSingleState([perPage, 'itemsManagementModule', 'category', 'perPage']));
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[perPage],
 	);
 
 	const handlePageChange = (e) => {
-		dispatch(updateSingleState([e, 'itemsManagementModule', 'items', 'pageNo']));
+		dispatch(updateSingleState([e, 'itemsManagementModule', 'category', 'pageNo']));
 	};
 
 	return (
@@ -150,7 +151,6 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						<tr>
 							<th style={{ width: 50 }}>{SelectAllCheck}</th>
 							<th>Sr. No</th>
-							<th>Name</th>
 							<th>Category</th>
 							<th>Actions</th>
 						</tr>
@@ -167,7 +167,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						</tbody>
 					) : (
 						<tbody>
-							{store.data.itemsManagementModule.items.tableData?.data.map(
+							{store.data.itemsManagementModule.category.tableData?.data.map(
 								(item, index) => (
 									<tr key={item.id}>
 										<td>
@@ -183,7 +183,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 										</td>
 										<td>{index + 1}</td>
 										<td>{item.name}</td>
-										<td>{item.categories.name}</td>
+
 										<td>
 											<ButtonGroup>
 												<Button
@@ -248,9 +248,9 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 
 				<PaginationButtons
 					label='make'
-					from={store.data.itemsManagementModule.items.tableData?.from ?? 1}
-					to={store.data.itemsManagementModule.items.tableData?.to ?? 1}
-					total={store.data.itemsManagementModule.items.tableData?.total ?? 0}
+					from={store.data.itemsManagementModule.category.tableData?.from ?? 1}
+					to={store.data.itemsManagementModule.category.tableData?.to ?? 1}
+					total={store.data.itemsManagementModule.category.tableData?.total ?? 0}
 					perPage={Number(perPage ?? 10)}
 					setPerPage={setPerPage}
 				/>
@@ -258,12 +258,12 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 				<div className='row d-flex justify-content-end'>
 					<div className='col-md-4'>
 						<Pagination
-							activePage={store.data.itemsManagementModule.items?.pageNo ?? 1}
+							activePage={store.data.itemsManagementModule.category?.pageNo ?? 1}
 							totalItemsCount={
-								store.data.itemsManagementModule.items?.tableData?.total ?? 0
+								store.data.itemsManagementModule.category?.tableData?.total ?? 0
 							}
 							itemsCountPerPage={Number(
-								store.data.itemsManagementModule.items?.perPage ?? 10,
+								store.data.itemsManagementModule.category?.perPage ?? 10,
 							)}
 							onChange={(e) => handlePageChange(e)}
 							itemClass='page-item'
@@ -293,7 +293,7 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<CardLabel icon='Delete' iconColor='info'>
 								<CardTitle>
 									Deletion Confirmation
-									<small> Item Id: {itemId}</small>
+									<small> Category Id: {itemId}</small>
 								</CardTitle>
 							</CardLabel>
 						</CardHeader>
@@ -305,7 +305,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 							<Card>
 								<CardBody>
 									<h5>
-										Are you sure, you want to delete the selected Item? <br />
+										Are you sure, you want to delete the selected Category?{' '}
+										<br />
 										This cannot be undone!
 									</h5>
 								</CardBody>
@@ -354,8 +355,8 @@ const View = ({ tableDataLoading, tableData, refreshTableData }) => {
 						{' '}
 						<CardHeader>
 							<CardLabel icon='Edit' iconColor='info'>
-								<CardTitle>Editing Item</CardTitle>
-								<small> Item Id: {itemId}</small>
+								<CardTitle>Editing Category</CardTitle>
+								<small> Category Id: {itemId}</small>
 							</CardLabel>
 						</CardHeader>
 					</ModalTitle>

@@ -75,7 +75,6 @@ const List = () => {
 					]),
 				);
 			})
-
 			// eslint-disable-next-line no-console
 			.catch((err) => {
 				showNotification(_titleError, 'No Data Found, Please Select a Supplier', 'Danger');

@@ -1,11 +1,11 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
 
 import moment from 'moment';
-import ReactSelect, { createFilter } from 'react-select';
+
 import PropTypes from 'prop-types';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
 import Spinner from '../../../../components/bootstrap/Spinner';
@@ -42,11 +42,9 @@ const validate = (values) => {
 
 const Add = ({ refreshTableData }) => {
 	const [state, setState] = useState(false);
-	const [tableDataLoading, setTableDataLoading] = useState(false);
-	const [tableData, setTableData] = useState([]);
+
 	const [isLoading, setIsLoading] = useState(false);
-	const [categoryOptions, setCategoryOptions] = useState('');
-	const [categoryOptionsLoading, setCategoryOptionsLoading] = useState(false);
+
 	const [staticBackdropStatus, setStaticBackdropStatus] = useState(false);
 	const [scrollableStatus, setScrollableStatus] = useState(false);
 	const [centeredStatus, setCenteredStatus] = useState(false);
@@ -79,7 +77,7 @@ const Add = ({ refreshTableData }) => {
 		submitForm(formik);
 	};
 	const submitForm = (myFormik) => {
-		Axios.post(`${baseURL}/addMachinePart`, myFormik.values, {
+		Axios.post(`${baseURL}/addCategory`, myFormik.values, {
 			headers: { Authorization: `Bearer ${0}` },
 		})
 			.then((res) => {
@@ -101,28 +99,6 @@ const Add = ({ refreshTableData }) => {
 				setIsLoading(false);
 			});
 	};
-	useEffect(() => {
-		setCategoryOptionsLoading(true);
-
-		Axios.get(`${baseURL}/getCategoriesDropDown`)
-			.then((response) => {
-				const rec = response.data.categories.map(({ id, name }) => ({
-					id,
-					value: id,
-					label: name,
-				}));
-				setCategoryOptions(rec);
-				setCategoryOptionsLoading(false);
-			})
-
-			// eslint-disable-next-line no-console
-			.catch((err) => {
-				showNotification(_titleError, err.message, 'Danger');
-				if (err.response.status === 401) {
-					showNotification(_titleError, err.response.data.message, 'Danger');
-				}
-			});
-	}, []);
 
 	return (
 		<div className='col-auto'>
@@ -153,7 +129,7 @@ const Add = ({ refreshTableData }) => {
 				isAnimation={animationStatus}>
 				<ModalHeader setIsOpen={headerCloseStatus ? setState : null}>
 					<CardLabel icon='Add'>
-						<ModalTitle id='exampleModalLabel'>Add Item</ModalTitle>
+						<ModalTitle id='exampleModalLabel'>Add Category</ModalTitle>
 					</CardLabel>
 				</ModalHeader>
 				<ModalBody>
@@ -173,43 +149,6 @@ const Add = ({ refreshTableData }) => {
 												validFeedback='Looks good!'
 											/>
 										</FormGroup>
-									</div>
-									<div className='col-md-12'>
-										<FormGroup label='Category' id='category_id'>
-											<ReactSelect
-												className='col-md-12'
-												classNamePrefix='select'
-												options={categoryOptions}
-												isLoading={categoryOptionsLoading}
-												isClearable
-												value={
-													formik.values.category_id
-														? categoryOptions.find(
-																(c) =>
-																	c.value ===
-																	formik.values.category_id,
-														  )
-														: null
-												}
-												onChange={(val) => {
-													formik.setFieldValue(
-														'category_id',
-														val !== null && val.id,
-														// setTableData(['']),
-													);
-												}}
-												filterOption={createFilter({ matchFrom: 'start' })}
-											/>
-										</FormGroup>
-										{formik.errors.category_id && (
-											// <div className='invalid-feedback'>
-											<p
-												style={{
-													color: 'red',
-												}}>
-												{formik.errors.category_id}
-											</p>
-										)}
 									</div>
 								</div>
 							</CardBody>

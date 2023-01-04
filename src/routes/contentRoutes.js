@@ -205,6 +205,7 @@ const DASHBOARD = {
 const itemsManagementComponents = {
 	ITEMPARTS: lazy(() => import('../pages/allModules/itemsManagementModule/itemParts/index')),
 	ITEMS: lazy(() => import('../pages/allModules/itemsManagementModule/items/index')),
+	CATEGORY: lazy(() => import('../pages/allModules/itemsManagementModule/category/index')),
 	MODELS: lazy(() => import('../pages/allModules/itemsManagementModule/models/index')),
 	MACHINES: lazy(() => import('../pages/allModules/itemsManagementModule/machines/index')),
 	MAKE: lazy(() => import('../pages/allModules/itemsManagementModule/make/index')),
@@ -257,6 +258,11 @@ const itemsManagementRoutes = [
 	{
 		path: itemsManagementModule.itemsManagement.subMenu.items.path,
 		element: <itemsManagementComponents.ITEMS />,
+		exact: true,
+	},
+	{
+		path: itemsManagementModule.itemsManagement.subMenu.category.path,
+		element: <itemsManagementComponents.CATEGORY />,
 		exact: true,
 	},
 	{

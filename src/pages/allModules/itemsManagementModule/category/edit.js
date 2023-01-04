@@ -1,11 +1,10 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 // ** Axios Imports
 
 import moment from 'moment';
-import ReactSelect, { createFilter } from 'react-select';
 import PropTypes from 'prop-types';
 import { baseURL, Axios } from '../../../../baseURL/authMultiExport';
 
@@ -40,8 +39,7 @@ const validate = (values) => {
 const Edit = ({ editingItem, handleStateEdit }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [lastSave, setLastSave] = useState(null);
-	const [categoryOptions, setCategoryOptions] = useState([]);
-	const [categoryOptionsLoading, setCategoryOptionsLoading] = useState(false);
+
 	// useEffect(() => {
 
 	// }, [])
@@ -56,7 +54,7 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 	});
 
 	const submitForm = (data) => {
-		Axios.post(`${baseURL}/updateMachinePart`, data)
+		Axios.post(`${baseURL}/updateCategory`, data)
 			.then((res) => {
 				if (res.data.status === 'ok') {
 					formik.resetForm();
@@ -83,29 +81,6 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 		submitForm(formik.values);
 		setLastSave(moment());
 	};
-	useEffect(() => {
-		setCategoryOptionsLoading(true);
-
-		Axios.get(`${baseURL}/getCategoriesDropDown`)
-			.then((response) => {
-				const rec = response.data.categories.map(({ id, name }) => ({
-					id,
-					value: id,
-					label: name,
-				}));
-				console.log('getCAtegdrop', rec);
-				setCategoryOptions(rec);
-				setCategoryOptionsLoading(false);
-			})
-
-			// eslint-disable-next-line no-console
-			.catch((err) => {
-				showNotification(_titleError, err.message, 'Danger');
-				if (err.response.status === 401) {
-					showNotification(_titleError, err.response.data.message, 'Danger');
-				}
-			});
-	}, []);
 	return (
 		<div className='col-12'>
 			<Card stretch tag='form' onSubmit={formik.handleSubmit}>
@@ -123,41 +98,6 @@ const Edit = ({ editingItem, handleStateEdit }) => {
 									validFeedback='Looks good!'
 								/>
 							</FormGroup>
-						</div>
-						<div className='col-md-12'>
-							<FormGroup label='Category' id='category_id'>
-								<ReactSelect
-									className='col-md-12'
-									classNamePrefix='select'
-									options={categoryOptions}
-									isLoading={categoryOptionsLoading}
-									isClearable
-									value={
-										formik.values.category_id
-											? categoryOptions.find(
-													(c) => c.value === formik.values.category_id,
-											  )
-											: null
-									}
-									onChange={(val) => {
-										formik.setFieldValue(
-											'category_id',
-											val !== null && val.id,
-											// setTableData(['']),
-										);
-									}}
-									filterOption={createFilter({ matchFrom: 'start' })}
-								/>
-							</FormGroup>
-							{formik.errors.id && (
-								// <div className='invalid-feedback'>
-								<p
-									style={{
-										color: 'red',
-									}}>
-									{formik.errors.id}
-								</p>
-							)}
 						</div>
 					</div>
 				</CardBody>

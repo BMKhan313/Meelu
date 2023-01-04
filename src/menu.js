@@ -39,6 +39,12 @@ export const itemsManagementModule = {
 				path: `${subDir}itemsManagement/Items`,
 				icon: 'Basket3',
 			},
+			category: {
+				id: 'category',
+				text: 'Category',
+				path: `${subDir}itemsManagement/Category`,
+				icon: 'Category',
+			},
 			models: {
 				id: 'models',
 				text: 'models',

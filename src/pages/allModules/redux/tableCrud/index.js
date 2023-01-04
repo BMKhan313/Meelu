@@ -38,6 +38,14 @@ export const addProjectSlice = createSlice({
 					searchNo: null,
 					others: null,
 				},
+				category: {
+					tableData: null,
+					tableDataLoading: false,
+					pageNo: 1,
+					perPage: 10,
+					searchNo: null,
+					others: null,
+				},
 				models: {
 					tableData: null,
 					tableDataLoading: false,

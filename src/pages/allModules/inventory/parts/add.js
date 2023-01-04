@@ -103,7 +103,7 @@ const Add = ({ refreshTableData }) => {
 	return (
 		<div className='col-auto'>
 			<div className='col-auto'>
-				<Button
+				{/* <Button
 					color='danger'
 					isLight
 					icon='Add'
@@ -115,7 +115,7 @@ const Add = ({ refreshTableData }) => {
 						setStaticBackdropStatus(true);
 					}}>
 					Add New
-				</Button>
+				</Button> */}
 			</div>
 			<Modal
 				isOpen={state}
